@@ -20,12 +20,15 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         
         binding.btnHome.setOnClickListener {
-            findNavController().navigate(R.id.action_firstFragment_to_fragmentHome)
-
+            (activity as MainActivity).replaceFragment(FragmentHome())
         }
 
         val view = binding.root
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

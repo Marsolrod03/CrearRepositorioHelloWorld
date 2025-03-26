@@ -21,14 +21,19 @@ class FragmentHome : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.button.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentHome_to_firstFragment)
+            (activity as MainActivity).replaceFragment(FirstFragment())
         }
 
         binding.button2.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentHome_to_secondFragment)
+            (activity as MainActivity).replaceFragment(SecondFragment())
         }
         val view = binding.root
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

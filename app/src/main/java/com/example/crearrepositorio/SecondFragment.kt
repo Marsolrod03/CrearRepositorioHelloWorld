@@ -21,10 +21,15 @@ class SecondFragment : Fragment() {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
         binding.btnHome.setOnClickListener {
-            findNavController().navigate(R.id.action_secondFragment_to_fragmentHome)
+            (activity as MainActivity).replaceFragment(FragmentHome())
         }
         val view = binding.root
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
