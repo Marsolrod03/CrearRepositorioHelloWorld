@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
 
@@ -21,14 +20,21 @@ class FragmentHome : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.button.setOnClickListener {
-            (activity as MainActivity).replaceFragment(FirstFragment())
+            replaceFragment(FirstFragment())
         }
 
         binding.button2.setOnClickListener {
-            (activity as MainActivity).replaceFragment(SecondFragment())
+            replaceFragment(SecondFragment())
         }
         val view = binding.root
         return view
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.navHostFragment, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
