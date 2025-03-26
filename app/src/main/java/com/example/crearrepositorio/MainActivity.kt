@@ -12,11 +12,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-//        supportFragmentManager.commit {
-//            replace<FragmentHome>(R.id.fragmentHome)
-//            setReorderingAllowed(true)
-//            addToBackStack("name")
-//        }
     }
 
 }

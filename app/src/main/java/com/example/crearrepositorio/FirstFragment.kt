@@ -18,9 +18,10 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-
+        
         binding.btnHome.setOnClickListener {
             findNavController().navigate(R.id.action_firstFragment_to_fragmentHome)
+
         }
 
         val view = binding.root
