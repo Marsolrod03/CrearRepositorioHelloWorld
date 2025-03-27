@@ -18,7 +18,7 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.btnHome.setOnClickListener {
-            backHome()
+            back()
         }
 
         val view = binding.root

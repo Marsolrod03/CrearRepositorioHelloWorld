@@ -19,7 +19,7 @@ class SecondFragment : Fragment() {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
         binding.btnHome.setOnClickListener {
-           backHome()
+           back()
         }
         val view = binding.root
         return view

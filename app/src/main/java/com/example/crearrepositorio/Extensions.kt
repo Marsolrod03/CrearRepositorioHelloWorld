@@ -1,7 +1,6 @@
 package com.example.crearrepositorio
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 
 fun Fragment.replaceFragment(fragment: Fragment) {
     parentFragmentManager.beginTransaction()
@@ -12,6 +11,6 @@ fun Fragment.replaceFragment(fragment: Fragment) {
 
 
 
-fun Fragment.backHome(){
+fun Fragment.back(){
     parentFragmentManager.popBackStack()
 }
