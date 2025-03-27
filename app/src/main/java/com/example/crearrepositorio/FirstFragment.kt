@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
-
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
