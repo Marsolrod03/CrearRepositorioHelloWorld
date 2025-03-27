@@ -18,18 +18,11 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.btnHome.setOnClickListener {
-            replaceFragment(FragmentHome())
+            backHome()
         }
 
         val view = binding.root
         return view
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.navHostFragment, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 
     override fun onDestroyView() {

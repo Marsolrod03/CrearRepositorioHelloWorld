@@ -30,13 +30,6 @@ class FragmentHome : Fragment() {
         return view
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.navHostFragment, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
