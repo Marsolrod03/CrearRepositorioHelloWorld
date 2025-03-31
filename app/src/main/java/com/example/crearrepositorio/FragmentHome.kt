@@ -26,6 +26,10 @@ class FragmentHome : Fragment() {
         binding.button2.setOnClickListener {
             replaceFragment(SecondFragment())
         }
+
+        binding.button3.setOnClickListener {
+            replaceFragment(ThirdFragment())
+        }
         val view = binding.root
         return view
     }
