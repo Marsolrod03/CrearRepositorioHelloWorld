@@ -13,8 +13,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.navHostFragment, FragmentHome())
-            .commit()
+        if (savedInstanceState==null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.navHostFragment, FragmentHome())
+                .commit()
+        }
     }
 }
