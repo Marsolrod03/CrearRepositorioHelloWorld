@@ -9,7 +9,6 @@ import com.example.crearrepositorio.databinding.FragmentFirstBinding
 import com.example.crearrepositorio.ui.back
 
 class FirstFragment : Fragment() {
-
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
 
@@ -18,12 +17,9 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-
         binding.btnHome.setOnClickListener {
             back()
         }
-
-
         val view = binding.root
         return view
     }
@@ -32,6 +28,4 @@ class FirstFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

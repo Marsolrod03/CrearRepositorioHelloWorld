@@ -10,8 +10,4 @@ fun Fragment.replaceFragment(fragment: Fragment) {
         .commit()
 }
 
-
-
-fun Fragment.back(){
-    parentFragmentManager.popBackStack()
-}
+fun Fragment.back(){parentFragmentManager.popBackStack()}
