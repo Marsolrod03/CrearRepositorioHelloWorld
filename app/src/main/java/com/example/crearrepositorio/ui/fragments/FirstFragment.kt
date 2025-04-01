@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
 import com.example.crearrepositorio.ui.back
 
-class FirstFragment : Fragment() {
-    private var _binding: FragmentFirstBinding? = null
+class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,10 +21,5 @@ class FirstFragment : Fragment() {
         }
         val view = binding.root
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
