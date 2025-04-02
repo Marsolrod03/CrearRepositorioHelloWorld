@@ -1,4 +1,4 @@
-package com.example.crearrepositorio
+package com.example.crearrepositorio.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
+import com.example.crearrepositorio.ui.replaceFragment
 
-class FragmentHome : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+class FragmentHome : BaseFragment<FragmentHomeBinding>() {
+
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,8 +22,5 @@ class FragmentHome : Fragment() {
         binding.button3.setOnClickListener {replaceFragment(ThirdFragment())}
         return binding.root
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }

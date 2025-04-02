@@ -1,13 +1,16 @@
-package com.example.crearrepositorio
+package com.example.crearrepositorio.ui.fragments
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
-class FirstFragment : Fragment() {
-    private var _binding: FragmentFirstBinding? = null
+import com.example.crearrepositorio.ui.back
+
+class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -18,9 +21,5 @@ class FirstFragment : Fragment() {
         }
         val view = binding.root
         return view
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
