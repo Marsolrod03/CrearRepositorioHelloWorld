@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.crearrepositorio.R
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
+import com.example.crearrepositorio.ui.replaceFragment
 import com.example.crearrepositorio.ui.viewModel.MainViewModel
 import com.example.crearrepositorio.ui.viewModel.UiState
 import kotlinx.coroutines.launch
@@ -44,24 +45,20 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
         when (uiState) {
             UiState.Idle -> {
             }
-            is UiState.NavigateToFilms -> {
+            is UiState.Navigation.NavigateToFilms -> {
                 changeFragment(FirstFragment())
             }
-            is UiState.NavigateToSeries -> {
+            is UiState.Navigation.NavigateToSeries -> {
                 changeFragment(SecondFragment())
             }
-            is UiState.NavigateToActors -> {
+            is UiState.Navigation.NavigateToActors -> {
                 changeFragment(ThirdFragment())
             }
-
         }
     }
 
     private fun changeFragment(fragment: Fragment){
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.navHostFragment, fragment)
-            .addToBackStack(null)
-            .commit()
+        this.replaceFragment(fragment)
         viewModel.navigationCompleted()
     }
 
@@ -69,10 +66,5 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
         binding.button.setOnClickListener { viewModel.navigateToFilms() }
         binding.button2.setOnClickListener { viewModel.navigateToSeries() }
         binding.button3.setOnClickListener { viewModel.navigateToActors() }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

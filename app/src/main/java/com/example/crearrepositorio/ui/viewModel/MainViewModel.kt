@@ -8,27 +8,29 @@ import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel(){
 
-    private val _estados = MutableStateFlow<UiState>(UiState.Idle)
-    val stateHome : StateFlow<UiState> = _estados.asStateFlow()
+    private val _stateHome = MutableStateFlow<UiState>(UiState.Idle)
+    val stateHome : StateFlow<UiState> = _stateHome.asStateFlow()
 
     fun navigateToFilms(){
-        _estados.update { UiState.NavigateToFilms }
+        _stateHome.update { UiState.Navigation.NavigateToFilms }
     }
     fun navigateToSeries(){
-        _estados.update { UiState.NavigateToSeries }
+        _stateHome.update { UiState.Navigation.NavigateToSeries }
     }
     fun navigateToActors(){
-        _estados.update { UiState.NavigateToActors }
+        _stateHome.update { UiState.Navigation.NavigateToActors }
     }
 
     fun navigationCompleted() {
-        _estados.update { UiState.Idle }
+        _stateHome.update { UiState.Idle }
     }
 }
 
 sealed class UiState{
     data object Idle: UiState()
-    data object NavigateToFilms: UiState()
-    data object NavigateToActors: UiState()
-    data object NavigateToSeries: UiState()
+    sealed class Navigation {
+        data object NavigateToFilms : UiState()
+        data object NavigateToActors : UiState()
+        data object NavigateToSeries : UiState()
+    }
 }
