@@ -12,27 +12,17 @@ class MainViewModel : ViewModel(){
     val stateHome : StateFlow<UiState> = _estados.asStateFlow()
 
     fun navigateToFilms(){
-        _estados.update { currentState ->
-            UiState.NavigateToFilms
-
-        }
+        _estados.update { UiState.NavigateToFilms }
     }
     fun navigateToSeries(){
-        _estados.update { currentState ->
-            UiState.NavigateToSeries
-
-        }
+        _estados.update { UiState.NavigateToSeries }
     }
     fun navigateToActors(){
-        _estados.update { currentState ->
-            UiState.NavigateToActors
-        }
+        _estados.update { UiState.NavigateToActors }
     }
 
     fun navigationCompleted() {
-        _estados.update { currentState ->
-            UiState.Idle
-        }
+        _estados.update { UiState.Idle }
     }
 }
 
