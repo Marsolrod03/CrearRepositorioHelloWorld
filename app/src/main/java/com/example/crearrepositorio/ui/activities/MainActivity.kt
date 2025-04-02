@@ -1,8 +1,10 @@
-package com.example.crearrepositorio
+package com.example.crearrepositorio.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.crearrepositorio.R
 import com.example.crearrepositorio.databinding.ActivityMainBinding
+import com.example.crearrepositorio.ui.fragments.FragmentHome
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
