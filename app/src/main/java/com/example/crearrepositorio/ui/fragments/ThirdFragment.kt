@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import com.example.crearrepositorio.ui.adapter.ActorAdapter
-import com.example.crearrepositorio.ui.back
 import com.example.crearrepositorio.ui.viewModel.ActorViewModel
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,6 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
-        binding.btnHome.setOnClickListener {back()}
         recyclerView = binding.recyclerViewList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         viewLifecycleOwner.lifecycleScope.launch {

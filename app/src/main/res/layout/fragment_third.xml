@@ -6,14 +6,6 @@
     android:background="@color/black"
     tools:context=".ui.fragments.ThirdFragment">
 
-    <Button
-        android:id="@+id/btnHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:layout_marginBottom="@dimen/standardButtonMargin"
-        android:text="@string/home" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewList"
         android:layout_width="match_parent"

@@ -3,8 +3,8 @@ package com.example.crearrepositorio.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
 import domain.ActorModel
 
@@ -20,13 +20,13 @@ class ActorAdapter (private val actors: List<ActorModel>) :
 
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         val actor = actors[position]
-        holder.binding.titleTextView.text = actor.title
-        Glide.with(holder.binding.imageActor.context)
-            .load(actor.image)
-            .transform(CircleCrop())
-            .into(holder.binding.imageActor)
+        with(holder.binding){
+            titleTextView.text = actor.title
+            imageActor.load(actor.image) {
+                transformations(CircleCropTransformation())
+            }
+        }
     }
 
     override fun getItemCount() = actors.size
-
 }
