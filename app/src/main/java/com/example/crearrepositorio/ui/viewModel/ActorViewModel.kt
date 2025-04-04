@@ -5,18 +5,26 @@ import com.example.crearrepositorio.R
 import domain.ActorModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class ActorViewModel : ViewModel(){
 
-    private val _actorList = MutableStateFlow<List<ActorModel>>(emptyList())
-    val actorList: StateFlow<List<ActorModel>> = _actorList
+    private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
+    val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
 
-    init{
-        loadList()
+    fun loadActors(){
+        val actors = loadList()
+        _actorList.update { ActorState.Success(actors) }
     }
 
-    private fun loadList(){
-        val actorList = listOf(
+    sealed class ActorState{
+        data object Idle: ActorState()
+        data class Success(val actors: List<ActorModel>) : ActorState()
+    }
+
+    private fun loadList(): List<ActorModel> {
+        return listOf(
             ActorModel("Leonardo DiCaprio", R.drawable.actor_image),
             ActorModel("Denzel Washington", R.drawable.actor2_image),
             ActorModel("Will Smith", R.drawable.actor3_image),
@@ -33,6 +41,5 @@ class ActorViewModel : ViewModel(){
             ActorModel("Julia Roberts", R.drawable.ic_launcher_background),
             ActorModel("Jason Statham", R.drawable.ic_launcher_background)
         )
-        _actorList.value = actorList
     }
 }

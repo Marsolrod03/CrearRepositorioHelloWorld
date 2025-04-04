@@ -8,7 +8,7 @@ import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
 import domain.ActorModel
 
-class ActorAdapter (private val actors: List<ActorModel>) :
+class ActorAdapter (private var actors: List<ActorModel>) :
     RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
 
     class ActorViewHolder(val binding: ItemActorBinding) : RecyclerView.ViewHolder(binding.root)
@@ -26,6 +26,10 @@ class ActorAdapter (private val actors: List<ActorModel>) :
                 transformations(CircleCropTransformation())
             }
         }
+    }
+
+    fun updateActors(newActors: List<ActorModel>) {
+        this.actors = newActors
     }
 
     override fun getItemCount() = actors.size

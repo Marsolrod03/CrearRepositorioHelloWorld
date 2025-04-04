@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
-    private lateinit var actorAdapter: ActorAdapter
+    private val actorAdapter = ActorAdapter(emptyList())
     private lateinit var recyclerView: RecyclerView
     private val viewModel: ActorViewModel by viewModels()
 
@@ -26,10 +26,17 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerViewList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewModel.loadActors()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.actorList.collect { actorList ->
-                actorAdapter = ActorAdapter(actorList)
-                recyclerView.adapter = actorAdapter
+            viewModel.actorList.collect { actorsState ->
+                when (actorsState) {
+                    is ActorViewModel.ActorState.Idle -> {
+                    }
+                    is ActorViewModel.ActorState.Success -> {
+                        actorAdapter.updateActors(actorsState.actors)
+                        recyclerView.adapter = actorAdapter
+                    }
+                }
             }
         }
         return binding.root
