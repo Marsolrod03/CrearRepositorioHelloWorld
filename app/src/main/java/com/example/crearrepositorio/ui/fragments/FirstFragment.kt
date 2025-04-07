@@ -31,23 +31,21 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
                 movieViewModel.movies.collect { moviesState ->
                     manageMoviesState(moviesState)
                 }
-                movieViewModel.setStateToCreate()
             }
         }
 
         binding.btnHome.setOnClickListener {
             back()
         }
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     private fun manageMoviesState(moviesState: MoviesState) {
         when(moviesState){
-            MoviesState.Created -> {
+            MoviesState.Idle -> {
             }
-            is MoviesState.Uncreated->{
-                moviesAdapter.updateMovies(movieViewModel.fillWithMovies())
+            is MoviesState.Succed->{
+                moviesAdapter.updateMovies(moviesState.movies)
             }
         }
     }
