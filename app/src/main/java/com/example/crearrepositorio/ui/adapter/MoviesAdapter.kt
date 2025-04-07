@@ -30,8 +30,8 @@ class MoviesAdapter(private var movies: List<MovieModel>):
 
     override fun getItemCount() = movies.size
 
-    fun updateMovies(newMovies: List<MovieModel>) {
-        this.movies = newMovies
+    fun updateMovies(fakeMovies: List<MovieModel>) {
+        this.movies = fakeMovies
     }
 
     class MoviesViewHolder(private val binding: ViewMovieItemBinding):

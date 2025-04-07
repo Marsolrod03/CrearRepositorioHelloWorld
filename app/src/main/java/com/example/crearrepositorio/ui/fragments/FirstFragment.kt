@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
 import com.example.crearrepositorio.ui.adapter.MoviesAdapter
 import com.example.crearrepositorio.ui.back
-import com.example.crearrepositorio.domain.MovieModel
 import com.example.crearrepositorio.ui.viewModel.MovieViewModel
+import com.example.crearrepositorio.ui.viewModel.MovieViewModel.MoviesState
+import kotlinx.coroutines.launch
 
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
@@ -24,10 +26,14 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         binding.recycledMovies.adapter = moviesAdapter
-        movieViewModel.movies.observe(viewLifecycleOwner, Observer{
-            movies-> moviesAdapter.updateMovies(movies)
-        })
-        movieViewModel.loadFilms()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                movieViewModel.movies.collect { moviesState ->
+                    manageMoviesState(moviesState)
+                }
+                movieViewModel.setStateToCreate()
+            }
+        }
 
         binding.btnHome.setOnClickListener {
             back()
@@ -35,5 +41,16 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         val view = binding.root
         return view
     }
+
+    private fun manageMoviesState(moviesState: MoviesState) {
+        when(moviesState){
+            MoviesState.Created -> {
+            }
+            is MoviesState.Uncreated->{
+                moviesAdapter.updateMovies(movieViewModel.fillWithMovies())
+            }
+        }
+    }
+
 
 }
