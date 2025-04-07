@@ -44,7 +44,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         when(moviesState){
             MoviesState.Idle -> {
             }
-            is MoviesState.Succed->{
+            is MoviesState.Succeed->{
                 moviesAdapter.updateMovies(moviesState.movies)
             }
         }
