@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
-import com.example.crearrepositorio.ui.adapter.ActorAdapter
-import com.example.crearrepositorio.ui.viewModel.ActorViewModel
+import ui.adapter.ActorAdapter
+import ui.viewModel.ActorState
+import ui.viewModel.ActorViewModel
 import kotlinx.coroutines.launch
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
@@ -26,19 +27,22 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerViewList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        viewModel.loadActors()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.actorList.collect { actorsState ->
-                when (actorsState) {
-                    is ActorViewModel.ActorState.Idle -> {
-                    }
-                    is ActorViewModel.ActorState.Success -> {
-                        actorAdapter.updateActors(actorsState.actors)
-                        recyclerView.adapter = actorAdapter
-                    }
-                }
+                stateHandle(actorsState)
             }
         }
         return binding.root
+    }
+
+    private fun stateHandle(actorState: ActorState){
+        when (actorState) {
+            ActorState.Idle -> {
+            }
+            is ActorState.Success -> {
+                actorAdapter.updateActors(actorState.actors)
+                recyclerView.adapter = actorAdapter
+            }
+        }
     }
 }

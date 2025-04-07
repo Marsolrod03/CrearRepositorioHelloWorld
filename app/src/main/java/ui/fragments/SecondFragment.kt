@@ -1,11 +1,11 @@
-package com.example.crearrepositorio.ui.fragments
+package ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
-import com.example.crearrepositorio.ui.back
+import ui.back
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!

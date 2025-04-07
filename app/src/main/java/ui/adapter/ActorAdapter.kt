@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.adapter
+package ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,7 +21,7 @@ class ActorAdapter (private var actors: List<ActorModel>) :
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         val actor = actors[position]
         with(holder.binding){
-            titleTextView.text = actor.title
+            titleTextView.text = actor.name
             imageActor.load(actor.image) {
                 transformations(CircleCropTransformation())
             }

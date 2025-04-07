@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
-import com.example.crearrepositorio.ui.replaceFragment
-import com.example.crearrepositorio.ui.viewModel.MainViewModel
-import com.example.crearrepositorio.ui.viewModel.UiState
+import ui.replaceFragment
+import ui.viewModel.MainViewModel
+import ui.viewModel.UiState
 import kotlinx.coroutines.launch
 
 class FragmentHome : BaseFragment<FragmentHomeBinding>() {

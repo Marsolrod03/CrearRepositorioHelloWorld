@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.viewModel
+package ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

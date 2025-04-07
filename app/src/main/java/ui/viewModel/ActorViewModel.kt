@@ -1,29 +1,31 @@
-package com.example.crearrepositorio.ui.viewModel
+package ui.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.crearrepositorio.R
 import domain.ActorModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ActorViewModel : ViewModel(){
-
     private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
 
-    fun loadActors(){
-        val actors = loadList()
-        _actorList.update { ActorState.Success(actors) }
+    init {
+        loadActors()
     }
 
-    sealed class ActorState{
-        data object Idle: ActorState()
-        data class Success(val actors: List<ActorModel>) : ActorState()
+    private fun loadActors(){
+        viewModelScope.launch {
+            val actors = listActors()
+            _actorList.update { ActorState.Success(actors) }
+        }
     }
 
-    private fun loadList(): List<ActorModel> {
+    private fun listActors(): List<ActorModel> {
         return listOf(
             ActorModel("Leonardo DiCaprio", R.drawable.actor_image),
             ActorModel("Denzel Washington", R.drawable.actor2_image),
@@ -43,3 +45,10 @@ class ActorViewModel : ViewModel(){
         )
     }
 }
+
+sealed class ActorState{
+    data object Idle: ActorState()
+    data class Success(val actors: List<ActorModel>) : ActorState()
+}
+
+

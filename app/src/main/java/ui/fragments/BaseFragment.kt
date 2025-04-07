@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package ui.fragments
 
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
