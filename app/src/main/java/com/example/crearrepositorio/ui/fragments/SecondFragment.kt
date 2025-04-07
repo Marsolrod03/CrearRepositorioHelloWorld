@@ -1,20 +1,18 @@
 package com.example.crearrepositorio.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.launch
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
 import com.example.crearrepositorio.ui.adapter.SeriesAdapter
 import com.example.crearrepositorio.ui.back
+import com.example.crearrepositorio.ui.viewModel.SeriesState
 import com.example.crearrepositorio.ui.viewModel.SeriesViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,16 +33,24 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                seriesViewModel.series.collectLatest { series ->
-                    seriesAdapter.updateSeries(series)
+                seriesViewModel.seriesList.collect { seriesState ->
+                    stateHandler(seriesState)
                 }
             }
         }
 
-        seriesViewModel.loadSeries()
-
         binding.btnHome.setOnClickListener { back() }
 
         return binding.root
+    }
+
+    fun stateHandler(seriesState: SeriesState) {
+        when (seriesState) {
+            SeriesState.Idle -> {}
+            is SeriesState.Created -> {
+                seriesAdapter.updateSeries(seriesState.series)
+            }
+
+        }
     }
 }
