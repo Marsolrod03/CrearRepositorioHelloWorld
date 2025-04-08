@@ -6,12 +6,23 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
-import domain.ActorModel
+import domain.models.ActorModel
 
-class ActorAdapter (private var actors: List<ActorModel>) :
+class ActorAdapter () :
     RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
 
-    class ActorViewHolder(val binding: ItemActorBinding) : RecyclerView.ViewHolder(binding.root)
+    private val actors: MutableList<ActorModel> = mutableListOf()
+
+    class ActorViewHolder(private val binding: ItemActorBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(actor: ActorModel){
+            with(binding){
+                titleTextView.text = actor.name
+                imageActor.load(actor.image) {
+                    transformations(CircleCropTransformation())
+                }
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
         val binding = ItemActorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -19,17 +30,13 @@ class ActorAdapter (private var actors: List<ActorModel>) :
     }
 
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
-        val actor = actors[position]
-        with(holder.binding){
-            titleTextView.text = actor.name
-            imageActor.load(actor.image) {
-                transformations(CircleCropTransformation())
-            }
-        }
+        holder.bind(actors[position])
     }
 
     fun updateActors(newActors: List<ActorModel>) {
-        this.actors = newActors
+        actors.clear()
+        actors.addAll(newActors)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = actors.size
