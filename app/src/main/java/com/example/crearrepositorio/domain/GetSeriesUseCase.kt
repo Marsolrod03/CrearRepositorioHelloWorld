@@ -14,7 +14,7 @@ class GetSeriesUseCase {
                         R.drawable.series1,
                         "WandaVision es una serie de Marvel que trata sobre la vida de Wanda Maximoff (Bruja Escarlata) y Visión, dos superhéroes que viven en Westview, Nueva Jersey. La serie combina comedia de situación con el universo de Marvel. ",
                         "1 temporada",
-                        "Superhéroes"
+                        "Scifi"
                     ),
                     SerieModel(
                         "Daredevil : Born Again",
