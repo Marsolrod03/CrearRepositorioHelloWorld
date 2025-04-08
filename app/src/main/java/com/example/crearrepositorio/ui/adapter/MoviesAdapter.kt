@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
 import com.example.crearrepositorio.domain.entities.MovieModel
 
-class MoviesAdapter() :
-    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     private val movies: MutableList<MovieModel> = mutableListOf()
 

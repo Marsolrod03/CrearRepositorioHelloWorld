@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.flow
 
 class GetMoviesUseCase() {
 
-    private val moviesRepo = MovieRepositoryImpl()
+    private val movieRepositoryImpl = MovieRepositoryImpl()
 
     fun getMovies(): Flow<List<MovieModel>>{
         return flow {
-            emit(moviesRepo.createMovies())
+            emit(movieRepositoryImpl.createMovies())
         }
     }
 }
