@@ -2,7 +2,8 @@ package com.example.crearrepositorio.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.domain.MovieModel
+import com.example.crearrepositorio.domain.entities.MovieModel
+import com.example.crearrepositorio.domain.usecases.GetMoviesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel(){
 
+    private val getMoviesUseCase = GetMoviesUseCase()
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
     val movies : StateFlow<MoviesState> = _movies.asStateFlow()
 
@@ -18,22 +20,14 @@ class MovieViewModel : ViewModel(){
         loadMovies()
     }
 
-    fun loadMovies(){
+    private fun loadMovies(){
         viewModelScope.launch {
-            val movies = fillWithMovies()
-            _movies.update { MoviesState.Succeed(movies) }
+            getMoviesUseCase.getMovies().collect {movieList ->
+                _movies.update {
+                    MoviesState.Succeed(movieList)
+                }
+            }
         }
-    }
-
-    fun fillWithMovies(): List<MovieModel>{
-        return listOf(
-            MovieModel("Titulo 1", "src1"),
-            MovieModel("Titulo 2", "src2"),
-            MovieModel("Titulo 3", "src3"),
-            MovieModel("Titulo 4", "src4"),
-            MovieModel("Titulo 5", "src5"),
-            MovieModel("Titulo 6", "src6"),
-        )
     }
 
     sealed class MoviesState{

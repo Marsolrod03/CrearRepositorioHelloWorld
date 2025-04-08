@@ -4,7 +4,7 @@ package com.example.crearrepositorio.ui.adapter
  import android.view.ViewGroup
  import androidx.recyclerview.widget.RecyclerView
  import com.example.crearrepositorio.databinding.ViewMovieItemBinding
- import com.example.crearrepositorio.domain.MovieModel
+ import com.example.crearrepositorio.domain.entities.MovieModel
 
 class MoviesAdapter(private var movies: List<MovieModel>):
       RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder >(){
@@ -37,7 +37,8 @@ class MoviesAdapter(private var movies: List<MovieModel>):
     class MoviesViewHolder(private val binding: ViewMovieItemBinding):
         RecyclerView.ViewHolder(binding.root){
         fun bind(movie: MovieModel){
-            binding.movieTitle.text = movie.title
+            binding.MovieTitle.text = movie.title
+            binding.GenresMovie.text = movie.genresName.joinToString(", ")
         }
     }
 }
