@@ -20,14 +20,13 @@ import kotlinx.coroutines.launch
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private lateinit var seriesAdapter: SeriesAdapter
+    private val seriesAdapter = SeriesAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        seriesAdapter = SeriesAdapter(emptyList())
         binding.recyclerView.adapter = seriesAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

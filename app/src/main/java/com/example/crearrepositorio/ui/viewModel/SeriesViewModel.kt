@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SeriesViewModel(private val getSeriesUseCase: GetSeriesUseCase = GetSeriesUseCase()
-): ViewModel() {
+class SeriesViewModel : ViewModel() {
     private val _seriesList = MutableStateFlow<SeriesState>(SeriesState.Idle)
     val seriesList: StateFlow<SeriesState> = _seriesList.asStateFlow()
+    private val getSeriesUseCase = GetSeriesUseCase()
 
     init {
         loadSeries()
