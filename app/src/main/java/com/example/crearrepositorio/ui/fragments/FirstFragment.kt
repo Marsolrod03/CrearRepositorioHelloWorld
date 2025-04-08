@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
 import com.example.crearrepositorio.ui.adapter.MoviesAdapter
 import com.example.crearrepositorio.ui.back
@@ -18,14 +19,23 @@ import kotlinx.coroutines.launch
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
     private val movieViewModel: MovieViewModel by activityViewModels()
-    val moviesAdapter = MoviesAdapter(emptyList())
+    private val moviesAdapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        binding.recycledMovies.adapter = moviesAdapter
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recycledMovies.apply {
+            layoutManager = GridLayoutManager(requireContext(),1)
+            adapter=moviesAdapter
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movieViewModel.movies.collect { moviesState ->
@@ -33,18 +43,15 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
                 }
             }
         }
-
         binding.btnHome.setOnClickListener {
             back()
         }
-        return binding.root
     }
 
     private fun manageMoviesState(moviesState: MoviesState) {
-        when(moviesState){
-            MoviesState.Idle -> {
-            }
-            is MoviesState.Succeed->{
+        when (moviesState) {
+            MoviesState.Idle -> Unit
+            is MoviesState.Succeed -> {
                 moviesAdapter.updateMovies(moviesState.movies)
             }
         }

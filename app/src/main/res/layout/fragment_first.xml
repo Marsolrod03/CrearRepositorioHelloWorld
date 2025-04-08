@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/black"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"/>
+        />
 
     <Button
         android:id="@+id/btnHome"
