@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,12 +15,11 @@ import com.example.crearrepositorio.ui.adapter.SeriesAdapter
 import com.example.crearrepositorio.ui.back
 import com.example.crearrepositorio.ui.viewModel.SeriesState
 import com.example.crearrepositorio.ui.viewModel.SeriesViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
-    private val seriesViewModel: SeriesViewModel by activityViewModels()
+    private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(

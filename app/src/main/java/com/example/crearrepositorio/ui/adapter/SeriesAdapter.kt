@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.VistaSerieBinding
 import com.example.crearrepositorio.domain.SerieModel
-import com.example.crearrepositorio.ui.viewModel.SeriesViewModel
+
 
 class SeriesAdapter (private var seriesList: List<SerieModel>) :
     RecyclerView.Adapter<SeriesAdapter.SeriesViewHolder>() {
