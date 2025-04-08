@@ -7,8 +7,22 @@ import com.example.crearrepositorio.databinding.VistaSerieBinding
 import com.example.crearrepositorio.domain.SerieModel
 
 
-class SeriesAdapter (private var seriesList: List<SerieModel>) :
+class SeriesAdapter () :
     RecyclerView.Adapter<SeriesAdapter.SeriesViewHolder>() {
+
+        private val series: MutableList<SerieModel> = mutableListOf()
+
+    class SeriesViewHolder(val binding: VistaSerieBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(serie: SerieModel) {
+            with(binding) {
+                title.text = serie.titulo
+                genre.text = serie.genero
+                seasons.text = serie.temporada
+                description.text = serie.descripcion
+                imageView.setImageResource(serie.imagen)
+            }
+        }
+    }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
             val binding = VistaSerieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,24 +30,18 @@ class SeriesAdapter (private var seriesList: List<SerieModel>) :
         }
 
         override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
-            val item = seriesList[position]
-            with(holder.binding) {
-                title.text = item.titulo
-                genre.text = item.genero
-                seasons.text = item.temporada
-                description.text = item.descripcion
-                imageView.setImageResource(item.imagen)
-            }
+           holder.bind(series[position])
         }
 
         override fun getItemCount(): Int {
-            return seriesList.size
+            return series.size
         }
 
-        fun updateSeries(series: List<SerieModel>) {
-            this.seriesList = series
+        fun updateSeries(newSeries: List<SerieModel>) {
+            series.clear()
+            series.addAll(newSeries)
+            notifyDataSetChanged()
         }
 
-        class SeriesViewHolder(val binding: VistaSerieBinding) :
-            RecyclerView.ViewHolder(binding.root)
+
     }

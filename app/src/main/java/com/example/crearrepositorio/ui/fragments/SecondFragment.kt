@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,32 +20,35 @@ import kotlinx.coroutines.launch
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private val seriesAdapter = SeriesAdapter(emptyList())
+    private val seriesAdapter = SeriesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        binding.recyclerView.adapter = seriesAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                seriesViewModel.seriesList.collect { seriesState ->
-                    stateHandler(seriesState)
-                }
-            }
-        }
-
         binding.btnHome.setOnClickListener { back() }
-
         return binding.root
     }
 
-    fun stateHandler(seriesState: SeriesState) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = seriesAdapter
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            seriesViewModel.seriesList.collect { seriesState ->
+                stateHandler(seriesState)
+            }
+        }
+    }
+
+    private fun stateHandler(seriesState: SeriesState) {
         when (seriesState) {
-            SeriesState.Idle -> {}
+            SeriesState.Idle -> Unit
             is SeriesState.Created -> {
                 seriesAdapter.updateSeries(seriesState.series)
             }
