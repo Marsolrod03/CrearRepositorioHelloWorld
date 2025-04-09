@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package com.example.crearrepositorio.features.actors.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
-import com.example.crearrepositorio.ui.adapter.ActorAdapter
-import com.example.crearrepositorio.ui.viewModel.ActorState
-import com.example.crearrepositorio.ui.viewModel.ActorViewModel
+import com.example.crearrepositorio.common_ui.BaseFragment
 import kotlinx.coroutines.launch
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {

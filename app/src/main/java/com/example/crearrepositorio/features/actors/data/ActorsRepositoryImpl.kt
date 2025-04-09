@@ -1,8 +1,8 @@
-package com.example.crearrepositorio.data
+package com.example.crearrepositorio.features.actors.data
 
 import com.example.crearrepositorio.R
-import com.example.crearrepositorio.domain.ActorsRepository
-import com.example.crearrepositorio.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.ActorsRepository
+import com.example.crearrepositorio.features.actors.domain.ActorModel
 
 class ActorsRepositoryImpl: ActorsRepository {
     override fun getActors(): List<ActorModel> {

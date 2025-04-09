@@ -1,9 +1,9 @@
-package com.example.crearrepositorio.ui.activities
+package com.example.crearrepositorio
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.crearrepositorio.R
 import com.example.crearrepositorio.databinding.ActivityMainBinding
+import com.example.crearrepositorio.features.home.ui.FragmentHome
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState==null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.navHostFragment,
-                    com.example.crearrepositorio.ui.fragments.FragmentHome()
+                    FragmentHome()
                 )
                 .commit()
         }

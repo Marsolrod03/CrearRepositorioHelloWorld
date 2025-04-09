@@ -1,9 +1,9 @@
-package com.example.crearrepositorio.ui.viewModel
+package com.example.crearrepositorio.features.actors.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.domain.models.ActorModel
-import com.example.crearrepositorio.domain.usecase.GetActorsUseCase
+import com.example.crearrepositorio.features.actors.domain.ActorModel
+import com.example.crearrepositorio.features.actors.domain.GetActorsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
