@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
-    private val movieViewModel: MovieViewModel by activityViewModels()
+    private val movieViewModel: MovieViewModel by viewModels()
     private val moviesAdapter = MoviesAdapter()
 
     override fun onCreateView(
