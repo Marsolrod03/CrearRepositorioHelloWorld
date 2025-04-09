@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
@@ -40,12 +38,12 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             seriesViewModel.seriesList.collect { seriesState ->
-                stateHandler(seriesState)
+                handleState(seriesState)
             }
         }
     }
 
-    private fun stateHandler(seriesState: SeriesState) {
+    private fun handleState(seriesState: SeriesState) {
         when (seriesState) {
             SeriesState.Idle -> Unit
             is SeriesState.Created -> {
