@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.crearrepositorio.common_ui.BaseFragment
+import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
 import com.example.crearrepositorio.features.actors.ui.ThirdFragment
-import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.features.films.ui.FirstFragment
 import com.example.crearrepositorio.features.series.ui.SecondFragment
-import com.example.crearrepositorio.common_ui.replaceFragment
 import kotlinx.coroutines.launch
 
 class FragmentHome : BaseFragment<FragmentHomeBinding>() {
 
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

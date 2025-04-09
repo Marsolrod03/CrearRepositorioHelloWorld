@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class MainViewModel : ViewModel(){
+class HomeViewModel : ViewModel(){
 
     private val _stateHome = MutableStateFlow<UiState>(UiState.Idle)
     val stateHome : StateFlow<UiState> = _stateHome.asStateFlow()

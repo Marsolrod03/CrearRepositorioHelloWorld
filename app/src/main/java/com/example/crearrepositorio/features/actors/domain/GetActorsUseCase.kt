@@ -11,5 +11,3 @@ class GetActorsUseCase (private val actorsRepository: ActorsRepository = ActorsR
     }
 
 }
-
-//data -> domain <- ui
