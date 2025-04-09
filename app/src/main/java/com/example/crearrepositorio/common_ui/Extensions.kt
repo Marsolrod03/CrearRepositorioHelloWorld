@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui
+package com.example.crearrepositorio.common_ui
 
 import androidx.fragment.app.Fragment
 import com.example.crearrepositorio.R

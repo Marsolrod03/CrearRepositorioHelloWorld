@@ -1,9 +1,9 @@
-package com.example.crearrepositorio.ui.viewModel
+package com.example.crearrepositorio.features.films.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.domain.entities.MovieModel
-import com.example.crearrepositorio.domain.usecases.GetMoviesUseCase
+import com.example.crearrepositorio.features.films.domain.GetMoviesUseCase
+import com.example.crearrepositorio.features.films.domain.MovieModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

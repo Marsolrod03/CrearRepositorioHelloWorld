@@ -1,12 +1,12 @@
-package com.example.crearrepositorio.ui.fragments
+package com.example.crearrepositorio.features.actors.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
-import com.example.crearrepositorio.ui.back
+import com.example.crearrepositorio.common_ui.back
+import com.example.crearrepositorio.common_ui.BaseFragment
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
@@ -15,7 +15,7 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
-        binding.btnHome.setOnClickListener {back()}
+        binding.btnHome.setOnClickListener { back()}
         return binding.root
     }
 }

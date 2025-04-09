@@ -1,10 +1,10 @@
-package com.example.crearrepositorio.ui.adapter
+package com.example.crearrepositorio.features.films.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
-import com.example.crearrepositorio.domain.entities.MovieModel
+import com.example.crearrepositorio.features.films.domain.MovieModel
 
 class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
@@ -32,7 +32,6 @@ class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     override fun getItemCount() = movies.size
 
     fun updateMovies(fakeMovies: List<MovieModel>) {
-        movies.clear()
         movies.addAll(fakeMovies)
         notifyDataSetChanged()
     }

@@ -1,12 +1,12 @@
-package com.example.crearrepositorio.ui.fragments
+package com.example.crearrepositorio.features.series.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
-import com.example.crearrepositorio.ui.back
+import com.example.crearrepositorio.common_ui.back
+import com.example.crearrepositorio.common_ui.BaseFragment
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
@@ -15,7 +15,7 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        binding.btnHome.setOnClickListener {back()}
+        binding.btnHome.setOnClickListener { back()}
         return binding.root
     }
 

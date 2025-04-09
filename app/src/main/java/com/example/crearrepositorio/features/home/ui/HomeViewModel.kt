@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.viewModel
+package com.example.crearrepositorio.features.home.ui
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class MainViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val _stateHome = MutableStateFlow<UiState>(UiState.Idle)
     val stateHome: StateFlow<UiState> = _stateHome.asStateFlow()

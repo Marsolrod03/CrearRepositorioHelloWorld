@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package com.example.crearrepositorio.features.films.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
-import com.example.crearrepositorio.ui.adapter.MoviesAdapter
-import com.example.crearrepositorio.ui.back
-import com.example.crearrepositorio.ui.viewModel.MovieViewModel
-import com.example.crearrepositorio.ui.viewModel.MovieViewModel.MoviesState
+import com.example.crearrepositorio.common_ui.back
+import com.example.crearrepositorio.common_ui.BaseFragment
 import kotlinx.coroutines.launch
 
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {
@@ -32,7 +30,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recycledMovies.apply {
-            layoutManager = GridLayoutManager(requireContext(),1)
+            layoutManager = GridLayoutManager(requireContext(), 1)
             adapter=moviesAdapter
         }
 
@@ -48,10 +46,10 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         }
     }
 
-    private fun manageMoviesState(moviesState: MoviesState) {
+    private fun manageMoviesState(moviesState: MovieViewModel.MoviesState) {
         when (moviesState) {
-            MoviesState.Idle -> Unit
-            is MoviesState.Succeed -> {
+            MovieViewModel.MoviesState.Idle -> Unit
+            is MovieViewModel.MoviesState.Succeed -> {
                 moviesAdapter.updateMovies(moviesState.movies)
             }
         }
