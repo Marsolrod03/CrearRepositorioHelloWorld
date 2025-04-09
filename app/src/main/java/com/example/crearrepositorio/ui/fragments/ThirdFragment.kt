@@ -1,4 +1,4 @@
-package ui.fragments
+package com.example.crearrepositorio.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
+import com.example.crearrepositorio.ui.adapter.ActorAdapter
+import com.example.crearrepositorio.ui.viewModel.ActorState
+import com.example.crearrepositorio.ui.viewModel.ActorViewModel
 import kotlinx.coroutines.launch
-import ui.adapter.ActorAdapter
-import ui.viewModel.ActorState
-import ui.viewModel.ActorViewModel
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!

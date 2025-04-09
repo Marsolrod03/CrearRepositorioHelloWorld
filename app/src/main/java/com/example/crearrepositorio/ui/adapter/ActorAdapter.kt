@@ -1,4 +1,4 @@
-package ui.adapter
+package com.example.crearrepositorio.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
-import domain.models.ActorModel
+import com.example.crearrepositorio.domain.models.ActorModel
 
 class ActorAdapter () :
     RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
