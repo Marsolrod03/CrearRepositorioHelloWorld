@@ -13,7 +13,7 @@ fun ActorDTO.toActorModel(): ActorModel {
     val actorModel = ActorModel(
         name = name,
         gender = genderAux,
-        image = "https://inkscape.app/wp-content/uploads/imagen-vectorial.webp",
+        image = "https://image.tmdb.org/t/p/w500/$profile_path",
         popularity = popularity
     )
     return actorModel
