@@ -14,7 +14,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         binding.btnHome.setOnClickListener {
             back()

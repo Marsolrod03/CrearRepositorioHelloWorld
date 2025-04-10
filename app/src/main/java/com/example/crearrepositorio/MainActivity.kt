@@ -15,7 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         if (savedInstanceState==null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.navHostFragment, FragmentHome())
+                .replace(R.id.navHostFragment,
+                    FragmentHome()
+                )
                 .commit()
         }
     }
