@@ -6,4 +6,6 @@
     <string name="fragment_2">Fragment 2</string>
     <string name="fragment_3">Fragment 3</string>
     <string name="home">HOME</string>
+    <string name="movietitle">MovieTitle</string>
+    <string name="genresmovie">GenresMovie</string>
 </resources>

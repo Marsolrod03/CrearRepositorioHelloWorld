@@ -15,7 +15,7 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        binding.btnHome.setOnClickListener {back()}
+        binding.btnHome.setOnClickListener { back()}
         return binding.root
     }
 
