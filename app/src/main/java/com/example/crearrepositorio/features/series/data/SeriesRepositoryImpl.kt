@@ -1,8 +1,8 @@
-package com.example.crearrepositorio.data
+package com.example.crearrepositorio.features.series.data
 
 import com.example.crearrepositorio.R
-import com.example.crearrepositorio.domain.SerieModel
-import com.example.crearrepositorio.domain.SeriesRepository
+import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.SeriesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

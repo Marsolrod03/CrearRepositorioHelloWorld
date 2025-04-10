@@ -1,10 +1,10 @@
-package com.example.crearrepositorio.ui.adapter
+package com.example.crearrepositorio.features.series.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.databinding.VistaSerieBinding
-import com.example.crearrepositorio.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.SerieModel
 
 
 class SeriesAdapter () :

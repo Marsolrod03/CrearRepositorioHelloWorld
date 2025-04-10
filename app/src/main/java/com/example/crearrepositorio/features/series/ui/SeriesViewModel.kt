@@ -1,9 +1,9 @@
-package com.example.crearrepositorio.ui.viewModel
+package com.example.crearrepositorio.features.series.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.domain.GetSeriesUseCase
-import com.example.crearrepositorio.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.GetSeriesUseCase
+import com.example.crearrepositorio.features.series.domain.SerieModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

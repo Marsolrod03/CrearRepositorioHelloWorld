@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.domain
+package com.example.crearrepositorio.features.series.domain
 
 data class SerieModel(
     val titulo: String,

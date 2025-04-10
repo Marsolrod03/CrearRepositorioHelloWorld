@@ -1,6 +1,6 @@
-package com.example.crearrepositorio.domain
+package com.example.crearrepositorio.features.series.domain
 
-import com.example.crearrepositorio.data.SeriesRepositoryImpl
+import com.example.crearrepositorio.features.series.data.SeriesRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
 class GetSeriesUseCase() {

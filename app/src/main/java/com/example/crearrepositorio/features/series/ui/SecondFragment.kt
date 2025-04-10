@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.ui.fragments
+package com.example.crearrepositorio.features.series.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
-import com.example.crearrepositorio.ui.adapter.SeriesAdapter
-import com.example.crearrepositorio.ui.back
-import com.example.crearrepositorio.ui.viewModel.SeriesState
-import com.example.crearrepositorio.ui.viewModel.SeriesViewModel
+import com.example.crearrepositorio.common_ui.back
+import com.example.crearrepositorio.common_ui.BaseFragment
 import kotlinx.coroutines.launch
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
