@@ -7,7 +7,7 @@ class ActorsRepositoryImpl: ActorsRepository {
 
     override fun getActors(): List<ActorModel> {
         val jsonName = "people.json"
-        val actorsDTO = readJson(jsonName)
+        val actorsDTO = readJsonActors(jsonName)
 
          return actorsDTO.map {
             it.toActorModel()
