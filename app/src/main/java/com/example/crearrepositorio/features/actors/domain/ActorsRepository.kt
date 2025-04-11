@@ -1,5 +1,7 @@
 package com.example.crearrepositorio.features.actors.domain
 
+import kotlinx.coroutines.flow.Flow
+
 interface ActorsRepository {
-    fun getActors(): List<ActorModel>
+    fun getActors(): Flow<List<ActorModel>>
 }

@@ -11,4 +11,9 @@ data class ActorDTO(
 )
 
 @Serializable
-data class PagedResultDTO(val results: List<ActorDTO>)
+data class PagedResultDTO(
+    val page: Int,
+    val results: List<ActorDTO>,
+    val total_pages: Int,
+    val total_results: Int
+)
