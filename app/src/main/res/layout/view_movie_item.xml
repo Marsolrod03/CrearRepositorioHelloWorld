@@ -26,6 +26,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/MovieOverview"
+        app:layout_constraintEnd_toStartOf="@+id/ImageMovie"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
