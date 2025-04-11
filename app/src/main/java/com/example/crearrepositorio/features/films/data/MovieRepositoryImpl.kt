@@ -7,12 +7,13 @@ import kotlinx.coroutines.flow.flow
 
 class MovieRepositoryImpl : MovieRepository {
 
-    override fun createMovies(): Flow<List<MovieModel>> {
+    override fun createMovies(): Flow<List<MovieModel>> = flow{
         val jsonName = "movies.json"
         val moviesDTO = readJson(jsonName)
 
-        return flow { emit(moviesDTO.map {
+        emit(moviesDTO.map {
             it.toMovieModel()
-        }) }
+        })
     }
-}
+
+    }
