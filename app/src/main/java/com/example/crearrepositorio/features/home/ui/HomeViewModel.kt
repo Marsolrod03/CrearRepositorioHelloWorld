@@ -9,15 +9,17 @@ import kotlinx.coroutines.flow.update
 class HomeViewModel : ViewModel(){
 
     private val _stateHome = MutableStateFlow<UiState>(UiState.Idle)
-    val stateHome : StateFlow<UiState> = _stateHome.asStateFlow()
+    val stateHome: StateFlow<UiState> = _stateHome.asStateFlow()
 
-    fun navigateToFilms(){
+    fun navigateToFilms() {
         _stateHome.update { UiState.Navigation.NavigateToFilms }
     }
-    fun navigateToSeries(){
+
+    fun navigateToSeries() {
         _stateHome.update { UiState.Navigation.NavigateToSeries }
     }
-    fun navigateToActors(){
+
+    fun navigateToActors() {
         _stateHome.update { UiState.Navigation.NavigateToActors }
     }
 
@@ -26,8 +28,8 @@ class HomeViewModel : ViewModel(){
     }
 }
 
-sealed class UiState{
-    data object Idle: UiState()
+sealed class UiState {
+    data object Idle : UiState()
     sealed class Navigation {
         data object NavigateToFilms : UiState()
         data object NavigateToActors : UiState()

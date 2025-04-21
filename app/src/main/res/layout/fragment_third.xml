@@ -6,6 +6,7 @@
     tools:context=".features.actors.ui.ThirdFragment"
     android:background="@color/black">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewList"
         android:layout_width="match_parent"
