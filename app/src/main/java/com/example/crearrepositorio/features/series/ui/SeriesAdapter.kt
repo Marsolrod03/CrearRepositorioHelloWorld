@@ -3,6 +3,7 @@ package com.example.crearrepositorio.features.series.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.crearrepositorio.databinding.VistaSerieBinding
 import com.example.crearrepositorio.features.series.domain.SerieModel
 
@@ -15,11 +16,9 @@ class SeriesAdapter () :
     class SeriesViewHolder(val binding: VistaSerieBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(serie: SerieModel) {
             with(binding) {
-                title.text = serie.titulo
-                genre.text = serie.genero
-                seasons.text = serie.temporada
-                description.text = serie.descripcion
-                imageView.setImageResource(serie.imagen)
+                title.text = serie.name
+                description.text = serie.overview
+                imageView.load(serie.poster_path)
             }
         }
     }

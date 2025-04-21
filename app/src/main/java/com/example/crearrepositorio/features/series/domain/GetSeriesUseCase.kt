@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 class GetSeriesUseCase() {
     private val repository = SeriesRepositoryImpl()
-    operator fun invoke(): Flow<List<SerieModel>>  { return repository.getAllSeries() }
+    suspend operator fun invoke(): Flow<List<SerieModel>>  { return repository.getAllSeries() }
 
 }
