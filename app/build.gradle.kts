@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.secrets.plugin)
 }
 
 android {
@@ -36,7 +37,14 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
+
+    secrets {
+        propertiesFileName = "secrets.properties"
+        defaultPropertiesFileName = "local.defaults.properties"
+    }
+
 }
 
 dependencies {
@@ -50,6 +58,10 @@ dependencies {
     implementation (libs.kotlinx.serialization.json)
     implementation (libs.gson)
     implementation(libs.coil.compose)
+    implementation(libs.retrofit)
+    implementation (libs.logging.interceptor)
+    implementation (libs.converter.gson)
+    implementation(libs.secrets.gradle.plugin)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

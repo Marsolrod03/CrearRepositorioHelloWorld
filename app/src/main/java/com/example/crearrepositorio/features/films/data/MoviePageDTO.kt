@@ -1,8 +1,11 @@
 package com.example.crearrepositorio.features.films.data
 
-import kotlinx.serialization.Serializable
+import androidx.annotation.Keep
 
-@Serializable
+@Keep
 data class MoviePageDTO(
+    val page: Int,
     val results: List<MovieDTO>,
+    val total_pages: Int,
+    val total_results: Int
 )

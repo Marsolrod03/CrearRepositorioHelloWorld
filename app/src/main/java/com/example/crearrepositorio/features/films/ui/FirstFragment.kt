@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -46,14 +47,29 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         }
     }
 
-    private fun manageMoviesState(moviesState: MovieViewModel.MoviesState) {
+    private fun manageMoviesState(moviesState: MoviesState) {
         when (moviesState) {
-            MovieViewModel.MoviesState.Idle -> Unit
-            is MovieViewModel.MoviesState.Succeed -> {
+            MoviesState.Idle -> Unit
+            is MoviesState.Succeed -> {
                 moviesAdapter.updateMovies(moviesState.movies)
             }
+            is MoviesState.Error -> {
+                showErrorDialog("Error al cargar las películas")
+            }
+
         }
     }
 
+    private fun showErrorDialog(message: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Error")
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("Aceptar") { dialog, _ ->
+                dialog.dismiss()
+                back()
+            }
+            .show()
+    }
 
 }

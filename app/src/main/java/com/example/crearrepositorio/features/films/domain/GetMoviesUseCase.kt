@@ -7,7 +7,7 @@ class GetMoviesUseCase() {
 
     private val movieRepositoryImpl = MovieRepositoryImpl()
 
-    fun getMovies(): Flow<List<MovieModel>> {
+    suspend fun getMovies(): Flow<List<MovieModel>> {
         return movieRepositoryImpl.createMovies()
     }
 }
