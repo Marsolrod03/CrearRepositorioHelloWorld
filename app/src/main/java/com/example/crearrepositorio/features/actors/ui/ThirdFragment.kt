@@ -1,5 +1,6 @@
 package com.example.crearrepositorio.features.actors.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import com.example.crearrepositorio.common_ui.BaseFragment
+import com.example.crearrepositorio.common_ui.replaceFragment
+import com.example.crearrepositorio.features.home.ui.FragmentHome
 import kotlinx.coroutines.launch
 
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
@@ -44,6 +47,21 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
             is ActorState.Success -> {
                 actorAdapter.updateActors(actorState.actors)
             }
+            is ActorState.Error -> {
+                showErrorDialog(actorState.message)
+            }
         }
+    }
+
+    private fun showErrorDialog(errorMessage: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Error")
+            .setMessage(errorMessage)
+            .setPositiveButton("Accept") { dialog, _ ->
+                this.replaceFragment(FragmentHome())
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .show()
     }
 }

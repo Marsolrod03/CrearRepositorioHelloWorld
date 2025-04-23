@@ -1,8 +1,8 @@
 package com.example.crearrepositorio.features.actors.data
 
-import kotlinx.serialization.Serializable
+import androidx.annotation.Keep
 
-@Serializable
+@Keep
 data class ActorDTO(
     val name: String,
     val gender: Int,
@@ -10,7 +10,7 @@ data class ActorDTO(
     val profile_path: String?
 )
 
-@Serializable
+@Keep
 data class PagedResultDTO(
     val page: Int,
     val results: List<ActorDTO>,

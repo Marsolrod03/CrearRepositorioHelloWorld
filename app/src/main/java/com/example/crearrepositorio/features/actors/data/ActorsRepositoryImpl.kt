@@ -1,17 +1,25 @@
 package com.example.crearrepositorio.features.actors.data
 
+import com.example.crearrepositorio.common_data.RetrofitServiceFactory
 import com.example.crearrepositorio.features.actors.domain.ActorModel
 import com.example.crearrepositorio.features.actors.domain.ActorsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class ActorsRepositoryImpl: ActorsRepository {
+class ActorsRepositoryImpl : ActorsRepository {
+    private val service = RetrofitServiceFactory.makeRetrofitService()
 
     override fun getActors(): Flow<List<ActorModel>> = flow {
-        val jsonName = "people.json"
-        val actorsDTO = readJsonActors(jsonName)
+        val response = service.listActors()
+        if (response.isSuccessful) {
+            response.body()?.results?.let { actors ->
+                emit(actors.map { actor ->
+                    actor.toActorModel()
+                })
+            }
+        } else {
+            throw Exception("Error charging the actors")
+        }
 
-        emit(actorsDTO.map { it.toActorModel() })
     }
-
 }
