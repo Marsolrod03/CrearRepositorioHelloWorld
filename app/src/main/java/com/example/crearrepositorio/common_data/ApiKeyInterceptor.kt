@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.series.data.network
+package com.example.crearrepositorio.common_data
 
 import okhttp3.Interceptor
 import okhttp3.Response

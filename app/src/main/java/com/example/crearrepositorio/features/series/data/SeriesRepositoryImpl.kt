@@ -1,7 +1,7 @@
 package com.example.crearrepositorio.features.series.data
 
 import com.example.crearrepositorio.features.series.data.network.SeriesService
-import com.example.crearrepositorio.features.series.data.network.RetrofitClient
+import com.example.crearrepositorio.common_data.RetrofitClient
 import com.example.crearrepositorio.features.series.domain.SerieModel
 import com.example.crearrepositorio.features.series.domain.SeriesRepository
 import kotlinx.coroutines.flow.Flow

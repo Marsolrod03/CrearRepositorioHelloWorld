@@ -7,6 +7,7 @@ import com.example.crearrepositorio.features.series.domain.SerieModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -22,14 +23,15 @@ class SeriesViewModel : ViewModel() {
     private fun loadSeries() {
         viewModelScope.launch {
             getSeriesUseCase()
-                .collect { series ->
-                _seriesList.update { SeriesState.Created(series) }
-            }
+                .catch { e -> _seriesList.update { SeriesState.Error } }
+                .collect { series -> _seriesList.update { SeriesState.Created(series) } }
         }
     }
 }
-    sealed class SeriesState {
-     data object Idle : SeriesState()
-     data class Created(val series: List<SerieModel>) : SeriesState()
-   }
+
+sealed class SeriesState {
+    data object Idle : SeriesState()
+    data class Created(val series: List<SerieModel>) : SeriesState()
+    data object Error : SeriesState()
+}
 

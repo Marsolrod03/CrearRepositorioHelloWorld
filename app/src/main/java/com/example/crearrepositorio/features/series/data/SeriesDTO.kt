@@ -1,15 +1,16 @@
 package com.example.crearrepositorio.features.series.data
 
-import kotlinx.serialization.Serializable
+import androidx.annotation.Keep
 
-@Serializable
+@Keep
 data class SeriesDTO(
     val name: String,
     val poster_path: String,
     val overview: String
 )
 
-@Serializable
+
+@Keep
 data class ResultsDTO(
     val page: Int,
     val results: List<SeriesDTO>,
@@ -17,7 +18,7 @@ data class ResultsDTO(
     val total_results: Int
 )
 
-@Serializable
+@Keep
 data class SeriesResponseDTO(
     val results: List<SeriesDTO>
 )
