@@ -9,7 +9,7 @@ import com.example.crearrepositorio.features.films.domain.MovieModel
 
 class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private val movies: MutableList<MovieModel> = mutableListOf()
+    private val listMovies: MutableList<MovieModel> = mutableListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,13 +27,13 @@ class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         holder: MoviesViewHolder,
         position: Int
     ) {
-        holder.bind(movies[position])
+        holder.bind(listMovies[position])
     }
 
-    override fun getItemCount() = movies.size
+    override fun getItemCount() = listMovies.size
 
-    fun updateMovies(fakeMovies: List<MovieModel>) {
-        movies.addAll(fakeMovies)
+    fun updateMovies(movies: List<MovieModel>) {
+        listMovies.addAll(movies)
         notifyDataSetChanged()
     }
 

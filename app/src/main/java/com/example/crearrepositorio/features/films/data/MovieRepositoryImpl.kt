@@ -26,5 +26,4 @@ class MovieRepositoryImpl : MovieRepository {
             Log.e("MovieRepositoryImpl", "Error al obtener las películas", e)
         }
     }
-
 }
