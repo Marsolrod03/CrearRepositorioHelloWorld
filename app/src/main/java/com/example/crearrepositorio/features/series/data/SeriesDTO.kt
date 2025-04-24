@@ -18,7 +18,3 @@ data class ResultsDTO(
     val total_results: Int
 )
 
-@Keep
-data class SeriesResponseDTO(
-    val results: List<SeriesDTO>
-)
