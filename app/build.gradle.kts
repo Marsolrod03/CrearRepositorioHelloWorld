@@ -23,7 +23,7 @@ android {
     secrets {
         propertiesFileName = "secrets.properties"
 
-        defaultPropertiesFileName = "local.properties"
+        defaultPropertiesFileName = "default.properties"
     }
 
     buildTypes {
