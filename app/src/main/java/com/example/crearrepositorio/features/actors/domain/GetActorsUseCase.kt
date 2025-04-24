@@ -1,9 +1,9 @@
 package com.example.crearrepositorio.features.actors.domain
 
-import com.example.crearrepositorio.features.actors.data.ActorsRepositoryImpl
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GetActorsUseCase(private val actorsRepository: ActorsRepository = ActorsRepositoryImpl()) {
+class GetActorsUseCase @Inject constructor(private val actorsRepository: ActorsRepository) {
 
     operator fun invoke(): Flow<List<ActorModel>> = actorsRepository.getActors()
 

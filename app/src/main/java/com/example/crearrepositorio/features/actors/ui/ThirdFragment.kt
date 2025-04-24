@@ -1,6 +1,5 @@
 package com.example.crearrepositorio.features.actors.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import com.example.crearrepositorio.common_ui.BaseFragment
+import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
-import com.example.crearrepositorio.features.home.ui.FragmentHome
+import com.example.crearrepositorio.databinding.FragmentThirdBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
     private val actorAdapter = ActorAdapter()
@@ -48,20 +49,8 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
                 actorAdapter.updateActors(actorState.actors)
             }
             is ActorState.Error -> {
-                showErrorDialog(actorState.message)
+                replaceFragment(ErrorFragment())
             }
         }
-    }
-
-    private fun showErrorDialog(errorMessage: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Error")
-            .setMessage(errorMessage)
-            .setPositiveButton("Accept") { dialog, _ ->
-                this.replaceFragment(FragmentHome())
-                dialog.dismiss()
-            }
-            .setCancelable(false)
-            .show()
     }
 }

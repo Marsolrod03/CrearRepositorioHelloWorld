@@ -17,6 +17,8 @@ retrofit = "2.9.0"
 okhttp = "4.9.3"
 loggingInterceptor = "4.9.3"
 secretsGradlePlugin = "2.0.1"
+ksp = "2.0.21-1.0.28"
+hilt = "2.56.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,8 +37,12 @@ retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.r
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+hilt = {group = "com.google.dagger", name = "hilt-android", version.ref = "hilt"}
+ksp = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 secretsGraglePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin"}
+ksp = { id= "com.google.devtools.ksp", version.ref = "ksp"}
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
