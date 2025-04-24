@@ -8,4 +8,5 @@
     <string name="home">HOME</string>
     <string name="movietitle">MovieTitle</string>
     <string name="genresmovie">GenresMovie</string>
+    <string name="error">ERROR</string>
 </resources>
