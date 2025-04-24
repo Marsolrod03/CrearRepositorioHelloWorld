@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.secretsGraglePlugin)
-
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -18,6 +18,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    secrets {
+        propertiesFileName = "secrets.properties"
+
+        defaultPropertiesFileName = "default.properties"
     }
 
     buildTypes {
@@ -40,22 +46,12 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-
     }
-
-    secrets {
-        propertiesFileName = "secrets.properties"
-        defaultPropertiesFileName = "local.properties"}
-
-
 }
 
 dependencies {
-    implementation (libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.gson)
+    implementation(libs.hilt)
+    ksp(libs.ksp)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -64,6 +60,11 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.coil)
     implementation(libs.androidx.lifecycle.runtime.android)
+    implementation(libs.gson)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging.interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
