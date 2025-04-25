@@ -54,7 +54,6 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
             is SeriesState.Error -> {
                 this.replaceFragment(ErrorFragment())
             }
-
         }
     }
 }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.secretsGraglePlugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -38,6 +39,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -50,6 +52,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.hilt)
     ksp(libs.ksp)
     implementation(libs.androidx.fragment.ktx)
