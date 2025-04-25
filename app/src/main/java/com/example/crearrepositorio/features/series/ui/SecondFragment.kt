@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.crearrepositorio.R
-import com.example.crearrepositorio.databinding.FragmentSecondBinding
-import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
+import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.replaceFragment
-import com.example.crearrepositorio.features.films.ui.FirstFragment
+import com.example.crearrepositorio.databinding.FragmentSecondBinding
 import kotlinx.coroutines.launch
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {

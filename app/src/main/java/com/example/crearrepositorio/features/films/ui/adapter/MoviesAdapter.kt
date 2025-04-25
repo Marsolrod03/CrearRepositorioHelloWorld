@@ -1,11 +1,11 @@
-package com.example.crearrepositorio.features.films.ui
+package com.example.crearrepositorio.features.films.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
-import com.example.crearrepositorio.features.films.domain.MovieModel
+import com.example.crearrepositorio.features.films.domain.model.MovieModel
 
 class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 

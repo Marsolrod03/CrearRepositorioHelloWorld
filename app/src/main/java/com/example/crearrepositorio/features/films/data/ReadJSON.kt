@@ -1,6 +1,8 @@
 package com.example.crearrepositorio.features.films.data
 
 import com.example.crearrepositorio.common.ServiceLocator
+import com.example.crearrepositorio.features.films.data.dto.MovieDTO
+import com.example.crearrepositorio.features.films.data.dto.MoviePageDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

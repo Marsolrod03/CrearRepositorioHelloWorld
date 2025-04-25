@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.films.domain
+package com.example.crearrepositorio.features.films.domain.model
 
 data class MovieModel(
     val overview: String,

@@ -1,18 +1,20 @@
-package com.example.crearrepositorio.features.films.data
+package com.example.crearrepositorio.features.films.data.implementation
 
 import android.util.Log
+import com.example.crearrepositorio.common_data.RetrofitClient
+import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.data.network.MoviesService
-import com.example.crearrepositorio.features.films.data.network.RetrofitClient
-import com.example.crearrepositorio.features.films.domain.MovieModel
-import com.example.crearrepositorio.features.films.domain.MovieRepository
+import com.example.crearrepositorio.features.films.domain.model.MovieModel
+import com.example.crearrepositorio.features.films.domain.repository.MovieRepository
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class MovieRepositoryImpl : MovieRepository {
+class MovieRepositoryImpl @Inject constructor(): MovieRepository {
 
     override suspend fun createMovies(): Flow<List<MovieModel>> = flow {
-        val service = RetrofitClient().service
-        val response = service.getPopularMovies()
+        val client = RetrofitClient().retrofit
+        val response = client.create(MoviesService::class.java).getPopularMovies()
 
         try {
             if (response.isSuccessful) {

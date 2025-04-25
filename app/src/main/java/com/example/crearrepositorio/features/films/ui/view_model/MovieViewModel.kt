@@ -1,9 +1,11 @@
-package com.example.crearrepositorio.features.films.ui
+package com.example.crearrepositorio.features.films.ui.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.features.films.domain.GetMoviesUseCase
-import com.example.crearrepositorio.features.films.domain.MovieModel
+import com.example.crearrepositorio.features.films.domain.use_case.GetMoviesUseCase
+import com.example.crearrepositorio.features.films.domain.model.MovieModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,9 +13,11 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MovieViewModel : ViewModel() {
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    private val getMoviesUseCase: GetMoviesUseCase
+) : ViewModel() {
 
-    private val getMoviesUseCase = GetMoviesUseCase()
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
     val movies: StateFlow<MoviesState> = _movies.asStateFlow()
 
