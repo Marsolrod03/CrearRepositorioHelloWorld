@@ -12,8 +12,10 @@ import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
     private val seriesViewModel: SeriesViewModel by viewModels()

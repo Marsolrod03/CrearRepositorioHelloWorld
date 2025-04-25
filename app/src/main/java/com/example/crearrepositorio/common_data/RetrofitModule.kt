@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
-
     @Provides
     fun provideApiKey(): String {
         return BuildConfig.TMDB_API_KEY
