@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.secretsGraglePlugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-
 }
 
 android {
@@ -23,7 +22,6 @@ android {
 
     secrets {
         propertiesFileName = "secrets.properties"
-
         defaultPropertiesFileName = "default.properties"
     }
 
@@ -39,7 +37,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-
     }
     kotlinOptions {
         jvmTarget = "11"

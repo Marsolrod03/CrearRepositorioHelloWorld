@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.crearrepositorio.features.series.domain.AppError
 import com.example.crearrepositorio.features.series.domain.GetSeriesUseCase
 import com.example.crearrepositorio.features.series.domain.SerieModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,10 +14,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SeriesViewModel : ViewModel() {
+@HiltViewModel
+class SeriesViewModel @Inject constructor(
+    private val getSeriesUseCase: GetSeriesUseCase
+) : ViewModel() {
+
     private val _seriesList = MutableStateFlow<SeriesState>(SeriesState.Idle)
     val seriesList: StateFlow<SeriesState> = _seriesList.asStateFlow()
-    private val getSeriesUseCase = GetSeriesUseCase()
 
     init {
         loadSeries()

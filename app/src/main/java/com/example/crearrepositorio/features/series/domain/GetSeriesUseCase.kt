@@ -1,10 +1,9 @@
 package com.example.crearrepositorio.features.series.domain
 
-import com.example.crearrepositorio.features.series.data.SeriesRepositoryImpl
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetSeriesUseCase() {
-    private val repository = SeriesRepositoryImpl()
-    suspend operator fun invoke(): Flow<List<SerieModel>>  { return repository.getAllSeries() }
+class GetSeriesUseCase @Inject constructor(private val seriesRepository: SeriesRepository) {
+    suspend operator fun invoke(): Flow<List<SerieModel>>  { return seriesRepository.getAllSeries() }
 
 }
