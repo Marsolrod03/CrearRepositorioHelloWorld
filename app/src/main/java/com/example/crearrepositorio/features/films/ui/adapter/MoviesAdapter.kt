@@ -1,10 +1,11 @@
-package com.example.crearrepositorio.features.films.ui
+package com.example.crearrepositorio.features.films.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
-import com.example.crearrepositorio.features.films.domain.MovieModel
+import com.example.crearrepositorio.features.films.domain.model.MovieModel
 
 class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
@@ -39,8 +40,11 @@ class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     class MoviesViewHolder(private val binding: ViewMovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: MovieModel) {
-            binding.MovieTitle.text = movie.title
-            binding.GenresMovie.text = movie.genresName.joinToString(", ")
+            with(binding){
+                MovieTitle.text = movie.title
+                MovieOverview.text = movie.overview
+                ImageMovie.load(movie.poster_path)
+            }
         }
     }
 }

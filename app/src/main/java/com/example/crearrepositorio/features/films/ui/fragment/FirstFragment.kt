@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.films.ui
+package com.example.crearrepositorio.features.films.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.crearrepositorio.databinding.FragmentFirstBinding
-import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.BaseFragment
+import com.example.crearrepositorio.common_ui.ErrorFragment
+import com.example.crearrepositorio.common_ui.back
+import com.example.crearrepositorio.common_ui.replaceFragmentWithoutBackStack
+import com.example.crearrepositorio.databinding.FragmentFirstBinding
+import com.example.crearrepositorio.features.films.ui.view_model.MovieViewModel
+import com.example.crearrepositorio.features.films.ui.adapter.MoviesAdapter
+import com.example.crearrepositorio.features.films.ui.view_model.MoviesState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
     private val movieViewModel: MovieViewModel by viewModels()
@@ -46,14 +53,16 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         }
     }
 
-    private fun manageMoviesState(moviesState: MovieViewModel.MoviesState) {
+    private fun manageMoviesState(moviesState: MoviesState) {
         when (moviesState) {
-            MovieViewModel.MoviesState.Idle -> Unit
-            is MovieViewModel.MoviesState.Succeed -> {
+            MoviesState.Idle -> Unit
+            is MoviesState.Succeed -> {
                 moviesAdapter.updateMovies(moviesState.movies)
             }
+            is MoviesState.Error -> {
+                this.replaceFragmentWithoutBackStack(ErrorFragment())
+            }
+
         }
     }
-
-
 }

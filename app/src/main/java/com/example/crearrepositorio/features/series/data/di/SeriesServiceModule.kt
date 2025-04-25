@@ -1,10 +1,6 @@
 package com.example.crearrepositorio.features.series.data.di
 
-import com.example.crearrepositorio.features.series.data.SeriesNetworkDataSource
-import com.example.crearrepositorio.features.series.data.SeriesRepositoryImpl
 import com.example.crearrepositorio.features.series.data.network.SeriesService
-import com.example.crearrepositorio.features.series.domain.SeriesRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
