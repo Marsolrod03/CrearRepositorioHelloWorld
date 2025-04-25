@@ -22,7 +22,6 @@ android {
 
     secrets {
         propertiesFileName = "secrets.properties"
-
         defaultPropertiesFileName = "default.properties"
     }
 
@@ -50,6 +49,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.hilt)
     ksp(libs.ksp)
     implementation(libs.androidx.fragment.ktx)

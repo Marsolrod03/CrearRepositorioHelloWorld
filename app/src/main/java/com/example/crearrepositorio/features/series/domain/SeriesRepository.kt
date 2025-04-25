@@ -4,4 +4,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
     suspend fun getAllSeries(): Flow<List<SerieModel>>
-    }
+}
