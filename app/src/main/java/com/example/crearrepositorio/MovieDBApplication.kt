@@ -10,5 +10,4 @@ class MovieDBApplication: Application() {
         super.onCreate()
         ServiceLocator.applicationContext = this
     }
-
 }

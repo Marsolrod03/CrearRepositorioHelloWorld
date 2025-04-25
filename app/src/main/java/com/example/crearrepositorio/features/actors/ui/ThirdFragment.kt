@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import com.example.crearrepositorio.common_ui.BaseFragment
+import com.example.crearrepositorio.common_ui.ErrorFragment
+import com.example.crearrepositorio.common_ui.replaceFragment
+import com.example.crearrepositorio.databinding.FragmentThirdBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
     private val actorAdapter = ActorAdapter()
@@ -43,6 +47,9 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
             ActorState.Idle -> Unit
             is ActorState.Success -> {
                 actorAdapter.updateActors(actorState.actors)
+            }
+            is ActorState.Error -> {
+                replaceFragment(ErrorFragment())
             }
         }
     }
