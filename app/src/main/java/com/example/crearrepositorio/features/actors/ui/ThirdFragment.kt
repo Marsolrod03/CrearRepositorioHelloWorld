@@ -47,7 +47,8 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
                         gridLayoutManager.findFirstVisibleItemPosition()
 
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
-                        firstVisibleItemPosition >= 0
+                        firstVisibleItemPosition >= 0 &&
+                        viewModel.actorList.value !is ActorState.Loading
                     ) {
                         viewModel.loadActors()
                     }
@@ -69,6 +70,9 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
             }
             is ActorState.Error -> {
                 replaceFragment(ErrorFragment())
+            }
+            is ActorState.Loading -> {
+
             }
         }
     }

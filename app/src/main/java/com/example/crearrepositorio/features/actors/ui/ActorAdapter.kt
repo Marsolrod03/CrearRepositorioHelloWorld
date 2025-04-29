@@ -34,6 +34,7 @@ class ActorAdapter:
     }
 
     fun updateActors(newActors: List<ActorModel>) {
+        actors.clear()
         actors.addAll(newActors)
         notifyDataSetChanged()
     }

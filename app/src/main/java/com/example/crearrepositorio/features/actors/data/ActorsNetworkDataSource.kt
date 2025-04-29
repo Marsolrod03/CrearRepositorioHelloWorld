@@ -10,9 +10,6 @@ class ActorsNetworkDataSource @Inject constructor(
         if (!response.isSuccessful) {
             throw Exception("Error getting the actors")
         }else{
-            response.body()?.let {
-                Result.success(it.total_pages)
-            }?: Result.failure(Exception("Result not found"))
             return response.body()
         }
     }

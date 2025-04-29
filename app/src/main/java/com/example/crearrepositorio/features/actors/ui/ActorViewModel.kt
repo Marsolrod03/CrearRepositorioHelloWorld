@@ -8,13 +8,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ActorViewModel @Inject constructor(private val getActorsUseCase: GetActorsUseCase): ViewModel() {
+class ActorViewModel @Inject constructor(
+    private val getActorsUseCase: GetActorsUseCase
+) : ViewModel() {
     private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
 
@@ -23,13 +24,18 @@ class ActorViewModel @Inject constructor(private val getActorsUseCase: GetActors
     }
 
     fun loadActors() {
+        if (_actorList.value is ActorState.Loading) {
+            return
+        }
+
+        _actorList.update { ActorState.Loading }
+
         viewModelScope.launch {
             getActorsUseCase()
                 .collect { result ->
-                    result.onSuccess { newActors ->
+                    result.onSuccess { actorWrapper ->
                         _actorList.update {
-                            val currentList = (it as? ActorState.Success)?.actors.orEmpty()
-                            ActorState.Success(currentList + newActors)
+                            ActorState.Success(actorWrapper.actorsList)
                         }
                     }
                     result.onFailure {
@@ -44,6 +50,7 @@ sealed class ActorState {
     data object Idle : ActorState()
     data class Success(val actors: List<ActorModel>) : ActorState()
     data class Error(val message: String) : ActorState()
+    data object Loading : ActorState()
 }
 
 
