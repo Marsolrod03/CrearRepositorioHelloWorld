@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
@@ -19,6 +20,7 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
     private val actorAdapter = ActorAdapter()
     private val viewModel: ActorViewModel by viewModels()
+    private lateinit var gridLayoutManager: GridLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +33,26 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        gridLayoutManager = GridLayoutManager(requireContext(), 2)
+
         binding.recyclerViewList.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayoutManager
             adapter = actorAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val visibleItemCount = gridLayoutManager.childCount
+                    val totalItemCount = gridLayoutManager.itemCount
+                    val firstVisibleItemPosition =
+                        gridLayoutManager.findFirstVisibleItemPosition()
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
+                        firstVisibleItemPosition >= 0
+                    ) {
+                        viewModel.loadActors()
+                    }
+                }
+            })
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.actorList.collect { actorsState ->

@@ -22,14 +22,19 @@ class ActorViewModel @Inject constructor(private val getActorsUseCase: GetActors
         loadActors()
     }
 
-    private fun loadActors() {
+    fun loadActors() {
         viewModelScope.launch {
             getActorsUseCase()
-                .catch {
-                    _actorList.update { ActorState.Error("Error executing the application") }
-                }
-                .collect { list ->
-                    _actorList.update { ActorState.Success(list) }
+                .collect { result ->
+                    result.onSuccess { newActors ->
+                        _actorList.update {
+                            val currentList = (it as? ActorState.Success)?.actors.orEmpty()
+                            ActorState.Success(currentList + newActors)
+                        }
+                    }
+                    result.onFailure {
+                        _actorList.update { ActorState.Error("Error loading more actors") }
+                    }
                 }
         }
     }
