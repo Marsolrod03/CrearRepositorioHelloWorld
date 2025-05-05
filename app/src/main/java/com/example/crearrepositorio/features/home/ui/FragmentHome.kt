@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
+import com.example.crearrepositorio.common_ui.LoaderController
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
 import com.example.crearrepositorio.features.actors.ui.ThirdFragment
@@ -46,16 +47,22 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
     private fun manageUiState(uiState: UiState) {
         when (uiState) {
             UiState.Idle -> {
+                (activity as? LoaderController)?.hideLoading()
             }
             is UiState.Navigation.NavigateToFilms -> {
+                (activity as? LoaderController)?.hideLoading()
                 changeFragment(FirstFragment())
             }
             is UiState.Navigation.NavigateToSeries -> {
+                (activity as? LoaderController)?.hideLoading()
                 changeFragment(SecondFragment())
             }
             is UiState.Navigation.NavigateToActors -> {
+                (activity as? LoaderController)?.hideLoading()
                 changeFragment(ThirdFragment())
             }
+
+            UiState.Loading -> {(activity as? LoaderController)?.showLoading()}
         }
     }
 
