@@ -2,7 +2,6 @@ package com.example.crearrepositorio.features.series.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.crearrepositorio.databinding.VistaSerieBinding
