@@ -8,7 +8,7 @@ import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
 import com.example.crearrepositorio.features.actors.domain.ActorModel
 
-class ActorAdapter () :
+class ActorAdapter:
     RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
 
     private val actors: MutableList<ActorModel> = mutableListOf()
@@ -34,6 +34,7 @@ class ActorAdapter () :
     }
 
     fun updateActors(newActors: List<ActorModel>) {
+        actors.clear()
         actors.addAll(newActors)
         notifyDataSetChanged()
     }

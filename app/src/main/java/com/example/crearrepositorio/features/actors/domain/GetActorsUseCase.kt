@@ -5,6 +5,8 @@ import javax.inject.Inject
 
 class GetActorsUseCase @Inject constructor(private val actorsRepository: ActorsRepository) {
 
-    operator fun invoke(): Flow<List<ActorModel>> = actorsRepository.getActors()
-
+    operator fun invoke(): Flow<Result<ActorWrapper>> =
+        actorsRepository.getPagedActors()
 }
+
+
