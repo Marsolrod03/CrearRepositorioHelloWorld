@@ -33,6 +33,7 @@ class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     override fun getItemCount() = listMovies.size
 
     fun updateMovies(movies: List<MovieModel>) {
+        listMovies.clear()
         listMovies.addAll(movies)
         notifyDataSetChanged()
     }

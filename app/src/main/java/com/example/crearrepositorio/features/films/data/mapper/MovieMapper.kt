@@ -9,6 +9,5 @@ fun MovieDTO.toMovieModel(): MovieModel{
         poster_path = "https://image.tmdb.org/t/p/w500/$poster_path",
         title = title
     )
-
     return movieModel
 }

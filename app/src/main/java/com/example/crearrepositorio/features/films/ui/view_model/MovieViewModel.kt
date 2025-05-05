@@ -2,14 +2,13 @@ package com.example.crearrepositorio.features.films.ui.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.features.films.domain.use_case.GetMoviesUseCase
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
+import com.example.crearrepositorio.features.films.domain.use_case.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -25,16 +24,25 @@ class MovieViewModel @Inject constructor(
         loadMovies()
     }
 
-    private fun loadMovies() {
+    fun loadMovies() {
+
+        if (_movies.value is MoviesState.Loading) {
+            return
+        }
+
+        _movies.update { MoviesState.Loading }
+
         viewModelScope.launch {
-            getMoviesUseCase.getMovies()
-                .catch { error ->
-                    _movies.update {
-                        MoviesState.Error(error.message ?: "Error al cargar las películas") }
-                }
-                .collect { movieList ->
-                    _movies.update { MoviesState.Succeed(movieList) }
-                }
+            getMoviesUseCase().collect { result ->
+                    result.onSuccess { actorWrapper ->
+                        _movies.update {
+                            MoviesState.Succeed(actorWrapper.movieList)
+                        }
+                    }
+                    result.onFailure {
+                        _movies.update { MoviesState.Error("Error loading more movies") }
+                    }
+            }
         }
     }
 }
@@ -43,4 +51,5 @@ sealed class MoviesState {
     data object Idle : MoviesState()
     data class Succeed(val movies: List<MovieModel>) : MoviesState()
     data class Error(val message: String) : MoviesState()
+    data object Loading : MoviesState()
 }

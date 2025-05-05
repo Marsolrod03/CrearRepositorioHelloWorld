@@ -1,7 +1,8 @@
 package com.example.crearrepositorio.features.films.data.implementation
 
-import android.util.Log
-import com.example.crearrepositorio.features.films.data.MoviesNetworkDataSource
+import com.example.crearrepositorio.features.films.data.dataSource.MoviesNetworkDataSource
+import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
+import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 import com.example.crearrepositorio.features.films.domain.repository.MovieRepository
 import jakarta.inject.Inject
@@ -12,15 +13,25 @@ class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource
 ): MovieRepository {
 
-    override suspend fun createMovies(): Flow<List<MovieModel>> = flow {
-//        val client = RetrofitClient().retrofit
-//        val response = client.create(MoviesService::class.java).getPopularMovies()
+    private var currentPage = 1
+    private var listChange: MutableList<MovieModel> = mutableListOf()
 
+    override fun createMovies(): Flow<Result<MovieWrapper>> = flow {
         try {
-            val movies = networkDataSource.fetchPopularMovies()
-            emit(movies)
+            val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
+            pagedResult?.let {
+                val movieList = it.results.map {movie -> movie.toMovieModel()}
+                listChange.addAll(movieList)
+                val hasMorePages = it.page < it.total_pages
+                val movieWrapper = MovieWrapper(hasMorePages, listChange)
+                currentPage ++
+                emit(Result.success(movieWrapper))
+            }?: run {
+                emit(Result.success(MovieWrapper(false, emptyList())))
+            }
         } catch (e: Exception) {
-            Log.e("MovieRepositoryImpl", "Error al obtener las películas", e)
+            e.printStackTrace()
+            emit(Result.failure(e))
         }
     }
 }

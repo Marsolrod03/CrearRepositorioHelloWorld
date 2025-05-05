@@ -1,8 +1,8 @@
 package com.example.crearrepositorio.features.films.domain.repository
 
-import com.example.crearrepositorio.features.films.domain.model.MovieModel
+import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    suspend fun createMovies(): Flow<List<MovieModel>>
+     fun createMovies(): Flow<Result<MovieWrapper>>
 }

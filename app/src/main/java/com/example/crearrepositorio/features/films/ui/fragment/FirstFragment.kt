@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.back
@@ -25,6 +26,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
     private val movieViewModel: MovieViewModel by viewModels()
     private val moviesAdapter = MoviesAdapter()
+    private lateinit var gridLayoutManager: GridLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +38,29 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        gridLayoutManager = GridLayoutManager(requireContext(), 1)
+
         binding.recycledMovies.apply {
-            layoutManager = GridLayoutManager(requireContext(), 1)
+            layoutManager = gridLayoutManager
             adapter=moviesAdapter
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val visibleItemCount = gridLayoutManager.childCount
+                    val totalItemCount = gridLayoutManager.itemCount
+                    val firstVisibleItemPosition =
+                        gridLayoutManager.findFirstVisibleItemPosition()
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
+                        firstVisibleItemPosition >= 0 &&
+                        movieViewModel.movies.value !is MoviesState.Loading
+                    ) {
+                        movieViewModel.loadMovies()
+                    }
+                }
+            })
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -48,6 +70,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
                 }
             }
         }
+
         binding.btnHome.setOnClickListener {
             back()
         }
@@ -62,7 +85,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
             is MoviesState.Error -> {
                 this.replaceFragmentWithoutBackStack(ErrorFragment())
             }
-
+            MoviesState.Loading -> Unit
         }
     }
 }
