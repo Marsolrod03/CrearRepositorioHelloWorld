@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.actors.ui.ThirdFragment"
+    tools:context=".features.actors.ui.ActorsFragment"
     android:background="@color/black">
 
 
@@ -14,5 +14,19 @@
         android:layout_marginStart="@dimen/standardButtonMargin"
         android:layout_marginTop="@dimen/standardButtonMargin"
         android:layout_marginBottom="25dp" />
+
+    <include
+        android:id="@+id/loadingFullscreen"
+        layout="@layout/loading_fullscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/loadingPartial"
+        layout="@layout/loading_partial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/standardMovieItemTextMargin"/>
 
 </FrameLayout>

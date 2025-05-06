@@ -24,11 +24,17 @@ class ActorViewModel @Inject constructor(
     }
 
     fun loadActors() {
-        if (_actorList.value is ActorState.Loading) {
+        if (_actorList.value is ActorState.Loading || _actorList.value is ActorState.FirstLoading) {
             return
         }
 
-        _actorList.update { ActorState.Loading }
+        _actorList.update {
+            if (_actorList.value is ActorState.Success && (_actorList.value as ActorState.Success).actors.isEmpty()) {
+                ActorState.FirstLoading
+            } else {
+                ActorState.Loading
+            }
+        }
 
         viewModelScope.launch {
             getActorsUseCase()
@@ -51,6 +57,7 @@ sealed class ActorState {
     data class Success(val actors: List<ActorModel>) : ActorState()
     data class Error(val message: String) : ActorState()
     data object Loading : ActorState()
+    data object FirstLoading : ActorState()
 }
 
 

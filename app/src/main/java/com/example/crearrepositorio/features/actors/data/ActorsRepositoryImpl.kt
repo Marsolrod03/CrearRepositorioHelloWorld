@@ -11,7 +11,6 @@ class ActorsRepositoryImpl @Inject constructor
     (private val actorsNetworkDataSource: ActorsNetworkDataSource) : ActorsRepository {
 
     private var currentPage = 1
-    private var isFirstPage = true
     private var listChange: MutableList<ActorModel> = mutableListOf()
 
     override fun getPagedActors(): Flow<Result<ActorWrapper>> = flow {
@@ -21,12 +20,11 @@ class ActorsRepositoryImpl @Inject constructor
                 val actorList = it.results.map { actor -> actor.toActorModel() }
                 listChange.addAll(actorList)
                 val hasMorePages = it.page < it.total_pages
-                val actorWrapper = ActorWrapper(hasMorePages, listChange, isFirstPage)
+                val actorWrapper = ActorWrapper(hasMorePages, listChange)
                 currentPage ++
-                isFirstPage = false
                 emit(Result.success(actorWrapper))
             }?: run {
-                val actorWrapper = ActorWrapper(false, emptyList(), false)
+                val actorWrapper = ActorWrapper(false, emptyList())
                 emit(Result.success(actorWrapper))
             }
         } catch (e: Exception) {

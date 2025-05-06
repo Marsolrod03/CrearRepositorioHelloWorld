@@ -13,10 +13,11 @@ import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
+class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
     private val binding get() = _binding!!
     private val actorAdapter = ActorAdapter()
     private val viewModel: ActorViewModel by viewModels()
@@ -27,6 +28,8 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
+        binding.loadingPartial.lottieLoadingPartial.visibility = View.GONE
+
         return binding.root
     }
 
@@ -47,8 +50,7 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
                         gridLayoutManager.findFirstVisibleItemPosition()
 
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
-                        firstVisibleItemPosition >= 0 &&
-                        viewModel.actorList.value !is ActorState.Loading
+                        firstVisibleItemPosition >= 0
                     ) {
                         viewModel.loadActors()
                     }
@@ -57,6 +59,7 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.actorList.collect { actorsState ->
+                delay(1000)
                 handleState(actorsState)
             }
         }
@@ -67,12 +70,19 @@ class ThirdFragment : BaseFragment<FragmentThirdBinding>() {
             ActorState.Idle -> Unit
             is ActorState.Success -> {
                 actorAdapter.updateActors(actorState.actors)
+                binding.loadingPartial.lottieLoadingPartial.visibility = View.GONE
             }
             is ActorState.Error -> {
+                binding.loadingPartial.lottieLoadingPartial.visibility = View.GONE
                 replaceFragment(ErrorFragment())
             }
             is ActorState.Loading -> {
-
+                binding.loadingPartial.lottieLoadingPartial.visibility = View.VISIBLE
+                binding.loadingFullscreen.lottieLoadingFullscreen.visibility = View.GONE
+            }
+            is ActorState.FirstLoading -> {
+                binding.loadingFullscreen.lottieLoadingFullscreen.visibility = View.VISIBLE
+                binding.loadingPartial.lottieLoadingPartial.visibility = View.GONE
             }
         }
     }
