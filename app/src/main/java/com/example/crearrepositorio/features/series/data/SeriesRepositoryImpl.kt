@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.flow
 
 
 class SeriesRepositoryImpl @Inject constructor(
-    private val networkDataSource: SeriesNetworkDataSource) : SeriesRepository {
+    private val networkDataSource: SeriesNetworkDataSource
+) : SeriesRepository {
 
     private var currentPage = 1
     private var isFirstPage = true
@@ -18,20 +19,15 @@ class SeriesRepositoryImpl @Inject constructor(
     override fun getPagedSeries(): Flow<Result<SeriesWrapper>> = flow {
         try {
             val pagedResult = networkDataSource.fetchSeries(currentPage)
-            pagedResult?.let {
-                val seriesList = pagedResult.results.map { it.toSeriesModel() }
-                listChange.addAll(seriesList)
-                val hashMorePages = pagedResult.page < pagedResult.total_pages
-                val seriesWrapper = SeriesWrapper(hashMorePages, listChange, isFirstPage)
-                currentPage++
-                isFirstPage = false
-                emit(Result.success(seriesWrapper))
-            }?: run {
-                val seriesWrapper = SeriesWrapper(false, listChange, false)
-                emit(Result.success(seriesWrapper))
-            }
+            val seriesList = pagedResult.results.map { it.toSeriesModel() }
+            listChange.addAll(seriesList)
+            val hashMorePages = pagedResult.page < pagedResult.total_pages
+            val seriesWrapper = SeriesWrapper(hashMorePages, listChange, isFirstPage)
+            currentPage++
+            isFirstPage = false
+            emit(Result.success(seriesWrapper))
         } catch (e: Exception) {
-           emit(Result.failure(e))
+            emit(Result.failure(e))
 
         }
     }
