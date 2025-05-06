@@ -1,6 +1,7 @@
 package com.example.crearrepositorio.features.series.data
 
 import androidx.annotation.Keep
+import com.example.crearrepositorio.features.series.domain.SerieModel
 
 @Keep
 data class SeriesDTO(
@@ -16,5 +17,7 @@ data class ResultsDTO(
     val results: List<SeriesDTO>,
     val total_pages: Int,
     val total_results: Int
+
 )
+
 
