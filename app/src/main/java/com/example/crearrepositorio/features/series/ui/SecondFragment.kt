@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
+import com.example.crearrepositorio.common_ui.LoaderController
 import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
@@ -49,13 +50,25 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
         when (seriesState) {
             SeriesState.Idle -> Unit
             is SeriesState.Created -> {
+                binding.loadingContainer.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.btnHome.visibility = View.VISIBLE
                 seriesAdapter.updateSeries(seriesState.series)
             }
+
             is SeriesState.Error -> {
+                binding.loadingContainer.visibility = View.GONE
                 this.replaceFragment(ErrorFragment())
+            }
+
+            SeriesState.Loading -> {
+                binding.loadingContainer.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+                binding.btnHome.visibility = View.GONE
+
+
             }
         }
     }
 }
-
 

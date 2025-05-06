@@ -9,7 +9,7 @@ import com.example.crearrepositorio.features.home.ui.FragmentHome
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() , LoaderController {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +26,5 @@ class MainActivity : AppCompatActivity() , LoaderController {
         }
     }
 
-    override fun showLoading() {
-        binding.loadingContainer.visibility = View.VISIBLE
-    }
 
-    override fun hideLoading() {
-        binding.loadingContainer.visibility = View.GONE
-    }
 }

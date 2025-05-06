@@ -28,16 +28,20 @@ class SeriesViewModel @Inject constructor(
 
     private fun loadSeries() {
         viewModelScope.launch {
+            _seriesList.update { SeriesState.Loading }
             getSeriesUseCase()
-                .catch { e -> val error =  if(e is AppError) e else AppError.UnknownError()
+                .catch { e ->
+                    val error =  if(e is AppError) e else AppError.UnknownError()
                     _seriesList.update { SeriesState.Error(error) } }
-                .collect { series -> _seriesList.update { SeriesState.Created(series) } }
+                .collect { series ->
+                    _seriesList.update { SeriesState.Created(series) } }
         }
     }
 }
 
 sealed class SeriesState {
     data object Idle : SeriesState()
+    data object Loading : SeriesState()
     data class Created(val series: List<SerieModel>) : SeriesState()
     data class Error(val error: AppError) : SeriesState()
 }

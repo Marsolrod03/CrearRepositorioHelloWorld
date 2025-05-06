@@ -17,8 +17,10 @@ import com.example.crearrepositorio.databinding.FragmentHomeBinding
 import com.example.crearrepositorio.features.actors.ui.ThirdFragment
 import com.example.crearrepositorio.features.films.ui.fragment.FirstFragment
 import com.example.crearrepositorio.features.series.ui.SecondFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FragmentHome : BaseFragment<FragmentHomeBinding>() {
 
     private val binding get() = _binding!!
@@ -61,8 +63,6 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
                 (activity as? LoaderController)?.hideLoading()
                 changeFragment(ThirdFragment())
             }
-
-            UiState.Loading -> {(activity as? LoaderController)?.showLoading()}
         }
     }
 
