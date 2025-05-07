@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,21 +24,28 @@ class ActorViewModel @Inject constructor(
         loadActors()
     }
 
+    fun resetStateToHome() {
+        _actorList.value = ActorState.ReturnHome
+    }
+
     fun loadActors() {
-        if (_actorList.value is ActorState.Loading || _actorList.value is ActorState.FirstLoading) {
-            return
-        }
-
-        _actorList.update {
-            if (_actorList.value is ActorState.Success && (_actorList.value as ActorState.Success).actors.isEmpty()) {
-                ActorState.FirstLoading
-            } else {
-                ActorState.Loading
-            }
-        }
-
         viewModelScope.launch {
             getActorsUseCase()
+                .onStart {
+                    if (_actorList.value is ActorState.PartialLoading ||
+                        _actorList.value is ActorState.FirstLoading) {
+                        emit(Result.failure(Throwable()))
+                        return@onStart
+                    }
+                    _actorList.update {
+                        if (_actorList.value is ActorState.Success &&
+                            (_actorList.value as ActorState.Success).actors.isEmpty()) {
+                            ActorState.FirstLoading
+                        } else {
+                            ActorState.PartialLoading
+                        }
+                    }
+                }
                 .collect { result ->
                     result.onSuccess { actorWrapper ->
                         _actorList.update {
@@ -54,9 +62,10 @@ class ActorViewModel @Inject constructor(
 
 sealed class ActorState {
     data object Idle : ActorState()
+    data object ReturnHome : ActorState()
     data class Success(val actors: List<ActorModel>) : ActorState()
     data class Error(val message: String) : ActorState()
-    data object Loading : ActorState()
+    data object PartialLoading : ActorState()
     data object FirstLoading : ActorState()
 }
 
