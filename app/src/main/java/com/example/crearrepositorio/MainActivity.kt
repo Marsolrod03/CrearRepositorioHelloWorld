@@ -1,13 +1,14 @@
 package com.example.crearrepositorio
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.crearrepositorio.databinding.ActivityMainBinding
 import com.example.crearrepositorio.features.home.ui.FragmentHome
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

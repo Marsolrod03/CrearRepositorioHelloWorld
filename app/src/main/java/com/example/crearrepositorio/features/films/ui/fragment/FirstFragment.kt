@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
-import com.example.crearrepositorio.common_ui.back
-import com.example.crearrepositorio.common_ui.replaceFragmentWithoutBackStack
+import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
-import com.example.crearrepositorio.features.films.ui.view_model.MovieViewModel
 import com.example.crearrepositorio.features.films.ui.adapter.MoviesAdapter
+import com.example.crearrepositorio.features.films.ui.view_model.MovieViewModel
 import com.example.crearrepositorio.features.films.ui.view_model.MoviesState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -54,8 +54,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
                         gridLayoutManager.findFirstVisibleItemPosition()
 
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
-                        firstVisibleItemPosition >= 0 &&
-                        movieViewModel.movies.value !is MoviesState.Loading
+                        firstVisibleItemPosition >= 0
                     ) {
                         movieViewModel.loadMovies()
                     }
@@ -66,14 +65,12 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movieViewModel.movies.collect { moviesState ->
+                    delay(1000)
                     manageMoviesState(moviesState)
                 }
             }
         }
 
-        binding.btnHome.setOnClickListener {
-            back()
-        }
     }
 
     private fun manageMoviesState(moviesState: MoviesState) {
@@ -81,11 +78,30 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
             MoviesState.Idle -> Unit
             is MoviesState.Succeed -> {
                 moviesAdapter.updateMovies(moviesState.movies)
+                manageLoadingFullScreen(false)
+                moviesAdapter.manageLoadingPartial(false)
             }
             is MoviesState.Error -> {
-                this.replaceFragmentWithoutBackStack(ErrorFragment())
+                moviesAdapter.manageLoadingPartial(false)
+                this.replaceFragment(ErrorFragment())
+                movieViewModel.setIdle()
             }
-            MoviesState.Loading -> Unit
+            is MoviesState.Loader.LoadingFirstTime -> {
+                manageLoadingFullScreen(true)
+                moviesAdapter.manageLoadingPartial(false)
+            }
+            is MoviesState.Loader.LoadingMoreMovies -> {
+                 manageLoadingFullScreen(false)
+                moviesAdapter.manageLoadingPartial(true)
+            }
+        }
+    }
+
+    private fun manageLoadingFullScreen(show: Boolean){
+        if (show){
+            binding.loadFirstTime.lottieLoadingFullscreen.visibility = View.VISIBLE
+        }else{
+            binding.loadFirstTime.lottieLoadingFullscreen.visibility = View.GONE
         }
     }
 }

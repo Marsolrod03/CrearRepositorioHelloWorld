@@ -4,33 +4,68 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.crearrepositorio.databinding.LoadMoreMoviePagesBinding
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 
-class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+class MoviesAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val listMovies: MutableList<MovieModel> = mutableListOf()
+    private val listMovies: MutableList<MovieModel?> = mutableListOf()
+    private var isLoading = false
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): MoviesViewHolder {
-        val binding = ViewMovieItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return MoviesViewHolder(binding)
+    companion object {
+        private const val VIEW_TYPE_MOVIE = 0
+        private const val VIEW_TYPE_LOADING = 1
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_MOVIE -> MoviesViewHolder(
+                ViewMovieItemBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+            //segun breakpoints por aqui no pasa
+            VIEW_TYPE_LOADING -> LoadingPartialViewHolder(
+                LoadMoreMoviePagesBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
+            else -> throw IllegalArgumentException()
+        }
     }
 
     override fun onBindViewHolder(
-        holder: MoviesViewHolder,
+        holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        holder.bind(listMovies[position])
+        when(holder){
+            is MoviesViewHolder -> holder.bind(listMovies[position])
+            is LoadingPartialViewHolder -> Unit
+        }
     }
 
-    override fun getItemCount() = listMovies.size
+    override fun getItemCount(): Int {
+        return if(isLoading){
+            listMovies.size + 1
+        }else{
+            listMovies.size
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == listMovies.size) {
+            VIEW_TYPE_LOADING
+        } else {
+            VIEW_TYPE_MOVIE
+        }
+    }
 
     fun updateMovies(movies: List<MovieModel>) {
         listMovies.clear()
@@ -38,14 +73,47 @@ class MoviesAdapter(): RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class MoviesViewHolder(private val binding: ViewMovieItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: MovieModel) {
-            with(binding){
-                MovieTitle.text = movie.title
-                MovieOverview.text = movie.overview
-                ImageMovie.load(movie.poster_path)
+//    fun showLoading() {
+//        if (!isLoading) {
+//            isLoading = true
+//            notifyItemInserted(itemCount)
+//        }
+//    }
+//
+//    fun hideLoading() {
+//        if (isLoading) {
+//            isLoading = false
+//            val loadingIndex = itemCount
+//            if (loadingIndex > 0) {
+//                notifyItemRemoved(loadingIndex)
+//            }
+//        }
+//    }
+
+    fun manageLoadingPartial(show: Boolean) {
+        if (show && !isLoading) {
+            isLoading = true
+            notifyItemInserted(itemCount)
+        } else if (!show && isLoading) {
+            isLoading = false
+            val loadingIndex = itemCount
+            if (loadingIndex > 0) {
+                notifyItemRemoved(loadingIndex - 1)
             }
         }
     }
+
+    class MoviesViewHolder(private val binding: ViewMovieItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: MovieModel?) {
+            with(binding) {
+                MovieTitle.text = movie?.title
+                MovieOverview.text = movie?.overview
+                ImageMovie.load(movie?.poster_path)
+            }
+        }
+    }
+
+    class LoadingPartialViewHolder(binding: LoadMoreMoviePagesBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

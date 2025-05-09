@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)
     implementation(libs.androidx.fragment.ktx)
