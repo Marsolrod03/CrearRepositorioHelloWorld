@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 data class ActorDTO(
+    val id: Int,
     val name: String,
     val gender: Int,
     val popularity: Double,

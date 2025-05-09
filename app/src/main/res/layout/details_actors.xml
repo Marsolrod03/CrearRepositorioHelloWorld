@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/black"
     tools:context=".features.actors.ui.DetailsActorFragment"
     android:padding="16dp">
 
@@ -16,26 +17,33 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="16dp" />
+        android:layout_height="@dimen/standardMovieItemTextMargin" />
 
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/textViewGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="18sp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/textViewPopularity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="18sp"
+        android:textColor="@color/white"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/standardMovieItemTextMargin" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,7 +53,7 @@
         android:id="@+id/textViewBiography"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:textSize="16sp" android:textColor="@color/white"/>
     </ScrollView>
 
 </LinearLayout>

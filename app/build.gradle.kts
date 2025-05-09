@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.secretsGraglePlugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -45,6 +46,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 }
 
@@ -65,6 +67,13 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.compose)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeTooling)
+    implementation(libs.activityCompose)
+    implementation(libs.composeViewModel)
+    implementation(libs.composeCompiler)
+    implementation(libs.coilCompose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

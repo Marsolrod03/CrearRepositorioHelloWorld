@@ -1,6 +1,7 @@
 package com.example.crearrepositorio.features.actors.domain
 
 data class ActorModel(
+    val id: Int,
     val name: String,
     val image: String,
     val gender: Gender,
@@ -9,5 +10,5 @@ data class ActorModel(
 )
 
 enum class Gender{
-    MALE, FEMALE, UNKNOWN
+    Male, Female, Unknown
 }

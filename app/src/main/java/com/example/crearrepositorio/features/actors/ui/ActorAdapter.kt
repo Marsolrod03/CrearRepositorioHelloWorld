@@ -69,21 +69,25 @@ class ActorAdapter(private val onActorClicked: (ActorModel) -> Unit) :
     fun showLoading() {
         if (!isLoading) {
             isLoading = true
-            //actors.add(null)
-            notifyItemInserted(actors.size)
+            notifyItemInserted(itemCount)
         }
     }
 
     fun hideLoading() {
         if (isLoading) {
             isLoading = false
-            val loadingIndex = actors.indexOf(null)
-            if (loadingIndex != -1) {
-                actors.removeAt(loadingIndex)
-                notifyItemRemoved(loadingIndex)
+            val lastIndex = itemCount
+            if (lastIndex > 0) {
+                notifyItemRemoved(lastIndex)
             }
         }
     }
 
-    override fun getItemCount() = actors.size
+    override fun getItemCount(): Int {
+        return if (isLoading) {
+            actors.size + 1
+        } else {
+            actors.size
+        }
+    }
 }

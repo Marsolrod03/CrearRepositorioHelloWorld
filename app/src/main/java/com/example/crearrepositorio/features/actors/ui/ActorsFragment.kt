@@ -12,9 +12,8 @@ import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
-import com.example.crearrepositorio.features.home.ui.FragmentHome
+import com.example.crearrepositorio.features.actors.domain.ActorModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -29,7 +28,6 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -39,17 +37,7 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
         gridLayoutManager = GridLayoutManager(requireContext(), 2)
 
         actorAdapter = ActorAdapter { actor ->
-            val bundle = Bundle().apply {
-                putString("actorName", actor.name)
-                putString("actorImage", actor.image)
-                putString("actorBiography", actor.biography)
-                putString("actorPopularity", actor.popularity.toString())
-                putString("actorGender", actor.gender.toString())
-            }
-            val detailsFragment = DetailsActorFragment()
-            detailsFragment.arguments = bundle
-
-            replaceFragment(detailsFragment)
+            navigateToActorDetails(actor)
         }
 
         binding.recyclerViewList.apply {
@@ -73,7 +61,6 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.actorList.collect { actorsState ->
-                delay(1000)
                 handleState(actorsState)
             }
         }
@@ -82,9 +69,6 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
     private fun handleState(actorState: ActorState){
         when (actorState) {
             ActorState.Idle -> Unit
-            ActorState.ReturnHome -> {
-                replaceFragment(FragmentHome())
-            }
             is ActorState.Success -> {
                 binding.loadingFullscreen.lottieLoadingFullscreen.visibility = View.GONE
                 actorAdapter.updateActors(actorState.actors)
@@ -103,5 +87,18 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
                 actorAdapter.hideLoading()
             }
         }
+    }
+
+    private fun navigateToActorDetails(actor: ActorModel) {
+        val bundle = Bundle().apply {
+            putString("actorId", actor.id.toString())
+            putString("actorName", actor.name)
+            putString("actorImage", actor.image)
+            putString("actorPopularity", actor.popularity.toString())
+            putString("actorGender", actor.gender.toString())
+        }
+        val detailsFragment = DetailsActorFragment()
+        detailsFragment.arguments = bundle
+        replaceFragment(detailsFragment)
     }
 }

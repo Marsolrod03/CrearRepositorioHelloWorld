@@ -32,5 +32,21 @@ class ActorsRepositoryImpl @Inject constructor
             emit(Result.failure(e))
         }
     }
+
+    override fun getActorDetails(actorId: String): Flow<Result<ActorModel>> = flow {
+        try {
+            val actorModel = actorsNetworkDataSource.fetchDetails(actorId)
+            actorModel?.let {
+                emit(Result.success(it))
+            }?: run{
+                emit(Result.failure(Exception("Actor details not found")))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Result.failure(e))
+        }
+    }
+
+
 }
 
