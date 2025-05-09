@@ -74,7 +74,7 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
                 actorAdapter.updateActors(actorState.actors)
             }
             is ActorState.Error -> {
-                actorAdapter.hideLoading()
+                actorAdapter.showLoading()
                 replaceFragment(ErrorFragment())
                 viewModel.resetStateToHome()
             }
@@ -84,7 +84,7 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
             }
             is ActorState.FirstLoading -> {
                 binding.loadingFullscreen.lottieLoadingFullscreen.visibility = View.VISIBLE
-                actorAdapter.hideLoading()
+                actorAdapter.showLoading()
             }
         }
     }

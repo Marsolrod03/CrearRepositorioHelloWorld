@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.DetailsActorsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
-    private val binding get() = _binding!!
     private val viewModel: ActorDetailsViewModel by viewModels()
     private var actorId: String? = null
     private var actorName: String? = null
@@ -24,12 +23,15 @@ class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
     private var actorGender: String? = null
     private var actorPopularity: String? = null
 
+    private lateinit var composeView: ComposeView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DetailsActorsBinding.inflate(inflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).also {
+            composeView = it
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,33 +47,24 @@ class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.actorDetails.collect { actorDetails ->
-                handleState(actorDetails)
-            }
-        }
         actorId?.let {
             viewModel.loadDetails(it)
         }
-    }
 
-    private fun handleState(actorDetails: DetailsState){
-        when (actorDetails) {
-            DetailsState.Idle -> Unit
-            is DetailsState.Success -> {
-                with(binding){
-                    textViewName.text = actorName
-                    textViewBiography.text = actorDetails.details.biography
-                    textViewPopularity.text = "POPULARITY: $actorPopularity"
-                    textViewGender.text = "GENDER: $actorGender"
-                    imageViewActor.load(actorImage)
+        composeView.setContent {
+            val state by viewModel.actorDetails.collectAsState()
+            ActorDetailsScreen(
+                actorName = actorName,
+                actorImage = actorImage,
+                actorGender = actorGender,
+                actorPopularity = actorPopularity,
+                detailsState = state,
+                onError = {
+                    replaceFragment(ErrorFragment())
+                    viewModel.resetStateToHome()
                 }
-            }
-            is DetailsState.Error -> {
-                replaceFragment(ErrorFragment())
-                viewModel.resetStateToHome()
-            }
+            )
         }
+
     }
 }

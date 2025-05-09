@@ -70,11 +70,7 @@ class ActorAdapter(private val onActorClicked: (ActorModel) -> Unit) :
         if (!isLoading) {
             isLoading = true
             notifyItemInserted(itemCount)
-        }
-    }
-
-    fun hideLoading() {
-        if (isLoading) {
+        } else {
             isLoading = false
             val lastIndex = itemCount
             if (lastIndex > 0) {

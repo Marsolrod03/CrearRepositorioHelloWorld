@@ -12,36 +12,26 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 
 @Composable
 fun ActorDetailsScreen(
-    actorId: String?,
     actorName: String?,
     actorImage: String?,
     actorGender: String?,
     actorPopularity: String?,
-    viewModel: ActorDetailsViewModel = viewModel()
+    detailsState: DetailsState,
+    onError: () -> Unit
 ) {
-    val actorDetailsState by viewModel.actorDetails.collectAsState()
-
-    LaunchedEffect(actorId) {
-        actorId?.let { viewModel.loadDetails(it) }
-    }
-
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -53,11 +43,9 @@ fun ActorDetailsScreen(
             contentDescription = actorName,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.4f)
+                .weight(0.5f)
                 .clip(RectangleShape),
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(id = android.R.drawable.ic_menu_gallery),
-            error = painterResource(id = android.R.drawable.ic_menu_report_image)
+            contentScale = ContentScale.Crop
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -89,9 +77,10 @@ fun ActorDetailsScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        when (actorDetailsState) {
+        when (detailsState) {
+            DetailsState.Idle -> Unit
             is DetailsState.Success -> {
-                val details = (actorDetailsState as DetailsState.Success).details
+                val details = detailsState.details
                 Text(
                     text = details.biography,
                     style = TextStyle(
@@ -105,16 +94,10 @@ fun ActorDetailsScreen(
             }
 
             is DetailsState.Error -> {
-                Text(
-                    text = (actorDetailsState as DetailsState.Error).message,
-                    color = Color.Red
-                )
                 LaunchedEffect(Unit) {
-                    viewModel.resetStateToHome()
+                    onError()
                 }
             }
-
-            DetailsState.Idle -> Unit
         }
     }
 }
