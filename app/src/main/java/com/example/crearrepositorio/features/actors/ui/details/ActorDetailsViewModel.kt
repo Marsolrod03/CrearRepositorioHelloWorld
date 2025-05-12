@@ -1,9 +1,9 @@
-package com.example.crearrepositorio.features.actors.ui
+package com.example.crearrepositorio.features.actors.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.features.actors.domain.ActorModel
-import com.example.crearrepositorio.features.actors.domain.GetActorDetailsUseCase
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.use_cases.GetActorDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,15 +19,11 @@ class ActorDetailsViewModel @Inject constructor(
     private val _actorDetails = MutableStateFlow<DetailsState>(DetailsState.Idle)
     val actorDetails: StateFlow<DetailsState> = _actorDetails.asStateFlow()
 
-    private var currentActorId: String? = null
-
     fun resetStateToHome() {
         _actorDetails.value = DetailsState.Idle
     }
 
     fun loadDetails(actorId: String){
-        currentActorId = actorId
-
         viewModelScope.launch {
             getActorDetailsUseCase(actorId)
                 .collect { result ->

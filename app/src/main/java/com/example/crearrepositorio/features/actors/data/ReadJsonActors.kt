@@ -1,6 +1,8 @@
 package com.example.crearrepositorio.features.actors.data
 
 import com.example.crearrepositorio.common.ServiceLocator
+import com.example.crearrepositorio.features.actors.data.dto.ActorDTO
+import com.example.crearrepositorio.features.actors.data.dto.PagedResultDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

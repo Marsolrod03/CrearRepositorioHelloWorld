@@ -1,6 +1,7 @@
-package com.example.crearrepositorio.features.actors.data
+package com.example.crearrepositorio.features.actors.data.services
 
-import com.example.crearrepositorio.features.actors.domain.ActorModel
+import com.example.crearrepositorio.features.actors.data.dto.PagedResultDTO
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

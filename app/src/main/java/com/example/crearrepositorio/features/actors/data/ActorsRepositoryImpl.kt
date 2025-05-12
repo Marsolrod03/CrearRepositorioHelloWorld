@@ -1,8 +1,9 @@
 package com.example.crearrepositorio.features.actors.data
 
-import com.example.crearrepositorio.features.actors.domain.ActorModel
+import com.example.crearrepositorio.features.actors.data.data_source.ActorsNetworkDataSource
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import com.example.crearrepositorio.features.actors.domain.ActorWrapper
-import com.example.crearrepositorio.features.actors.domain.ActorsRepository
+import com.example.crearrepositorio.features.actors.domain.repositories.ActorsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

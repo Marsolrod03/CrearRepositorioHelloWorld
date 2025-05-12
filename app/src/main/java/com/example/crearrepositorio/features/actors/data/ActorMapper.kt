@@ -1,7 +1,8 @@
 package com.example.crearrepositorio.features.actors.data
 
-import com.example.crearrepositorio.features.actors.domain.ActorModel
-import com.example.crearrepositorio.features.actors.domain.Gender
+import com.example.crearrepositorio.features.actors.data.dto.ActorDTO
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.models.Gender
 
 fun ActorDTO.toActorModel(): ActorModel {
     val genderAux = when (gender){

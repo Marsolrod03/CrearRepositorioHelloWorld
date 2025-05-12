@@ -1,7 +1,7 @@
 package com.example.crearrepositorio.features.actors.data.di
 
 import com.example.crearrepositorio.features.actors.data.ActorsRepositoryImpl
-import com.example.crearrepositorio.features.actors.domain.ActorsRepository
+import com.example.crearrepositorio.features.actors.domain.repositories.ActorsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

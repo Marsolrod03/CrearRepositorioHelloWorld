@@ -1,0 +1,31 @@
+package com.example.crearrepositorio.features.actors.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.crearrepositorio.R
+
+@Composable
+fun LoadingPartial() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation))
+
+        LottieAnimation(
+            composition = composition,
+            modifier = Modifier.wrapContentSize(),
+            iterations = LottieConstants.IterateForever,
+            isPlaying = true,
+        )
+    }
+}

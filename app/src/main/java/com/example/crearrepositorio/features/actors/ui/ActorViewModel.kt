@@ -2,8 +2,8 @@ package com.example.crearrepositorio.features.actors.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.features.actors.domain.ActorModel
-import com.example.crearrepositorio.features.actors.domain.GetActorsUseCase
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.use_cases.GetActorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,6 +1,6 @@
 package com.example.crearrepositorio.features.actors.data.di
 
-import com.example.crearrepositorio.features.actors.data.ActorsService
+import com.example.crearrepositorio.features.actors.data.services.ActorsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

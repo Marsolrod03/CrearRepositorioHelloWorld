@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.actors.ui
+package com.example.crearrepositorio.features.actors.ui.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

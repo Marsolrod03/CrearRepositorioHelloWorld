@@ -12,7 +12,8 @@ import com.example.crearrepositorio.common_ui.BaseFragment
 import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
-import com.example.crearrepositorio.features.actors.domain.ActorModel
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.ui.details.DetailsActorFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

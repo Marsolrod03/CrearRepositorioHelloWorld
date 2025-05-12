@@ -7,7 +7,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.crearrepositorio.databinding.ItemActorBinding
 import com.example.crearrepositorio.databinding.LoadingPartialBinding
-import com.example.crearrepositorio.features.actors.domain.ActorModel
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 
 class ActorAdapter(private val onActorClicked: (ActorModel) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.actors.data
+package com.example.crearrepositorio.features.actors.data.dto
 
 import androidx.annotation.Keep
 

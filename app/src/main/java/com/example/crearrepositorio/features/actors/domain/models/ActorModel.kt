@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.actors.domain
+package com.example.crearrepositorio.features.actors.domain.models
 
 data class ActorModel(
     val id: Int,
