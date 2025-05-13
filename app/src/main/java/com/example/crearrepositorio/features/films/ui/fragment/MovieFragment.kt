@@ -18,15 +18,21 @@ import com.example.crearrepositorio.features.films.ui.adapter.MoviesAdapter
 import com.example.crearrepositorio.features.films.ui.view_model.MovieViewModel
 import com.example.crearrepositorio.features.films.ui.view_model.MoviesState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FirstFragment : BaseFragment<FragmentFirstBinding>() {
+class MovieFragment : BaseFragment<FragmentFirstBinding>() {
     private val binding get() = _binding!!
     private val movieViewModel: MovieViewModel by viewModels()
-    private val moviesAdapter = MoviesAdapter()
     private lateinit var gridLayoutManager: GridLayoutManager
+    private val moviesAdapter = MoviesAdapter { movie ->
+        val detailFragment = MovieDetailFragment()
+        val bundle = Bundle().apply {
+            putString("movieId", movie.id)
+        }
+        detailFragment.arguments = bundle
+        replaceFragment(detailFragment)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +44,6 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         gridLayoutManager = GridLayoutManager(requireContext(), 1)
 
         binding.recycledMovies.apply {
@@ -65,7 +70,6 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movieViewModel.movies.collect { moviesState ->
-                    delay(1000)
                     manageMoviesState(moviesState)
                 }
             }
@@ -73,6 +77,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
 
     }
 
+    //gestionar error volviendo a hacer la llamada.
     private fun manageMoviesState(moviesState: MoviesState) {
         when (moviesState) {
             MoviesState.Idle -> Unit
@@ -83,6 +88,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
             }
             is MoviesState.Error -> {
                 moviesAdapter.manageLoadingPartial(false)
+                manageLoadingFullScreen(false)
                 this.replaceFragment(ErrorFragment())
                 movieViewModel.setIdle()
             }

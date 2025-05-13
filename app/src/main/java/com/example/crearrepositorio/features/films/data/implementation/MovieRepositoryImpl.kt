@@ -5,9 +5,11 @@ import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 import com.example.crearrepositorio.features.films.domain.repository.MovieRepository
+import com.example.crearrepositorio.features.films.ui.view_model.MoviesState
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.jvm.Throws
 
 class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource
@@ -34,4 +36,19 @@ class MovieRepositoryImpl @Inject constructor(
             emit(Result.failure(e))
         }
     }
+
+    override fun getDetailMovies(movieId: String): Flow<Result<MovieModel>> = flow {
+        val detailMovie = networkDataSource.fetchDetailMovies(movieId)
+        try {
+            detailMovie?.let {
+                emit(Result.success(it))
+            }?: run{
+                emit(Result.failure(Exception("Error loading movie details")))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Result.failure(e))
+        }
+    }
+
 }

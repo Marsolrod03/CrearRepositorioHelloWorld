@@ -28,8 +28,6 @@ class ErrorFragment : BaseFragment<FragmentErrorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ErrorFragment", "onViewCreated")
-
-
     }
 }
 

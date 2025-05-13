@@ -8,7 +8,8 @@ import com.example.crearrepositorio.databinding.LoadMoreMoviePagesBinding
 import com.example.crearrepositorio.databinding.ViewMovieItemBinding
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 
-class MoviesAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MoviesAdapter(private val onMovieClick: (MovieModel) -> Unit)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val listMovies: MutableList<MovieModel?> = mutableListOf()
     private var isLoading = false
@@ -46,7 +47,7 @@ class MoviesAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         position: Int
     ) {
         when(holder){
-            is MoviesViewHolder -> holder.bind(listMovies[position])
+            is MoviesViewHolder -> holder.bind(listMovies[position], onMovieClick)
             is LoadingPartialViewHolder -> Unit
         }
     }
@@ -73,23 +74,6 @@ class MoviesAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-//    fun showLoading() {
-//        if (!isLoading) {
-//            isLoading = true
-//            notifyItemInserted(itemCount)
-//        }
-//    }
-//
-//    fun hideLoading() {
-//        if (isLoading) {
-//            isLoading = false
-//            val loadingIndex = itemCount
-//            if (loadingIndex > 0) {
-//                notifyItemRemoved(loadingIndex)
-//            }
-//        }
-//    }
-
     fun manageLoadingPartial(show: Boolean) {
         if (show && !isLoading) {
             isLoading = true
@@ -105,11 +89,14 @@ class MoviesAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MoviesViewHolder(private val binding: ViewMovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: MovieModel?) {
+        fun bind(movie: MovieModel?, onMovieClick: (MovieModel) -> Unit) {
             with(binding) {
                 MovieTitle.text = movie?.title
                 MovieOverview.text = movie?.overview
                 ImageMovie.load(movie?.poster_path)
+                root.setOnClickListener {
+                    movie?.let { onMovieClick(it) }
+                }
             }
         }
     }
