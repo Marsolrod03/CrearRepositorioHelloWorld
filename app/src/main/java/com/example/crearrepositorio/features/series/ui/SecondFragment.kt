@@ -15,6 +15,7 @@ import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
 import com.example.crearrepositorio.features.series.domain.SerieModel
 import com.example.crearrepositorio.features.series.ui.SeriesViewModel.SeriesState
+import com.example.crearrepositorio.features.series.ui.details.DetailsSeriesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

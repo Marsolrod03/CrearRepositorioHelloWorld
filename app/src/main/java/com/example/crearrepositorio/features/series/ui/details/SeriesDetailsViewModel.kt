@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.series.ui
+package com.example.crearrepositorio.features.series.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,9 +21,9 @@ class SeriesDetailsViewModel @Inject constructor(
     val serieDetails: StateFlow<DetailsState> = _serieDetails.asStateFlow()
 
 
-    fun loadDetails(serieId: String) {
+    fun loadDetails(seriesId: String) {
         viewModelScope.launch {
-            getSeriesDetailsUseCase(serieId)
+            getSeriesDetailsUseCase(seriesId)
                 .collect { result ->
                     result.onSuccess { serie ->
                         _serieDetails.value = DetailsState.Created(serie)
@@ -41,7 +41,7 @@ class SeriesDetailsViewModel @Inject constructor(
 
 sealed class DetailsState {
     data object Idle : DetailsState()
-    data class Created(val serie: SerieModel) : DetailsState()
+    data class Created(val details: SerieModel) : DetailsState()
     data class Error(val message: String) : DetailsState()
 
 }

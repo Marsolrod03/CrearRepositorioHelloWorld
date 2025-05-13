@@ -53,8 +53,6 @@ class SeriesAdapter(private val onSeriesClicked: (SerieModel) -> Unit) :
         }
     }
 
-
-
     override fun getItemCount(): Int{
         return if (isLoading) {
             series.size + 1

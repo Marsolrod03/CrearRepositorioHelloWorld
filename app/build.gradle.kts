@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.secretsGraglePlugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
+
 }
 
 android {
@@ -45,10 +47,23 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 }
 
 dependencies {
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.compiler)
+    implementation(libs.androidx.activity.compose)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.compose)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeTooling)
+    implementation(libs.coilCompose)
+    implementation(platform(libs.composeBom))
+    implementation(libs.lottieCompose)
+
     implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)
