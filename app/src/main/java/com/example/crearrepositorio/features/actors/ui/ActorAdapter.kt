@@ -61,7 +61,6 @@ class ActorAdapter(private val onActorClicked: (ActorModel) -> Unit) :
     }
 
     fun updateActors(newActors: List<ActorModel>) {
-        actors.clear()
         actors.addAll(newActors)
         notifyDataSetChanged()
     }

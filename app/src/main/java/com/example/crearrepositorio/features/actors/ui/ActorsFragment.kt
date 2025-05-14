@@ -93,9 +93,7 @@ class ActorsFragment : BaseFragment<FragmentThirdBinding>() {
     private fun navigateToActorDetails(actor: ActorModel) {
         val bundle = Bundle().apply {
             putString("actorId", actor.id.toString())
-            putString("actorName", actor.name)
             putString("actorImage", actor.image)
-            putString("actorPopularity", actor.popularity.toString())
             putString("actorGender", actor.gender.toString())
         }
         val detailsFragment = DetailsActorFragment()

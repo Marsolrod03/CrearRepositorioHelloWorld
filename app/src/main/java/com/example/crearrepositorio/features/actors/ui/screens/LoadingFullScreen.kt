@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -28,4 +29,10 @@ fun LoadingFullScreen() {
             isPlaying = true
         )
     }
+}
+
+@Preview
+@Composable
+private fun LoadingFullScreenPreview() {
+    LoadingFullScreen()
 }

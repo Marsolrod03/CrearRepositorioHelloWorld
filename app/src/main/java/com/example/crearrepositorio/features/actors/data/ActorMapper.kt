@@ -1,5 +1,6 @@
 package com.example.crearrepositorio.features.actors.data
 
+import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
 import com.example.crearrepositorio.features.actors.data.dto.ActorDTO
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import com.example.crearrepositorio.features.actors.domain.models.Gender
@@ -19,4 +20,26 @@ fun ActorDTO.toActorModel(): ActorModel {
         popularity = popularity
     )
     return actorModel
+}
+
+fun ActorEntity.toActorModel(): ActorModel {
+    val actorModel = ActorModel(
+        id = id,
+        name = name,
+        gender = gender,
+        image = image,
+        popularity = popularity
+    )
+    return actorModel
+}
+
+fun ActorModel.toActorEntity(): ActorEntity {
+    val actorEntity = ActorEntity(
+        id = id,
+        name = name,
+        gender = gender,
+        image = image,
+        popularity = popularity
+    )
+    return actorEntity
 }

@@ -18,10 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
     private val viewModel: ActorDetailsViewModel by viewModels()
     private var actorId: String? = null
-    private var actorName: String? = null
     private var actorImage: String? = null
     private var actorGender: String? = null
-    private var actorPopularity: String? = null
 
     private lateinit var composeView: ComposeView
 
@@ -38,10 +36,8 @@ class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             actorId = it.getString("actorId")
-            actorName = it.getString("actorName")
             actorImage = it.getString("actorImage")
             actorGender = it.getString("actorGender")
-            actorPopularity = it.getString("actorPopularity")
         }
     }
 
@@ -54,10 +50,8 @@ class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
         composeView.setContent {
             val state by viewModel.actorDetails.collectAsState()
             ActorDetailsScreen(
-                actorName = actorName,
                 actorImage = actorImage,
                 actorGender = actorGender,
-                actorPopularity = actorPopularity,
                 detailsState = state,
                 onError = {
                     replaceFragment(ErrorFragment())

@@ -5,7 +5,14 @@ import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import kotlinx.coroutines.flow.Flow
 
 interface ActorsRepository {
-    fun getPagedActors(): Flow<Result<ActorWrapper>>
+    fun getPagedActorsFromApi(currentPage: Int): Flow<Result<ActorWrapper>>
+    suspend fun getActorsFromDatabase(): List<ActorModel>
     fun getActorDetails(actorId: String): Flow<Result<ActorModel>>
+    suspend fun insertActors(actors: List<ActorModel>)
+    suspend fun clearActors()
+    suspend fun getPaginationActors(): Int
+    suspend fun clearPagination()
+    suspend fun updateLastPage(newPage: Int)
+    suspend fun insertPagination(lastPage: Int)
 }
 

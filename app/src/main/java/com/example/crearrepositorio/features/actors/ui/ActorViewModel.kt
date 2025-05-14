@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,19 +30,21 @@ class ActorViewModel @Inject constructor(
 
     fun loadActors() {
         if (_actorList.value is ActorState.PartialLoading ||
-            _actorList.value is ActorState.FirstLoading) {
+            _actorList.value is ActorState.FirstLoading
+        ) {
             return
         }
-        _actorList.update {
-            if ((_actorList.value as? ActorState.Success)?.actors?.isNotEmpty() == true) {
-                ActorState.PartialLoading
-            } else {
-                ActorState.FirstLoading
-            }
-        }
-
         viewModelScope.launch {
             getActorsUseCase()
+                .onStart {
+                    _actorList.update {
+                        if ((_actorList.value as? ActorState.Success)?.actors?.isNotEmpty() == true) {
+                            ActorState.PartialLoading
+                        } else {
+                            ActorState.FirstLoading
+                        }
+                    }
+                }
                 .collect { result ->
                     result.onSuccess { actorWrapper ->
                         _actorList.update {

@@ -51,6 +51,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":features:actors:ui"))
+    implementation(project(":features:actors:domain"))
+    implementation(project(":features:actors:data"))
     implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)
@@ -73,6 +76,8 @@ dependencies {
     implementation(libs.coilCompose)
     implementation(libs.lottieCompose)
     implementation(platform(libs.composeBom))
+    implementation(libs.room)
+    ksp(libs.roomCompiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

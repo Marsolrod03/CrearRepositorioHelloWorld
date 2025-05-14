@@ -1,7 +1,7 @@
 package com.example.crearrepositorio.features.actors.data.data_source
 
-import com.example.crearrepositorio.features.actors.data.services.ActorsService
 import com.example.crearrepositorio.features.actors.data.dto.PagedResultDTO
+import com.example.crearrepositorio.features.actors.data.services.ActorsService
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import javax.inject.Inject
 

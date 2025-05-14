@@ -25,10 +25,8 @@ import coil.compose.AsyncImage
 
 @Composable
 fun ActorDetailsScreen(
-    actorName: String?,
     actorImage: String?,
     actorGender: String?,
-    actorPopularity: String?,
     detailsState: DetailsState,
     onError: () -> Unit
 ) {
@@ -38,9 +36,11 @@ fun ActorDetailsScreen(
             .padding(16.dp)
             .fillMaxSize()
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
         AsyncImage(
             model = actorImage,
-            contentDescription = actorName,
+            contentDescription = "Image",
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.5f)
@@ -48,39 +48,40 @@ fun ActorDetailsScreen(
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = actorName ?: "",
-            style = TextStyle(
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-        )
-
-        Text(
-            text = "GENDER: $actorGender",
-            style = TextStyle(
-                fontSize = 18.sp,
-                color = Color.White
-            )
-        )
-
-        Text(
-            text = "POPULARITY: $actorPopularity",
-            style = TextStyle(
-                fontSize = 18.sp,
-                color = Color.White
-            )
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         when (detailsState) {
             DetailsState.Idle -> Unit
             is DetailsState.Success -> {
                 val details = detailsState.details
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = details.name,
+                    style = TextStyle(
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                )
+
+                Text(
+                    text = "GENDER: $actorGender",
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                )
+
+                Text(
+                    text = "POPULARITY: ${details.popularity}",
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
                     text = details.biography,
                     style = TextStyle(
