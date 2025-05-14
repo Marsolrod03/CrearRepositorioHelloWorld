@@ -1,6 +1,7 @@
 package com.example.crearrepositorio.features.films.data.implementation
 
 import com.example.crearrepositorio.features.films.data.dataSource.MoviesNetworkDataSource
+import com.example.crearrepositorio.features.films.data.dto.MovieDTO
 import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
@@ -41,7 +42,7 @@ class MovieRepositoryImpl @Inject constructor(
         val detailMovie = networkDataSource.fetchDetailMovies(movieId)
         try {
             detailMovie?.let {
-                emit(Result.success(it))
+                emit(Result.success(it.toMovieModel()))
             }?: run{
                 emit(Result.failure(Exception("Error loading movie details")))
             }

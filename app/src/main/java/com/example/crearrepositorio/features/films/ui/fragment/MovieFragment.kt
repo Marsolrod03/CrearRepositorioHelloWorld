@@ -77,7 +77,11 @@ class MovieFragment : BaseFragment<FragmentFirstBinding>() {
 
     }
 
-    //gestionar error volviendo a hacer la llamada.
+    override fun onResume() {
+        super.onResume()
+        movieViewModel.onFragmentOnResume()
+    }
+
     private fun manageMoviesState(moviesState: MoviesState) {
         when (moviesState) {
             MoviesState.Idle -> Unit

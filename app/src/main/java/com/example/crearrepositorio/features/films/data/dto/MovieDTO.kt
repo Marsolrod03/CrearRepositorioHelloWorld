@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 data class MovieDTO(
-    val id:String,
+    val id: String,
     val overview: String,
     val poster_path: String,
     val title: String,

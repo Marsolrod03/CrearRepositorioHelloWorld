@@ -10,6 +10,7 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,27 +22,26 @@ class MovieViewModel @Inject constructor(
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
     val movies: StateFlow<MoviesState> = _movies.asStateFlow()
 
-    init {
-        //reenfoque de cuando se llama.
-        loadMovies()
-    }
-
     fun loadMovies() {
 
         if (_movies.value is MoviesState.Loader.LoadingMoreMovies ||
-            _movies.value is MoviesState.Loader.LoadingFirstTime) {
+            _movies.value is MoviesState.Loader.LoadingFirstTime
+        ) {
             return
         }
 
-        _movies.update {
-            if ((_movies.value as? MoviesState.Succeed)?.movies?.isNotEmpty() == true) {
-                MoviesState.Loader.LoadingMoreMovies
-        } else {
-                MoviesState.Loader.LoadingFirstTime
-        }}
-
         viewModelScope.launch {
-            getMoviesUseCase().collect { result: Result<MovieWrapper>->
+            getMoviesUseCase()
+                .onStart {
+                    _movies.update {
+                        if ((_movies.value as? MoviesState.Succeed)?.movies?.isNotEmpty() == true) {
+                            MoviesState.Loader.LoadingMoreMovies
+                        } else {
+                            MoviesState.Loader.LoadingFirstTime
+                        }
+                    }
+                }
+                .collect { result: Result<MovieWrapper> ->
                     result.onSuccess { movieWrapper ->
                         _movies.update {
                             MoviesState.Succeed(movieWrapper.movieList)
@@ -50,12 +50,18 @@ class MovieViewModel @Inject constructor(
                     result.onFailure {
                         _movies.update { MoviesState.Error("Error loading more movies") }
                     }
-            }
+                }
         }
     }
 
-    fun setIdle(){
+    fun setIdle() {
         _movies.value = MoviesState.Idle
+    }
+
+    fun onFragmentOnResume() {
+        if (_movies.value is MoviesState.Idle) {
+            loadMovies()
+        }
     }
 }
 
@@ -63,7 +69,7 @@ sealed class MoviesState {
     data object Idle : MoviesState()
     data class Succeed(val movies: List<MovieModel>) : MoviesState()
     data class Error(val message: String) : MoviesState()
-    sealed class Loader{
+    sealed class Loader {
         data object LoadingFirstTime : MoviesState()
         data object LoadingMoreMovies : MoviesState()
     }

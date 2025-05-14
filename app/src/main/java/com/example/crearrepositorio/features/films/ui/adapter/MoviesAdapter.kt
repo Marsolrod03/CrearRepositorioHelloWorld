@@ -29,7 +29,6 @@ class MoviesAdapter(private val onMovieClick: (MovieModel) -> Unit)
                     false
                 )
             )
-            //segun breakpoints por aqui no pasa
             VIEW_TYPE_LOADING -> LoadingPartialViewHolder(
                 LoadMoreMoviePagesBinding.inflate(
                     inflater,
@@ -37,7 +36,6 @@ class MoviesAdapter(private val onMovieClick: (MovieModel) -> Unit)
                     false
                 )
             )
-
             else -> throw IllegalArgumentException()
         }
     }

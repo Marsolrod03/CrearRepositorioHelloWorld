@@ -1,5 +1,6 @@
 package com.example.crearrepositorio.features.films.data.network
 
+import com.example.crearrepositorio.features.films.data.dto.MovieDTO
 import com.example.crearrepositorio.features.films.data.dto.MoviePageDTO
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 import retrofit2.Response
@@ -16,7 +17,5 @@ interface MoviesService {
     @GET("movie/{movie_id}")
     suspend fun getDetailMovies(
         @Path("movie_id") movieId: String
-    ): Response<MovieModel>
-
-
+    ): Response<MovieDTO>
 }

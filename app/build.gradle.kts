@@ -46,13 +46,16 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 }
 
 dependencies {
+    ksp(libs.ksp)
     implementation(libs.lottie)
     implementation(libs.hilt)
-    ksp(libs.ksp)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -66,14 +69,21 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.compose)
+    implementation(libs.lottieCompose)
+    implementation(libs.coilCompose)
     implementation(libs.composeMaterial)
     implementation(libs.composeTooling)
-    implementation(libs.activityCompose)
-    implementation(libs.composeViewModel)
-    implementation(libs.composeCompiler)
-    testImplementation(libs.junit)
+    implementation(platform(libs.composeBom))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.composeBom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.junit)
+
+
 
 }

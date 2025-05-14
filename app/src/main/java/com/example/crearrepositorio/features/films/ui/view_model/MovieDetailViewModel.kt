@@ -2,6 +2,7 @@ package com.example.crearrepositorio.features.films.ui.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.crearrepositorio.features.films.data.dto.MovieDTO
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 import com.example.crearrepositorio.features.films.domain.use_case.GetDetailMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +21,11 @@ class MovieDetailViewModel @Inject constructor(
 
     fun loadDetailMovies(movieId: String){
         viewModelScope.launch {
-            getDetailMoviesUseCase(movieId).collect{ result : Result<MovieModel> ->
-                result.onSuccess {movieModel ->
+            getDetailMoviesUseCase(movieId).collect{ response: Result<MovieModel> ->
+                response.onSuccess {movieModel ->
                     _detailMovies.value = DetailMoviesState.Succeed(movieModel)
                 }
-                result.onFailure {
+                response.onFailure {
                     _detailMovies.value = DetailMoviesState.Error("Error loading actor details")
                 }
             }
