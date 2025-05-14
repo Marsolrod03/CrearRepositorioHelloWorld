@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.crearrepositorio.features.series.domain.SerieModel
 
 @Composable
 fun SeriesDetailInfo(
@@ -118,4 +120,19 @@ fun SeriesDetailInfo(
             onError()
         }
     }
+}
+
+@Preview
+@Composable
+private fun SeriesDetailInfoPreview() {
+    SeriesDetailInfo(
+        "",
+        "Daredevil",
+        "15/01/2025",
+        "Un ciego muy fuerte",
+        "",
+        "",
+        DetailsState.Created(SerieModel(12,"Daredevil","","",1.0,2,"01/02")),
+        onError = {})
+
 }

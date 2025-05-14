@@ -64,6 +64,9 @@ dependencies {
     implementation(platform(libs.composeBom))
     implementation(libs.lottieCompose)
 
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)

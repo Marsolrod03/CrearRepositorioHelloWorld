@@ -1,16 +1,20 @@
 package com.example.crearrepositorio.features.series.data
 
+import com.example.crearrepositorio.features.series.data.database.dao.SeriesDao
+import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
 import com.example.crearrepositorio.features.series.domain.AppError
 import com.example.crearrepositorio.features.series.domain.SerieModel
 import com.example.crearrepositorio.features.series.domain.SeriesRepository
 import com.example.crearrepositorio.features.series.domain.SeriesWrapper
+import com.example.crearrepositorio.features.series.domain.model.Serie
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
 class SeriesRepositoryImpl @Inject constructor(
-    private val networkDataSource: SeriesNetworkDataSource
+    private val networkDataSource: SeriesNetworkDataSource,
+    private val seriesDao: SeriesDao
 ) : SeriesRepository {
 
     private var currentPage = 1
@@ -35,6 +39,15 @@ class SeriesRepositoryImpl @Inject constructor(
             emit(Result.failure(e))
 
         }
+    }
+
+    override suspend fun getAllSeriesFromDatabase(): List<SerieModel> {
+        val response: List<SeriesEntity> = seriesDao.getAllSeries()
+        return response.map { it.toSeriesModel() }
+    }
+
+    override suspend fun insertSeries(series: List<SeriesEntity>) {
+        seriesDao.insertAll(series)
     }
 
     override fun getSeriesDetails(seriesId: String): Flow<Result<SerieModel>> = flow {
