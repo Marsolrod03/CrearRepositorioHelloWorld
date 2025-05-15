@@ -20,7 +20,7 @@ class MoviesNetworkDataSource @Inject constructor(
         }
     }
 
-    suspend fun fetchDetailMovies(movieId: String): MovieDTO? {
+    suspend fun fetchDetailMovies(movieId: Int): MovieDTO? {
         val response = moviesService.getDetailMovies(movieId)
         if (!response.isSuccessful) {
             throw handleErrors(response)

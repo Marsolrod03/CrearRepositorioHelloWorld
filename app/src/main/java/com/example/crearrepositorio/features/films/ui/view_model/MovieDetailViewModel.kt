@@ -19,7 +19,7 @@ class MovieDetailViewModel @Inject constructor(
     private val _detailMovies = MutableStateFlow<DetailMoviesState>(DetailMoviesState.Idle)
     val detailMovies: StateFlow<DetailMoviesState> = _detailMovies.asStateFlow()
 
-    fun loadDetailMovies(movieId: String){
+    fun loadDetailMovies(movieId: Int){
         viewModelScope.launch {
             getDetailMoviesUseCase(movieId).collect{ response: Result<MovieModel> ->
                 response.onSuccess {movieModel ->

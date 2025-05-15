@@ -1,8 +1,7 @@
 package com.example.crearrepositorio.features.films.data.implementation
 
-import com.example.crearrepositorio.features.films.data.dataSource.MoviesDatabaseDataSource
+import com.example.crearrepositorio.features.films.data.dataSource.MoviesLocalDataSource
 import com.example.crearrepositorio.features.films.data.dataSource.MoviesNetworkDataSource
-import com.example.crearrepositorio.features.films.data.database.entities.MovieEntity
 import com.example.crearrepositorio.features.films.data.mapper.toMovieEntity
 import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.domain.MovieWrapper
@@ -14,8 +13,8 @@ import kotlinx.coroutines.flow.flow
 
 class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource,
-    private val databaseDataSource: MoviesDatabaseDataSource
-): MovieRepository {
+    private val databaseDataSource: MoviesLocalDataSource
+) : MovieRepository {
 
     private var currentPage = 1
     private var listChange: MutableList<MovieModel> = mutableListOf()
@@ -24,13 +23,13 @@ class MovieRepositoryImpl @Inject constructor(
         try {
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
             pagedResult?.let {
-                val movieList = it.results.map {movie -> movie.toMovieModel()}
+                val movieList = it.results.map { movie -> movie.toMovieModel() }
                 listChange.addAll(movieList)
                 val hasMorePages = it.page < it.total_pages
                 val movieWrapper = MovieWrapper(hasMorePages, listChange)
-                currentPage ++
+                currentPage++
                 emit(Result.success(movieWrapper))
-            }?: run {
+            } ?: run {
                 emit(Result.success(MovieWrapper(false, emptyList())))
             }
         } catch (e: Exception) {
@@ -39,24 +38,24 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
-        return databaseDataSource.getAllMovies().map { it.toMovieModel() }
-    }
+    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> =
+        databaseDataSource.getAllMovies().map { it.toMovieModel() }
 
-    override suspend fun insertAllMovies(movies: List<MovieModel>) {
+
+    override suspend fun insertAllMovies(movies: List<MovieModel>) =
         databaseDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
-    }
 
-    override suspend fun clearMovieDatabase() {
+
+    override suspend fun clearMovieDatabase() =
         databaseDataSource.clearDatabase()
-    }
 
-    override fun getDetailMovies(movieId: String): Flow<Result<MovieModel>> = flow {
+
+    override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
         try {
             val detailMovie = networkDataSource.fetchDetailMovies(movieId)
             detailMovie?.let {
                 emit(Result.success(it.toMovieModel()))
-            }?: run{
+            } ?: run {
                 emit(Result.failure(Exception("Error loading movie details")))
             }
         } catch (e: Exception) {
@@ -64,5 +63,9 @@ class MovieRepositoryImpl @Inject constructor(
             emit(Result.failure(e))
         }
     }
+
+    override suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
+        databaseDataSource.getMovieDetails(movieId).toMovieModel()
+
 
 }

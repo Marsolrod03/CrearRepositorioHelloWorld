@@ -38,7 +38,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         try {
-            movieDetailViewModel.loadDetailMovies(arguments?.getString("movieId") ?: return)
+            movieDetailViewModel.loadDetailMovies(arguments?.getString("movieId")?.toInt() ?: return)
             composeView.setContent {
                 MovieDetailScreen(
                     state = movieDetailViewModel.detailMovies.collectAsState().value,

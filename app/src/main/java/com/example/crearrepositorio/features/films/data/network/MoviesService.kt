@@ -16,6 +16,6 @@ interface MoviesService {
 
     @GET("movie/{movie_id}")
     suspend fun getDetailMovies(
-        @Path("movie_id") movieId: String
+        @Path("movie_id") movieId: Int
     ): Response<MovieDTO>
 }

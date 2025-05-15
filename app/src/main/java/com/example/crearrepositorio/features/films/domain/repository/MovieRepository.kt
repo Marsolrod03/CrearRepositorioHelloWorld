@@ -9,6 +9,7 @@ interface MovieRepository {
      suspend fun getAllMoviesFromDatabase(): List<MovieModel>
      suspend fun insertAllMovies(movies: List<MovieModel>)
      suspend fun clearMovieDatabase()
-     fun getDetailMovies(movieId : String): Flow<Result<MovieModel>>
+     fun getDetailMoviesFromApi(movieId : Int): Flow<Result<MovieModel>>
+     suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel
 
 }
