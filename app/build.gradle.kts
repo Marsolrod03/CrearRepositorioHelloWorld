@@ -51,9 +51,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":features:actors:data"))
     implementation(project(":features:actors:ui"))
     implementation(project(":features:actors:domain"))
-    implementation(project(":features:actors:data"))
     implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)
@@ -82,5 +82,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 }

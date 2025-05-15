@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "CrearRepositorio"
 include(":app")
 include(
-    ":features:actors:data",
     ":features:actors:domain",
-    ":features:actors:ui"
+    ":features:actors:ui",
+    ":features:actors:data"
 )
