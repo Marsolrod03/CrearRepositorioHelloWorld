@@ -8,41 +8,27 @@ import javax.inject.Inject
 
 class GetActorsUseCase @Inject constructor(private val actorsRepository: ActorsRepository) {
     private var currentPage = 1
-    operator fun invoke(): Flow<Result<ActorWrapper>> = flow{
-        if(actorsRepository.getActorsFromDatabase().isNotEmpty()){
-            if(currentPage == 1){
-                emit(Result.success(ActorWrapper(false, actorsRepository.getActorsFromDatabase())))
-                currentPage++
-            }else{
-                currentPage = actorsRepository.getPaginationActors()
-                actorsRepository.getPagedActorsFromApi(currentPage)
-                    .collect{result ->
-                        result.onSuccess { actorWrapper ->
-                            actorsRepository.insertActors(actorWrapper.actorsList)
-                            currentPage++
-                            if(currentPage > actorsRepository.getPaginationActors()){
-                                actorsRepository.updateLastPage(currentPage)
-                            }
-
-                            emit(Result.success(actorWrapper))
-                        }
-                    }
-            }
+    private var databaseLoading = false
+    operator fun invoke(): Flow<Result<ActorWrapper>> = flow {
+        if (actorsRepository.getActorsFromDatabase().isNotEmpty() && !databaseLoading) {
+            databaseLoading = true
+            emit(Result.success(ActorWrapper(true, actorsRepository.getActorsFromDatabase())))
         }else{
+            if (actorsRepository.getPaginationActors() >= 1) {
+                currentPage = actorsRepository.getPaginationActors()
+            }
             actorsRepository.getPagedActorsFromApi(currentPage)
-                .collect{result ->
+                .collect { result ->
                     result.onSuccess { actorWrapper ->
                         actorsRepository.insertActors(actorWrapper.actorsList)
-                        currentPage ++
-                        if(currentPage > actorsRepository.getPaginationActors()){
+                        currentPage++
+                        if (currentPage > actorsRepository.getPaginationActors()) {
                             actorsRepository.updateLastPage(currentPage)
                         }
                         emit(Result.success(actorWrapper))
                     }
-                    result.onFailure { error ->
-                        emit(Result.failure(error))
-                    }
                 }
+
         }
     }
 }

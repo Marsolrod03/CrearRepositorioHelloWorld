@@ -3,6 +3,7 @@ package com.example.crearrepositorio.features.actors.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.use_cases.GetActorBiographyUseCase
 import com.example.crearrepositorio.features.actors.domain.use_cases.GetActorDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActorDetailsViewModel @Inject constructor(
-    private val getActorDetailsUseCase: GetActorDetailsUseCase
+    private val getActorDetailsUseCase: GetActorDetailsUseCase,
+    private val getActorBiographyUseCase: GetActorBiographyUseCase
 ) : ViewModel() {
 
     private val _actorDetails = MutableStateFlow<DetailsState>(DetailsState.Idle)
@@ -29,6 +31,7 @@ class ActorDetailsViewModel @Inject constructor(
                 .collect { result ->
                     result.onSuccess {actorModel ->
                         _actorDetails.value = DetailsState.Success(actorModel)
+                        getActorBiographyUseCase.invoke(actorId.toInt(), actorModel.biography)
                     }
                     result.onFailure {
                         _actorDetails.value = DetailsState.Error("Error loading actor details")

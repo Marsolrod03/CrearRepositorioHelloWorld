@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.coilCompose)
     implementation(libs.lottieCompose)
     implementation(platform(libs.composeBom))
+    implementation(libs.preference)
     implementation(libs.room)
     ksp(libs.roomCompiler)
     testImplementation(libs.junit)

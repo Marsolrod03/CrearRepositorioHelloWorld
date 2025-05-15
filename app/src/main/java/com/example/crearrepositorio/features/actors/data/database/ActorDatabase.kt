@@ -7,7 +7,7 @@ import com.example.crearrepositorio.features.actors.data.database.dao.Pagination
 import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
 import com.example.crearrepositorio.features.actors.data.database.entities.PaginationActorsEntity
 
-@Database(entities = [ActorEntity::class, PaginationActorsEntity::class], version = 3)
+@Database(entities = [ActorEntity::class, PaginationActorsEntity::class], version = 4)
 abstract class ActorDatabase: RoomDatabase() {
     abstract fun getActorsDao(): ActorDao
     abstract fun getPaginationActorsDao(): PaginationActorsDao

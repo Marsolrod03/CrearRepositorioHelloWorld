@@ -23,6 +23,7 @@ lottie = "6.4.1"
 composeBom = "2025.05.00"
 room = "2.7.1"
 jetbrainsKotlinJvm = "2.0.21"
+preference = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ composeBom = { group = "androidx.compose", name = "compose-bom", version.ref = "
 lottieCompose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie"}
 room = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference"}
 
 
 [plugins]

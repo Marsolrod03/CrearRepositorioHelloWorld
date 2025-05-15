@@ -2,7 +2,7 @@ package com.example.crearrepositorio.features.actors.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.crearrepositorio.features.actors.data.data_source.DatabaseDataSource
+import com.example.crearrepositorio.features.actors.data.data_source.ActorsLocalDataSource
 import com.example.crearrepositorio.features.actors.data.database.ActorDatabase
 import com.example.crearrepositorio.features.actors.data.database.dao.ActorDao
 import com.example.crearrepositorio.features.actors.data.database.dao.PaginationActorsDao
@@ -39,6 +39,6 @@ object RoomModule {
     fun provideDatabaseDataSource(
         actorDao: ActorDao,
         paginationActorsDao: PaginationActorsDao
-    ): DatabaseDataSource =
-        DatabaseDataSource(actorDao, paginationActorsDao)
+    ): ActorsLocalDataSource =
+        ActorsLocalDataSource(actorDao, paginationActorsDao)
 }

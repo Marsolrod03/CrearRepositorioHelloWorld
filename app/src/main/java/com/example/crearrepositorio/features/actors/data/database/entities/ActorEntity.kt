@@ -12,5 +12,7 @@ data class ActorEntity(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "image") val image: String,
     @ColumnInfo(name = "gender") val gender: Gender,
-    @ColumnInfo(name = "popularity") val popularity: Double
+    @ColumnInfo(name = "popularity") val popularity: Double,
+    @ColumnInfo(name = "biography") val biography: String = "Info"
+
 )

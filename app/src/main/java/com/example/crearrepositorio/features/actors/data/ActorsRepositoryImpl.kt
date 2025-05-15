@@ -1,7 +1,8 @@
 package com.example.crearrepositorio.features.actors.data
 
 import com.example.crearrepositorio.features.actors.data.data_source.ActorsNetworkDataSource
-import com.example.crearrepositorio.features.actors.data.data_source.DatabaseDataSource
+import com.example.crearrepositorio.features.actors.data.data_source.ActorsLocalDataSource
+import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
 import com.example.crearrepositorio.features.actors.domain.ActorWrapper
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import com.example.crearrepositorio.features.actors.domain.repositories.ActorsRepository
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 class ActorsRepositoryImpl @Inject constructor(
     private val actorsNetworkDataSource: ActorsNetworkDataSource,
-    private val databaseDataSource: DatabaseDataSource
+    private val actorsLocalDataSource: ActorsLocalDataSource
 ) : ActorsRepository {
 
     private var listChange: MutableList<ActorModel> = mutableListOf()
@@ -50,31 +51,39 @@ class ActorsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getActorsFromDatabase(): List<ActorModel>{
-        return databaseDataSource.getAllActors().map { entity ->  entity.toActorModel()}
+        return actorsLocalDataSource.getAllActors().map { entity ->  entity.toActorModel()}
     }
 
     override suspend fun insertActors(actors: List<ActorModel>) {
-        databaseDataSource.insertAllActors(actors.map {model -> model.toActorEntity() })
+        actorsLocalDataSource.insertAllActors(actors.map { model -> model.toActorEntity() })
     }
 
     override suspend fun clearActors() {
-        databaseDataSource.deleteAllActors()
+        actorsLocalDataSource.deleteAllActors()
+    }
+
+    override suspend fun getActorById(id: Int): ActorEntity {
+        return actorsLocalDataSource.getActorById(id)
+    }
+
+    override suspend fun updateActorBiography(id: Int, biography: String) {
+        actorsLocalDataSource.updateActorBiography(id, biography)
     }
 
     override suspend fun getPaginationActors(): Int {
-        return databaseDataSource.getPaginationActors()
+        return actorsLocalDataSource.getPaginationActors()
     }
 
     override suspend fun clearPagination() {
-        databaseDataSource.deletePaginationActors()
+        actorsLocalDataSource.deletePaginationActors()
     }
 
     override suspend fun updateLastPage(newPage: Int){
-        databaseDataSource.updateLastPage(newPage)
+        actorsLocalDataSource.updateLastPage(newPage)
     }
 
     override suspend fun insertPagination(lastPage: Int) {
-        databaseDataSource.insertPagination(lastPage)
+        actorsLocalDataSource.insertPagination(lastPage)
     }
 }
 

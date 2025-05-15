@@ -16,4 +16,10 @@ interface ActorDao {
 
     @Query("DELETE FROM actor_table")
     suspend fun deleteAllActors()
+
+    @Query("SELECT * FROM actor_table WHERE id = :actorId")
+    suspend fun getActorById(actorId: Int): ActorEntity
+
+    @Query("UPDATE actor_table SET biography = :biography WHERE id = :actorId")
+    suspend fun updateActorBiography(actorId: Int, biography: String)
 }

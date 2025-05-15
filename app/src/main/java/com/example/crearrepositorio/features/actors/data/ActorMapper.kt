@@ -28,7 +28,8 @@ fun ActorEntity.toActorModel(): ActorModel {
         name = name,
         gender = gender,
         image = image,
-        popularity = popularity
+        popularity = popularity,
+        biography = biography
     )
     return actorModel
 }
@@ -39,7 +40,8 @@ fun ActorModel.toActorEntity(): ActorEntity {
         name = name,
         gender = gender,
         image = image,
-        popularity = popularity
+        popularity = popularity,
+        biography = biography
     )
     return actorEntity
 }

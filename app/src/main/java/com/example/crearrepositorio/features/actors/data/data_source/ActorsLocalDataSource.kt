@@ -5,13 +5,15 @@ import com.example.crearrepositorio.features.actors.data.database.dao.Pagination
 import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
 import javax.inject.Inject
 
-class DatabaseDataSource @Inject constructor(
+class ActorsLocalDataSource @Inject constructor(
     private val actorDao: ActorDao,
     private val paginationActorsDao: PaginationActorsDao
 ) {
     suspend fun getAllActors(): List<ActorEntity> = actorDao.getAllActors()
     suspend fun insertAllActors(actors: List<ActorEntity>) = actorDao.insertAllActors(actors)
     suspend fun deleteAllActors() = actorDao.deleteAllActors()
+    suspend fun getActorById(id: Int): ActorEntity = actorDao.getActorById(id)
+    suspend fun updateActorBiography(id: Int, biography: String) = actorDao.updateActorBiography(id, biography)
 
     suspend fun getPaginationActors() = paginationActorsDao.getPaginationActors()
     suspend fun deletePaginationActors() = paginationActorsDao.clearPaginationActors()
