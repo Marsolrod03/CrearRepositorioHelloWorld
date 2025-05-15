@@ -1,25 +1,26 @@
 package com.example.crearrepositorio.features.films.data.implementation
 
+import com.example.crearrepositorio.features.films.data.dataSource.MoviesDatabaseDataSource
 import com.example.crearrepositorio.features.films.data.dataSource.MoviesNetworkDataSource
-import com.example.crearrepositorio.features.films.data.dto.MovieDTO
+import com.example.crearrepositorio.features.films.data.database.entities.MovieEntity
+import com.example.crearrepositorio.features.films.data.mapper.toMovieEntity
 import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
 import com.example.crearrepositorio.features.films.domain.repository.MovieRepository
-import com.example.crearrepositorio.features.films.ui.view_model.MoviesState
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlin.jvm.Throws
 
 class MovieRepositoryImpl @Inject constructor(
-    private val networkDataSource: MoviesNetworkDataSource
+    private val networkDataSource: MoviesNetworkDataSource,
+    private val databaseDataSource: MoviesDatabaseDataSource
 ): MovieRepository {
 
     private var currentPage = 1
     private var listChange: MutableList<MovieModel> = mutableListOf()
 
-    override fun createMovies(): Flow<Result<MovieWrapper>> = flow {
+    override fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
         try {
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
             pagedResult?.let {
@@ -38,9 +39,21 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
+        return databaseDataSource.getAllMovies().map { it.toMovieModel() }
+    }
+
+    override suspend fun insertAllMovies(movies: List<MovieModel>) {
+        databaseDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
+    }
+
+    override suspend fun clearMovieDatabase() {
+        databaseDataSource.clearDatabase()
+    }
+
     override fun getDetailMovies(movieId: String): Flow<Result<MovieModel>> = flow {
-        val detailMovie = networkDataSource.fetchDetailMovies(movieId)
         try {
+            val detailMovie = networkDataSource.fetchDetailMovies(movieId)
             detailMovie?.let {
                 emit(Result.success(it.toMovieModel()))
             }?: run{

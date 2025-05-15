@@ -1,6 +1,7 @@
 package com.example.crearrepositorio.features.films.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,14 +37,18 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        movieDetailViewModel.loadDetailMovies(arguments?.getString("movieId") ?: return)
-        composeView.setContent {
-            MovieDetailScreen(
-                state = movieDetailViewModel.detailMovies.collectAsState().value,
-                onError = {
-                    replaceFragment(ErrorFragment())
-                    movieDetailViewModel.setIdle()
-                })
+        try {
+            movieDetailViewModel.loadDetailMovies(arguments?.getString("movieId") ?: return)
+            composeView.setContent {
+                MovieDetailScreen(
+                    state = movieDetailViewModel.detailMovies.collectAsState().value,
+                    onError = {
+                        replaceFragment(ErrorFragment())
+                        movieDetailViewModel.setIdle()
+                    })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

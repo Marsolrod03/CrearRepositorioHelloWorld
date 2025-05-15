@@ -61,7 +61,7 @@ class MovieFragment : BaseFragment<FragmentFirstBinding>() {
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
                         firstVisibleItemPosition >= 0
                     ) {
-                        movieViewModel.loadMovies()
+                            movieViewModel.loadMovies()
                     }
                 }
             })

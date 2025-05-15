@@ -52,6 +52,7 @@ android {
 
 dependencies {
     ksp(libs.ksp)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.lottie)
     implementation(libs.hilt)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -76,6 +77,7 @@ dependencies {
     implementation(libs.composeMaterial)
     implementation(libs.composeTooling)
     implementation(platform(libs.composeBom))
+    implementation(libs.androidx.room.runtime)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.composeBom))
@@ -83,7 +85,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.junit)
-
-
-
 }

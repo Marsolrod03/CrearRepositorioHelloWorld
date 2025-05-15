@@ -4,8 +4,6 @@ import com.example.crearrepositorio.features.films.data.dto.MovieDTO
 import com.example.crearrepositorio.features.films.data.dto.MoviePageDTO
 import com.example.crearrepositorio.features.films.data.network.MoviesService
 import com.example.crearrepositorio.features.films.domain.MoviesAppError
-import com.example.crearrepositorio.features.films.domain.model.MovieModel
-import com.example.crearrepositorio.features.series.domain.AppError
 import jakarta.inject.Inject
 import retrofit2.Response
 
