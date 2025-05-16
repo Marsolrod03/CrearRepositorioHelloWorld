@@ -12,7 +12,6 @@ kotlin {
     }
 }
 dependencies{
-    implementation(libs.composeMaterial)
-    implementation(platform(libs.composeBom))
     implementation(libs.hilt)
+    implementation(libs.kotlinx.coroutines.core)
 }

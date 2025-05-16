@@ -81,8 +81,16 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.updateLastPage(newPage)
     }
 
-    override suspend fun insertPagination(lastPage: Int) {
-        actorsLocalDataSource.insertPagination(lastPage)
+    override suspend fun insertPagination() {
+        actorsLocalDataSource.insertPagination()
+    }
+
+    override suspend fun getLastDeletion(): Long {
+        return actorsLocalDataSource.getLastDeletion()
+    }
+
+    override suspend fun updateLastDeletion(lastDeletion: Long) {
+        actorsLocalDataSource.updateLastDeletion(lastDeletion)
     }
 }
 

@@ -8,7 +8,7 @@ import com.example.crearrepositorio.features.actors.data.database.entities.Pagin
 
 @Dao
 interface PaginationActorsDao {
-    @Query("SELECT last_loaded_page FROM pagination_actors")
+    @Query("SELECT last_loaded_page FROM pagination_actors WHERE id = 1")
     suspend fun getPaginationActors(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,7 +21,13 @@ interface PaginationActorsDao {
     suspend fun updateLastLoadedPage(newPage: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPagination(lastPageLoaded: Int) {
-        insertPaginationActors(PaginationActorsEntity(lastLoadedPage = lastPageLoaded))
+    suspend fun insertPagination() {
+        insertPaginationActors(PaginationActorsEntity())
     }
+
+    @Query("SELECT last_database_deletion FROM pagination_actors WHERE id = 1")
+    suspend fun getLastDeletion(): Long
+
+    @Query("UPDATE pagination_actors SET last_database_deletion = :lastDeletion WHERE id = 1")
+    suspend fun updateLastDeletion(lastDeletion: Long)
 }

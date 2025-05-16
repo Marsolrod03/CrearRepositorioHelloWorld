@@ -15,6 +15,8 @@ interface ActorsRepository {
     suspend fun getPaginationActors(): Int
     suspend fun clearPagination()
     suspend fun updateLastPage(newPage: Int)
-    suspend fun insertPagination(lastPage: Int)
+    suspend fun insertPagination()
+    suspend fun getLastDeletion(): Long
+    suspend fun updateLastDeletion(lastDeletion: Long)
 }
 

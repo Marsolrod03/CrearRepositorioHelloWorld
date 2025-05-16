@@ -3,6 +3,7 @@ package com.example.crearrepositorio.features.actors.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
+import com.example.crearrepositorio.features.actors.domain.use_cases.DeleteDatabaseUseCase
 import com.example.crearrepositorio.features.actors.domain.use_cases.GetActorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActorViewModel @Inject constructor(
-    private val getActorsUseCase: GetActorsUseCase
+    private val getActorsUseCase: GetActorsUseCase,
+    private val deleteDatabaseUseCase: DeleteDatabaseUseCase
 ) : ViewModel() {
     private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
@@ -35,6 +37,7 @@ class ActorViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
+            deleteDatabaseUseCase.invoke()
             getActorsUseCase()
                 .onStart {
                     _actorList.update {

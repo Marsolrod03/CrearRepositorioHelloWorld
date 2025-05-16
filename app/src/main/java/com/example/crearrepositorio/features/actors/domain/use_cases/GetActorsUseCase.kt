@@ -8,15 +8,13 @@ import javax.inject.Inject
 
 class GetActorsUseCase @Inject constructor(private val actorsRepository: ActorsRepository) {
     private var currentPage = 1
-    private var databaseLoading = false
+    private var databaseLoaded = false
     operator fun invoke(): Flow<Result<ActorWrapper>> = flow {
-        if (actorsRepository.getActorsFromDatabase().isNotEmpty() && !databaseLoading) {
-            databaseLoading = true
+        if (actorsRepository.getPaginationActors() >= 1 && !databaseLoaded) {
+            currentPage = actorsRepository.getPaginationActors()
+            databaseLoaded = true
             emit(Result.success(ActorWrapper(true, actorsRepository.getActorsFromDatabase())))
         }else{
-            if (actorsRepository.getPaginationActors() >= 1) {
-                currentPage = actorsRepository.getPaginationActors()
-            }
             actorsRepository.getPagedActorsFromApi(currentPage)
                 .collect { result ->
                     result.onSuccess { actorWrapper ->
