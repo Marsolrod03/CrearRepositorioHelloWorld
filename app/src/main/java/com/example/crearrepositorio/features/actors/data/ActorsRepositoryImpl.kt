@@ -1,8 +1,7 @@
 package com.example.crearrepositorio.features.actors.data
 
-import com.example.crearrepositorio.features.actors.data.data_source.ActorsNetworkDataSource
 import com.example.crearrepositorio.features.actors.data.data_source.ActorsLocalDataSource
-import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
+import com.example.crearrepositorio.features.actors.data.data_source.ActorsNetworkDataSource
 import com.example.crearrepositorio.features.actors.domain.ActorWrapper
 import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import com.example.crearrepositorio.features.actors.domain.repositories.ActorsRepository
@@ -62,7 +61,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deleteAllActors()
     }
 
-    override suspend fun getActorById(id: Int): ActorEntity {
+    override suspend fun getActorById(id: Int): ActorModel {
         return actorsLocalDataSource.getActorById(id)
     }
 

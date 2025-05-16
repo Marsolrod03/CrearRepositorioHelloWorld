@@ -3,6 +3,8 @@ package com.example.crearrepositorio.features.actors.data.data_source
 import com.example.crearrepositorio.features.actors.data.database.dao.ActorDao
 import com.example.crearrepositorio.features.actors.data.database.dao.PaginationActorsDao
 import com.example.crearrepositorio.features.actors.data.database.entities.ActorEntity
+import com.example.crearrepositorio.features.actors.data.toActorModel
+import com.example.crearrepositorio.features.actors.domain.models.ActorModel
 import javax.inject.Inject
 
 class ActorsLocalDataSource @Inject constructor(
@@ -12,7 +14,7 @@ class ActorsLocalDataSource @Inject constructor(
     suspend fun getAllActors(): List<ActorEntity> = actorDao.getAllActors()
     suspend fun insertAllActors(actors: List<ActorEntity>) = actorDao.insertAllActors(actors)
     suspend fun deleteAllActors() = actorDao.deleteAllActors()
-    suspend fun getActorById(id: Int): ActorEntity = actorDao.getActorById(id)
+    suspend fun getActorById(id: Int): ActorModel = actorDao.getActorById(id).toActorModel()
     suspend fun updateActorBiography(id: Int, biography: String) = actorDao.updateActorBiography(id, biography)
 
     suspend fun getPaginationActors() = paginationActorsDao.getPaginationActors()
