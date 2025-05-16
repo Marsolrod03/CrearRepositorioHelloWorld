@@ -15,4 +15,13 @@ interface SeriesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(series: List<SeriesEntity>)
 
+    @Query("SELECT * FROM series WHERE id = :id")
+    suspend fun getSerieById(id: Int): SeriesEntity?
+
+    @Query("DELETE FROM series")
+    suspend fun clearSeries()
+
+
+
+
 }

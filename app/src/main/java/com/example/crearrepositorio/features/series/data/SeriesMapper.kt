@@ -28,5 +28,13 @@ fun SerieModel.toSeriesEntity(): SeriesEntity {
 }
 
 fun SeriesEntity.toSeriesModel(): SerieModel {
-    return SerieModel(id, name, poster_path, overview, vote_average, vote_count, first_air_date)
+    return SerieModel(
+        id = id,
+        name = name,
+        poster_path = poster_path,
+        overview = overview,
+        vote_average = vote_average,
+        vote_count = vote_count,
+        first_air_date = first_air_date
+    )
 }

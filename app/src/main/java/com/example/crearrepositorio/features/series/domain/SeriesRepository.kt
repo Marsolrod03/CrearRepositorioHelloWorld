@@ -4,9 +4,19 @@ import com.example.crearrepositorio.features.series.data.database.entities.Serie
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
-    fun getPagedSeries(): Flow<Result<SeriesWrapper>>
-    fun getSeriesDetails(seriesId: String): Flow<Result<SerieModel>>
-    suspend fun insertSeries(series: List<SeriesEntity>)
+    fun getPagedSeriesFromApi(currentPage: Int): Flow<Result<SeriesWrapper>>
     suspend fun getAllSeriesFromDatabase(): List<SerieModel>
+
+    fun getSeriesDetails(seriesId: String): Flow<Result<SerieModel>>
+    suspend fun getSerieById(id: Int): SeriesEntity?
+    suspend fun clearSeries()
+
+    suspend fun refreshData()
+    suspend fun insertSeries(series: List<SerieModel>)
+
+    suspend fun getPaginationSeries(): Int
+    suspend fun insertPaginationSeries(lastLoadedPage: Int)
+    suspend fun clearPaginationSeries()
+    suspend fun updatePaginationSeries(newPage: Int)
 
 }

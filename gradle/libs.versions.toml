@@ -61,6 +61,7 @@ composeBom = { group = "androidx.compose", name = "compose-bom", version.ref = "
 lottieCompose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie"}
 
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
