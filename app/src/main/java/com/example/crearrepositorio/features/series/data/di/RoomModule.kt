@@ -2,7 +2,7 @@ package com.example.crearrepositorio.features.series.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.crearrepositorio.features.series.data.DatabaseDataSource
+import com.example.crearrepositorio.features.series.data.data_source.DatabaseDataSource
 import com.example.crearrepositorio.features.series.data.database.SeriesDatabase
 import com.example.crearrepositorio.features.series.data.database.dao.PaginationSeriesDao
 import com.example.crearrepositorio.features.series.data.database.dao.SeriesDao

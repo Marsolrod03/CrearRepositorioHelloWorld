@@ -1,7 +1,7 @@
 package com.example.crearrepositorio.features.series.data.di
 
 import com.example.crearrepositorio.features.series.data.SeriesRepositoryImpl
-import com.example.crearrepositorio.features.series.domain.SeriesRepository
+import com.example.crearrepositorio.features.series.domain.repository.SeriesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

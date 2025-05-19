@@ -10,12 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.crearrepositorio.common_ui.BaseFragment
-import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentHomeBinding
 import com.example.crearrepositorio.features.actors.ui.ThirdFragment
 import com.example.crearrepositorio.features.films.ui.fragment.FirstFragment
-import com.example.crearrepositorio.features.series.ui.SecondFragment
+import com.example.crearrepositorio.features.series.ui.SeriesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,7 +52,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
                 changeFragment(FirstFragment())
             }
             is UiState.Navigation.NavigateToSeries -> {
-                changeFragment(SecondFragment())
+                changeFragment(SeriesFragment())
             }
             is UiState.Navigation.NavigateToActors -> {
                 changeFragment(ThirdFragment())

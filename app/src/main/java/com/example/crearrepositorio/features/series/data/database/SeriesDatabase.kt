@@ -8,7 +8,7 @@ import com.example.crearrepositorio.features.series.data.database.entities.Pagin
 import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
 
 
-@Database(entities = [SeriesEntity::class, PaginationSeriesEntity::class], version = 2)
+@Database(entities = [SeriesEntity::class, PaginationSeriesEntity::class], version = 2, exportSchema = false)
 abstract class SeriesDatabase : RoomDatabase() {
     abstract fun getSeriesDao(): SeriesDao
     abstract fun getPaginationSeriesDao(): PaginationSeriesDao

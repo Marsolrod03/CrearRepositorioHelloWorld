@@ -27,5 +27,11 @@ interface PaginationSeriesDao {
         insertPaginationSeries(PaginationSeriesEntity(lastLoadedPage = lastLoadedPage))
     }
 
+    @Query("SELECT last_database_deletion FROM pagination_series WHERE id = 1")
+    suspend fun getLastDatabaseDeletion(): Long
+
+    @Query("UPDATE pagination_series SET last_database_deletion = :newLastDatabaseDeletion WHERE id = 1")
+    suspend fun updateLastDatabaseDeletion(newLastDatabaseDeletion: Long)
+
 }
 

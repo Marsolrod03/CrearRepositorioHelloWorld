@@ -1,7 +1,7 @@
 package com.example.crearrepositorio.features.series.data.network
 
-import com.example.crearrepositorio.features.series.data.ResultsDTO
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.data.network.model.ResultsDTO
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

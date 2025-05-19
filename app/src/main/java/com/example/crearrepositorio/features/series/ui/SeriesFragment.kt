@@ -13,14 +13,15 @@ import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
-import com.example.crearrepositorio.features.series.domain.SerieModel
-import com.example.crearrepositorio.features.series.ui.SeriesViewModel.SeriesState
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
+import com.example.crearrepositorio.features.series.ui.model.SeriesViewModel.SeriesState
 import com.example.crearrepositorio.features.series.ui.details.DetailsSeriesFragment
+import com.example.crearrepositorio.features.series.ui.model.SeriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SecondFragment : BaseFragment<FragmentSecondBinding>() {
+class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
     private val binding get() = _binding!!
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var linearLayoutManager: LinearLayoutManager

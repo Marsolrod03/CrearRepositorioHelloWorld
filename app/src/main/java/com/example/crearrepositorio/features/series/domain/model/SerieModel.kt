@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.series.domain
+package com.example.crearrepositorio.features.series.domain.model
 
 data class SerieModel(
     val id: Int,

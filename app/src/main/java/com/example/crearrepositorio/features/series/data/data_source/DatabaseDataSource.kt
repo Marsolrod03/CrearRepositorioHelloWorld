@@ -1,4 +1,4 @@
-package com.example.crearrepositorio.features.series.data
+package com.example.crearrepositorio.features.series.data.data_source
 
 
 import com.example.crearrepositorio.features.series.data.database.dao.PaginationSeriesDao
@@ -21,6 +21,8 @@ class DatabaseDataSource @Inject constructor(
     suspend fun insertPagination(lastLoadedPage: Int) = paginationSeriesDao.insertPagination(lastLoadedPage)
     suspend fun clearPaginationSeries() = paginationSeriesDao.clearPaginationSeries()
     suspend fun updatePaginationSeries(newPage: Int) = paginationSeriesDao.updatePaginationSeries(newPage)
+    suspend fun getLastDatabaseDeletion() = paginationSeriesDao.getLastDatabaseDeletion()
+    suspend fun updateLastDatabaseDeletion(newLastDatabaseDeletion: Long) = paginationSeriesDao.updateLastDatabaseDeletion(newLastDatabaseDeletion)
 
 
 

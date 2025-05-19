@@ -2,8 +2,8 @@ package com.example.crearrepositorio.features.series.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crearrepositorio.features.series.domain.GetSeriesDetailsUseCase
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.use_case.GetSeriesDetailsUseCase
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

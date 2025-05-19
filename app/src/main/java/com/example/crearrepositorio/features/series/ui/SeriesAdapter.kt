@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.crearrepositorio.databinding.FragmentLoadingBinding
 import com.example.crearrepositorio.databinding.VistaSerieBinding
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 
 
 class SeriesAdapter(private val onSeriesClicked: (SerieModel) -> Unit) :

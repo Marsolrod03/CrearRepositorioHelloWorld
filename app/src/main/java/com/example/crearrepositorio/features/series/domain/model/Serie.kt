@@ -1,7 +1,6 @@
 package com.example.crearrepositorio.features.series.domain.model
 
 import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
-import com.example.crearrepositorio.features.series.domain.SerieModel
 
 data class Serie(
     val id: Int,

@@ -1,7 +1,8 @@
 package com.example.crearrepositorio.features.series.data
 
 import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.data.network.model.SeriesDTO
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 
 fun SeriesDTO.toSeriesModel(): SerieModel {
     return SerieModel(

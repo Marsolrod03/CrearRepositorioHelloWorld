@@ -1,9 +1,11 @@
 package com.example.crearrepositorio.features.series.data
 
+import com.example.crearrepositorio.features.series.data.data_source.DatabaseDataSource
+import com.example.crearrepositorio.features.series.data.data_source.SeriesNetworkDataSource
 import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
 import com.example.crearrepositorio.features.series.domain.AppError
-import com.example.crearrepositorio.features.series.domain.SerieModel
-import com.example.crearrepositorio.features.series.domain.SeriesRepository
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
+import com.example.crearrepositorio.features.series.domain.repository.SeriesRepository
 import com.example.crearrepositorio.features.series.domain.SeriesWrapper
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -88,6 +90,14 @@ class SeriesRepositoryImpl @Inject constructor(
 
     override suspend fun updatePaginationSeries(newPage: Int) {
         databaseDataSource.updatePaginationSeries(newPage)
+    }
+
+    override suspend fun getLastDatabaseDeletion(): Long {
+        return databaseDataSource.getLastDatabaseDeletion()
+    }
+
+    override suspend fun updateLastDatabaseDeletion(newLastDatabaseDeletion: Long) {
+        databaseDataSource.updateLastDatabaseDeletion(newLastDatabaseDeletion)
     }
 
 

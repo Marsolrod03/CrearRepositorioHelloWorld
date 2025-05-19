@@ -1,7 +1,8 @@
-package com.example.crearrepositorio.features.series.domain
+package com.example.crearrepositorio.features.series.domain.use_case
 
 
-import com.example.crearrepositorio.features.series.data.toSeriesEntity
+import com.example.crearrepositorio.features.series.domain.repository.SeriesRepository
+import com.example.crearrepositorio.features.series.domain.SeriesWrapper
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -59,7 +59,6 @@ class DetailsSeriesFragment : BaseFragment<FragmentDetailsSeriesBinding>() {
             val state = viewModel.serieDetails.collectAsState()
             SeriesDetailInfo(
                 poster = seriesPosterPath ?: "",
-                title = seriesName ?: "",
                 dateEmision = seriesFirstAirDate ?: "",
                 overview = seriesOverview ?: "",
                 voteCount = seriesVoteCount.toString(),

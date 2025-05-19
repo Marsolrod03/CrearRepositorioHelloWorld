@@ -1,6 +1,8 @@
-package com.example.crearrepositorio.features.series.domain
+package com.example.crearrepositorio.features.series.domain.repository
 
 import com.example.crearrepositorio.features.series.data.database.entities.SeriesEntity
+import com.example.crearrepositorio.features.series.domain.SeriesWrapper
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
@@ -18,5 +20,7 @@ interface SeriesRepository {
     suspend fun insertPaginationSeries(lastLoadedPage: Int)
     suspend fun clearPaginationSeries()
     suspend fun updatePaginationSeries(newPage: Int)
+    suspend fun getLastDatabaseDeletion(): Long
+    suspend fun updateLastDatabaseDeletion(newLastDatabaseDeletion: Long)
 
 }

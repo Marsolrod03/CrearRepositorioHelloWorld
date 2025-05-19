@@ -1,7 +1,6 @@
-package com.example.crearrepositorio.features.series.data
+package com.example.crearrepositorio.features.series.data.network.model
 
 import androidx.annotation.Keep
-import com.example.crearrepositorio.features.series.domain.SerieModel
 
 @Keep
 data class SeriesDTO(

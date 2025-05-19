@@ -1,6 +1,5 @@
 package com.example.crearrepositorio.features.series.ui.details
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,12 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 
 @Composable
 fun SeriesDetailInfo(
     poster: String,
-    title: String,
     dateEmision: String,
     overview: String,
     voteCount: String,
@@ -91,7 +89,10 @@ fun SeriesDetailInfo(
                 Text(
                     text = details.overview,
                     color = Color.White,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                    .padding(horizontal = 16.dp)
+
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -127,7 +128,6 @@ fun SeriesDetailInfo(
 private fun SeriesDetailInfoPreview() {
     SeriesDetailInfo(
         "",
-        "Daredevil",
         "15/01/2025",
         "Un ciego muy fuerte",
         "",

@@ -1,8 +1,9 @@
-package com.example.crearrepositorio.features.series.data
+package com.example.crearrepositorio.features.series.data.data_source
 
 import com.example.crearrepositorio.features.series.data.network.SeriesService
+import com.example.crearrepositorio.features.series.data.network.model.ResultsDTO
 import com.example.crearrepositorio.features.series.domain.AppError
-import com.example.crearrepositorio.features.series.domain.SerieModel
+import com.example.crearrepositorio.features.series.domain.model.SerieModel
 import retrofit2.Response
 import javax.inject.Inject
 
