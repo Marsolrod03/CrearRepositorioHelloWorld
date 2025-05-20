@@ -44,12 +44,13 @@ class SeriesAdapter(private val onSeriesClicked: (SerieModel) -> Unit) :
         if (!isLoading) {
             isLoading = true
             notifyItemInserted(series.size)
-        }else{
+        }else {
             isLoading = false
-            val lastIndex = series.size
-            if (lastIndex > 0){
+            val lastIndex = itemCount
+            if (lastIndex > 0) {
                 notifyItemRemoved(lastIndex)
             }
+
         }
     }
 

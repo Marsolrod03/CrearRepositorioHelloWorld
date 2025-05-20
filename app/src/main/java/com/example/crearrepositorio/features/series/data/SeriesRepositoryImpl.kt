@@ -10,6 +10,7 @@ import com.example.crearrepositorio.features.series.domain.SeriesWrapper
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 
 class SeriesRepositoryImpl @Inject constructor(
@@ -18,6 +19,7 @@ class SeriesRepositoryImpl @Inject constructor(
 ) : SeriesRepository {
 
     private var listChange: MutableList<SerieModel> = mutableListOf()
+    private var currentPage = 1
 
     override fun getPagedSeriesFromApi(currentPage: Int): Flow<Result<SeriesWrapper>> = flow {
         try {
@@ -29,15 +31,15 @@ class SeriesRepositoryImpl @Inject constructor(
                 val seriesWrapper = SeriesWrapper(hashMorePages, listChange)
                 emit(Result.success(seriesWrapper))
             } ?: run {
-                val seriesWrapper = SeriesWrapper(false, emptyList())
-                emit(Result.success(seriesWrapper))
+                emit(Result.success(SeriesWrapper(false, emptyList())))
             }
         } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.failure(e))
+           e.printStackTrace()
+            val error = if (e is IOException) AppError.NoInternet else AppError.UnknownError()
+            emit(Result.failure(Exception(error.message)))
+            }
 
         }
-    }
 
     override fun getSeriesDetails(seriesId: String): Flow<Result<SerieModel>> = flow {
         try {
@@ -45,12 +47,53 @@ class SeriesRepositoryImpl @Inject constructor(
             serieModel?.let {
                 emit(Result.success(it))
             } ?: run {
-                emit(Result.failure(AppError.UnknownError()))
+                emit(Result.failure(Exception("Serie no encontrada")))
             }
         } catch (e: Exception) {
             e.printStackTrace()
             emit(Result.failure(e))
         }
+    }
+
+    override suspend fun manageSeriesDetails(seriesId: String): Flow<Result<SerieModel>> = flow {
+        val localSerie = getSerieById(seriesId.toInt())
+        getSeriesDetails(seriesId)
+            .collect{ result ->
+                result.onSuccess { serie ->
+                    emit(Result.success(serie))
+                }
+                result.onFailure {
+                    if (localSerie != null) {
+                        emit(Result.success(localSerie.toSeriesModel()))
+                    }else {
+                        emit(Result.failure(it))
+                    }
+                }
+            }
+    }
+
+    override suspend fun manageSeriesPagination(): Flow<Result<SeriesWrapper>> = flow {
+        if (currentPage == 1) {
+            val seriesFromDatabase = getAllSeriesFromDatabase()
+            if (seriesFromDatabase.isNotEmpty()) {
+                emit(Result.success(SeriesWrapper(true, seriesFromDatabase)))
+            }
+        }
+        getPagedSeriesFromApi(currentPage)
+            .collect { result ->
+                result.onSuccess { seriesWrapper ->
+                    if (currentPage == 1) {
+                        insertSeries(seriesWrapper.listSeries)
+                        updatePaginationSeries(currentPage)
+                    }
+                    emit(Result.success(seriesWrapper))
+
+                }
+                result.onFailure { error ->
+                    emit(Result.failure(error))
+                }
+
+            }
     }
 
     override suspend fun refreshData() {

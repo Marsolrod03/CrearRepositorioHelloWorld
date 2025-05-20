@@ -1,5 +1,6 @@
 package com.example.crearrepositorio.features.series.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crearrepositorio.common_ui.BaseFragment
-import com.example.crearrepositorio.common_ui.ErrorFragment
 import com.example.crearrepositorio.common_ui.back
 import com.example.crearrepositorio.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
+import com.example.crearrepositorio.features.series.domain.AppError
 import com.example.crearrepositorio.features.series.domain.model.SerieModel
-import com.example.crearrepositorio.features.series.ui.model.SeriesViewModel.SeriesState
 import com.example.crearrepositorio.features.series.ui.details.DetailsSeriesFragment
+import com.example.crearrepositorio.features.series.ui.model.SeriesState
 import com.example.crearrepositorio.features.series.ui.model.SeriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -74,6 +75,7 @@ class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
         when (seriesState) {
             SeriesState.Idle -> Unit
             is SeriesState.Created -> {
+
                 binding.loadingContainer.visibility = View.GONE
                 seriesAdapter.updateSeries(seriesState.series)
             }
@@ -81,7 +83,11 @@ class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
             is SeriesState.Error -> {
                 seriesAdapter.showLoading()
                 binding.loadingContainer.visibility = View.GONE
-                this.replaceFragment(ErrorFragment())
+                if (seriesState.appError is AppError.NoInternet) {
+                    showConnectionErrorDialog()
+                } else {
+                    seriesState.message?.let { showGenericErrorDialog(it) }
+                }
             }
 
             is SeriesState.PartialLoading -> {
@@ -112,6 +118,31 @@ class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
         detailsFragment.arguments = bundle
         this.replaceFragment(detailsFragment)
     }
+
+    private fun showConnectionErrorDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Error de conexión")
+            .setMessage("Conexión requerida")
+            .setCancelable(false)
+            .setPositiveButton("Volver al inicio") { dialog, _ ->
+                dialog.dismiss()
+                back()
+            }
+            .show()
+
+    }
+
+    private fun showGenericErrorDialog(message: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Error")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+
 }
 
 

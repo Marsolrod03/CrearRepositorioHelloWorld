@@ -13,8 +13,12 @@ interface SeriesRepository {
     suspend fun getSerieById(id: Int): SeriesEntity?
     suspend fun clearSeries()
 
+
     suspend fun refreshData()
     suspend fun insertSeries(series: List<SerieModel>)
+
+    suspend fun manageSeriesPagination() : Flow<Result<SeriesWrapper>>
+    suspend fun manageSeriesDetails(seriesId: String) : Flow<Result<SerieModel>>
 
     suspend fun getPaginationSeries(): Int
     suspend fun insertPaginationSeries(lastLoadedPage: Int)

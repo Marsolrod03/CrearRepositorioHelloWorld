@@ -57,6 +57,7 @@ class DetailsSeriesFragment : BaseFragment<FragmentDetailsSeriesBinding>() {
 
         composeView.setContent {
             val state = viewModel.serieDetails.collectAsState()
+
             SeriesDetailInfo(
                 poster = seriesPosterPath ?: "",
                 dateEmision = seriesFirstAirDate ?: "",
