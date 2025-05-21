@@ -86,7 +86,7 @@ fun MovieDetailScreen(
 
 @Composable
 fun Space() {
-    Spacer(modifier = Modifier.height(100.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Preview(showBackground = true)

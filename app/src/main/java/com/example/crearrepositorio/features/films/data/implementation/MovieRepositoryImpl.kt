@@ -13,20 +13,72 @@ import kotlinx.coroutines.flow.flow
 
 class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource,
-    private val databaseDataSource: MoviesLocalDataSource
+    private val localDataSource: MoviesLocalDataSource
 ) : MovieRepository {
+    private var accumulatedMovies: MutableList<MovieModel> = mutableListOf()
+    var currentPage = 1
 
-    private var currentPage = 1
-    private var listChange: MutableList<MovieModel> = mutableListOf()
+    override fun manageMoviesPagination(): Flow<Result<MovieWrapper>> = flow {
+        try {
+            var lastMovieInDatabase = getLastMoviePage()
+            val databaseMovies = getAllMoviesFromDatabase()
 
-    override fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
+            if (lastMovieInDatabase > currentPage) {
+                currentPage = lastMovieInDatabase
+                emit(Result.success(MovieWrapper(true, databaseMovies)))
+            } else {
+                getAllMoviesFromApi(currentPage)
+                    .collect { result ->
+                        result.onSuccess { movieWrapper ->
+                            insertAllMovies(movieWrapper.movieList)
+                            currentPage++
+                            if (currentPage > lastMovieInDatabase) {
+                                updateLastLoadedPage(currentPage)
+                            }
+                            emit(Result.success(movieWrapper))
+                        }
+                        result.onFailure {
+                            emit(Result.success(MovieWrapper(false, databaseMovies)))
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Result.failure(e))
+        }
+    }
+
+    override fun manageMovieDetails(movieId: Int): Flow<Result<MovieModel>> = flow {
+        try {
+            getDetailMoviesFromApi(movieId)
+                .collect { result ->
+                    result.onSuccess { movieModel ->
+                        emit(Result.success(movieModel))
+                    }
+                    result.onFailure {
+                        emit(Result.success(getDetailMoviesFromDatabase(movieId)))
+                    }
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Result.failure(e))
+        }
+    }
+
+    override suspend fun clearDatabase(timeRN: Long) {
+        clearMovieDatabase()
+        deleteAllMoviePages()
+        updateLastDelete(timeRN)
+    }
+
+    override fun getAllMoviesFromApi(page: Int): Flow<Result<MovieWrapper>> = flow {
         try {
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
             pagedResult?.let {
                 val movieList = it.results.map { movie -> movie.toMovieModel() }
-                listChange.addAll(movieList)
+                accumulatedMovies.addAll(movieList)
                 val hasMorePages = it.page < it.total_pages
-                val movieWrapper = MovieWrapper(hasMorePages, listChange)
+                val movieWrapper = MovieWrapper(hasMorePages, accumulatedMovies)
                 currentPage++
                 emit(Result.success(movieWrapper))
             } ?: run {
@@ -39,15 +91,15 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllMoviesFromDatabase(): List<MovieModel> =
-        databaseDataSource.getAllMovies().map { it.toMovieModel() }
+        localDataSource.getAllMovies().map { it.toMovieModel() }
 
 
     override suspend fun insertAllMovies(movies: List<MovieModel>) =
-        databaseDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
+        localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
 
 
     override suspend fun clearMovieDatabase() =
-        databaseDataSource.clearDatabase()
+        localDataSource.clearDatabase()
 
 
     override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
@@ -65,7 +117,21 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
-        databaseDataSource.getMovieDetails(movieId).toMovieModel()
+        localDataSource.getMovieDetails(movieId).toMovieModel()
 
+    override suspend fun getLastMoviePage(): Int =
+        localDataSource.getLastMoviePage()
+
+    override suspend fun deleteAllMoviePages() =
+        localDataSource.deleteAllMoviePages()
+
+    override suspend fun updateLastLoadedPage(lastLoadedPage: Int) =
+        localDataSource.updateLastLoadedPage(lastLoadedPage)
+
+    override suspend fun getLastDelete() =
+        localDataSource.getLastDeleteDB()
+
+    override suspend fun updateLastDelete(lastDelete: Long) =
+        localDataSource.updateLastDeleteDB(lastDelete)
 
 }

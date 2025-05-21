@@ -28,4 +28,8 @@ object RoomModule {
     @Singleton
     @Provides
     fun providesMovieDAO(db: MoviesDatabase) = db.getMovieDAO()
+
+    @Singleton
+    @Provides
+    fun providesMoviePageDAO (db : MoviesDatabase) = db.getMoviePageDAO()
 }

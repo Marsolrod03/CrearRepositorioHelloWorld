@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crearrepositorio.features.films.domain.MovieWrapper
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
+import com.example.crearrepositorio.features.films.domain.use_case.DeleteDatabaseUseCase
 import com.example.crearrepositorio.features.films.domain.use_case.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase
+    private val getMoviesUseCase: GetMoviesUseCase,
 ) : ViewModel() {
 
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
