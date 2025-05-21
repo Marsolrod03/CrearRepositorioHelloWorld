@@ -31,10 +31,17 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+        compose = true
+    }
 }
 
 dependencies {
-
+    implementation(project(":features:actors:domain"))
+    implementation(project(":lib"))
+    implementation(libs.recycler.view)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

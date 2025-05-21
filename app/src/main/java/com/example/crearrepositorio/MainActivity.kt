@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.crearrepositorio.databinding.ActivityMainBinding
 import com.example.crearrepositorio.features.home.ui.FragmentHome
+import com.example.lib.common_ui.FragmentContainerProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentContainerProvider {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,5 +23,9 @@ class MainActivity : AppCompatActivity() {
                 )
                 .commit()
         }
+    }
+
+    override fun getFragmentContainerId(): Int {
+        return R.id.navHostFragment
     }
 }

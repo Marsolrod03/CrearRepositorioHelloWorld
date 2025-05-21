@@ -26,3 +26,4 @@ include(
     ":features:actors:ui",
     ":features:actors:data"
 )
+include(":lib")
