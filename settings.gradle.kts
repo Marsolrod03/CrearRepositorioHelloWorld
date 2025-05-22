@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CrearRepositorio"
 include(":app")
- 
+include(":features:movies:domain")

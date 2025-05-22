@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":features:movies:domain"))
     ksp(libs.ksp)
     ksp(libs.androidx.room.compiler)
     implementation(libs.lottie)
