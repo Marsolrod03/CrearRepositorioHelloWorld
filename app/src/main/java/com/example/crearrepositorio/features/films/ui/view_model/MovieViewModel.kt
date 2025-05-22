@@ -23,6 +23,8 @@ class MovieViewModel @Inject constructor(
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
     val movies: StateFlow<MoviesState> = _movies.asStateFlow()
 
+    //meter un if con el hasmorepages para que no llame a la api todo el rato
+
     fun loadMovies() {
 
         if (_movies.value is MoviesState.Loader.LoadingMoreMovies ||
