@@ -2,7 +2,7 @@ package com.example.domain.use_case
 
 import com.example.domain.model.MovieModel
 import com.example.domain.repository.MovieRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class GetDetailMoviesUseCase @Inject constructor(

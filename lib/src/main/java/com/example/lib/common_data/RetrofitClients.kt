@@ -1,0 +1,27 @@
+package com.example.lib.common_data
+
+import com.example.crearrepositorio.BuildConfig
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+class RetrofitClient {
+    private val url = "https://api.themoviedb.org/3/"
+    private val key = BuildConfig.TMDB_API_KEY
+
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(ApiKeyInterceptor(key))
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(url)
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+}
