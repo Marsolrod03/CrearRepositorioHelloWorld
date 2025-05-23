@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.crearrepositorio.common_ui.BaseFragment
-import com.example.crearrepositorio.common_ui.ErrorFragment
-import com.example.crearrepositorio.common_ui.replaceFragment
+import com.example.common_ui.BaseFragment
+import com.example.common_ui.ErrorFragment
+import com.example.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentThirdBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

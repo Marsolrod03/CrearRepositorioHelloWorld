@@ -1,8 +1,8 @@
 package com.example.crearrepositorio
 
 import android.app.Application
-import com.example.crearrepositorio.common.ServiceLocator
-import com.example.crearrepositorio.features.films.domain.use_case.DeleteDatabaseUseCase
+import com.example.common.ServiceLocator
+import com.example.domain.use_case.DeleteDatabaseUseCase
 import dagger.hilt.android.HiltAndroidApp
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope

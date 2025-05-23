@@ -1,6 +1,6 @@
 package com.example.data
 
-import com.example.lib.common.ServiceLocator
+import com.example.common.ServiceLocator
 import com.example.data.dto.MovieDTO
 import com.example.data.dto.MoviePageDTO
 import com.google.gson.Gson

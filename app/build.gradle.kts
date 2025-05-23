@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.crearrepositorio"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -51,7 +51,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":lib"))
+    implementation(project(":lib:common"))
+    implementation(project(":lib:common_data"))
+    implementation(project(":lib:common_ui"))
     implementation(project(":features:movies:domain"))
     implementation(project(":features:movies:data"))
     implementation(project(":features:movies:ui"))

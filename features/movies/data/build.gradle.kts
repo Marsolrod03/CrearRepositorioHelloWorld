@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-
 }
 
 android {
@@ -35,10 +34,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":lib"))
+    implementation(project(":lib:common"))
     implementation(project(":features:movies:domain"))
     ksp(libs.androidx.room.compiler)
     ksp(libs.ksp)
+    ksp(libs.hiltCompiler)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.hilt)

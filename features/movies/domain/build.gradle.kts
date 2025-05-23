@@ -14,7 +14,7 @@ kotlin {
     }
 }
 dependencies{
-    ksp(libs.ksp)
-    implementation(libs.hilt)
+    implementation(libs.dagger)
+    ksp(libs.daggerCompiler)
     implementation(libs.kotlinx.coroutines.core)
 }

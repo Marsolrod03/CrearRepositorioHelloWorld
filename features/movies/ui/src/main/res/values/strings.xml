@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CrearRepositorio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movie_fragment">Movies</string>
+    <string name="series_fragment">Series</string>
+    <string name="actor_fragment">Actors</string>
+    <string name="home">HOME</string>
+    <string name="titulo">TV DATABASE</string>
+    <string name="movietitle">MovieTitle</string>
+    <string name="movieoverview">MovieOverview</string>
+    <string name="genresmovie">GenresMovie</string>
+    <string name="error">ERROR</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
