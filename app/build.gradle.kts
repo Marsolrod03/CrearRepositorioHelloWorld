@@ -52,6 +52,12 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":features:series:data"))
+    implementation(project(":features:series:domain"))
+    implementation(project(":features:series:ui"))
+    implementation(project(":lib:common_ui"))
+    implementation(project(":lib:common_data"))
     implementation(libs.androidx.material)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.compiler)

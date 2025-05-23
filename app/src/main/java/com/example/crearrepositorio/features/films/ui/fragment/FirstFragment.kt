@@ -9,10 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.crearrepositorio.common_ui.BaseFragment
-import com.example.crearrepositorio.common_ui.ErrorFragment
-import com.example.crearrepositorio.common_ui.back
-import com.example.crearrepositorio.common_ui.replaceFragmentWithoutBackStack
+import com.example.common_ui.BaseFragment
+import com.example.common_ui.ErrorFragment
+import com.example.common_ui.back
+import com.example.common_ui.replaceFragmentWithoutBackStack
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
 import com.example.crearrepositorio.features.films.ui.view_model.MovieViewModel
 import com.example.crearrepositorio.features.films.ui.adapter.MoviesAdapter
