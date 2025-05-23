@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,10 +49,7 @@ fun ActorDetailsScreen(
         )
 
         when (detailsState) {
-            DetailsState.Idle ->{
-                Spacer(modifier = Modifier.height(32.dp))
-                CircularProgressIndicator(color = Color.White)
-            }
+            DetailsState.Idle ->Unit
             is DetailsState.Success -> {
                 val details = detailsState.details
 

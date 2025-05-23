@@ -40,9 +40,6 @@ class ActorsRepositoryImpl @Inject constructor(
                         }
                         emit(Result.success(actorWrapper))
                     }
-                    result.onFailure {
-                        emit(Result.success(ActorWrapper(false, actorsDataBase, totalPagesDataBase)))
-                    }
                 }
 
         }
@@ -150,6 +147,14 @@ class ActorsRepositoryImpl @Inject constructor(
 
     override suspend fun updateTotalPages(totalPages: Int) {
         actorsLocalDataSource.updateTotalPages(totalPages)
+    }
+
+    operator fun set(s: String, value: Int) {
+        currentPage = value
+    }
+
+    operator fun get(s: String): Int {
+        return currentPage
     }
 }
 

@@ -41,6 +41,9 @@ android {
         buildConfig = true
     }
 }
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
 
 dependencies {
     implementation(project(":features:actors:domain"))
@@ -57,7 +60,12 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
+
     testImplementation(libs.junit)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
+    testImplementation(libs.kotlin.jUnit5Test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
