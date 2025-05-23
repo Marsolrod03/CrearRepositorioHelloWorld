@@ -8,9 +8,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
-import com.example.lib.common_ui.BaseFragment
-import com.example.lib.common_ui.ErrorFragment
-import com.example.lib.common_ui.replaceFragment
+import com.example.common_ui.BaseFragment
+import com.example.common_ui.ErrorFragment
+import com.example.common_ui.replaceFragment
 import com.example.ui.databinding.DetailsActorsBinding
 import dagger.hilt.android.AndroidEntryPoint
 

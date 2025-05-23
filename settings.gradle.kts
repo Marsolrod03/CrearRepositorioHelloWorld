@@ -27,3 +27,6 @@ include(
     ":features:actors:data"
 )
 include(":lib")
+include(":lib:common_data")
+include(":lib:common_ui")
+include(":lib:common")

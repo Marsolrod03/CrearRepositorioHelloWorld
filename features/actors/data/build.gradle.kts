@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation(project(":features:actors:domain"))
-    implementation(project(":lib"))
+    implementation(project(":lib:common_data"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

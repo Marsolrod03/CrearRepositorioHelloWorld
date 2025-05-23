@@ -31,7 +31,7 @@ class ActorDetailsViewModel @Inject constructor(
                 .collect { result: Result<ActorModel> ->
                     result.onSuccess {actorModel: ActorModel ->
                         _actorDetails.value = DetailsState.Success(actorModel)
-                        getActorBiographyUseCase.invoke(actorId.toInt(), actorModel.biography)
+                        getActorBiographyUseCase(actorId.toInt(), actorModel.biography)
                     }
                     result.onFailure {
                         _actorDetails.value = DetailsState.Error("Error loading actor details")

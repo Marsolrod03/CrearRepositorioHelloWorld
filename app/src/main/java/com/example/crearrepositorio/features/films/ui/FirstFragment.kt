@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crearrepositorio.databinding.FragmentFirstBinding
-import com.example.lib.common_ui.back
-import com.example.lib.common_ui.BaseFragment
+import com.example.common_ui.back
+import com.example.common_ui.BaseFragment
 import kotlinx.coroutines.launch
 
 class FirstFragment : BaseFragment<FragmentFirstBinding>() {

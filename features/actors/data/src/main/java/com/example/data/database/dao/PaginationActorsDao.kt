@@ -30,4 +30,10 @@ interface PaginationActorsDao {
 
     @Query("UPDATE pagination_actors SET last_database_deletion = :lastDeletion WHERE id = 1")
     suspend fun updateLastDeletion(lastDeletion: Long)
+
+    @Query("SELECT total_pages FROM pagination_actors WHERE id = 1")
+    suspend fun getTotalPages(): Int
+
+    @Query("UPDATE pagination_actors SET total_pages = :totalPages WHERE id = 1")
+    suspend fun updateTotalPages(totalPages: Int)
 }

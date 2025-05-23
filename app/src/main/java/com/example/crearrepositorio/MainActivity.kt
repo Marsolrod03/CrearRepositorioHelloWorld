@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.crearrepositorio.databinding.ActivityMainBinding
 import com.example.crearrepositorio.features.home.ui.FragmentHome
-import com.example.lib.common_ui.FragmentContainerProvider
+import com.example.common_ui.FragmentContainerProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -33,19 +35,20 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
         compose = true
     }
 }
 
 dependencies {
     implementation(project(":features:actors:domain"))
-    implementation(project(":lib"))
+    implementation(project(":lib:common_ui"))
     implementation(libs.recycler.view)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    ksp(libs.ksp)
     implementation(libs.hilt)
+    ksp(libs.hiltCompiler)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)

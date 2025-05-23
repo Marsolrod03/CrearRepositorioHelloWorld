@@ -19,19 +19,29 @@ class ActorsRepositoryImpl @Inject constructor(
 
     override fun getPagedActors(): Flow<Result<ActorWrapper>> = flow {
         val lastPage = getPaginationActors()
+        val actorsDataBase = getActorsFromDatabase()
+        val totalPagesDataBase = getTotalPages()
         if (lastPage > currentPage) {
             currentPage = lastPage
-            emit(Result.success(ActorWrapper(true, getActorsFromDatabase())))
+            val hasMorePages = currentPage < totalPagesDataBase
+            emit(Result.success(ActorWrapper(hasMorePages, actorsDataBase, totalPagesDataBase)))
         } else {
             getPagedActorsFromApi(currentPage + 1)
                 .collect { result ->
                     result.onSuccess { actorWrapper ->
                         insertActors(actorWrapper.actorsList)
+                        updateTotalPages(actorWrapper.totalPages)
                         currentPage ++
+                        if(lastPage == 0){
+                            insertPagination()
+                        }
                         if (currentPage > lastPage) {
                             updateLastPage(currentPage)
                         }
                         emit(Result.success(actorWrapper))
+                    }
+                    result.onFailure {
+                        emit(Result.success(ActorWrapper(false, actorsDataBase, totalPagesDataBase)))
                     }
                 }
 
@@ -43,7 +53,7 @@ class ActorsRepositoryImpl @Inject constructor(
         if (localActor.biography != "Info") {
             emit(Result.success(localActor))
         } else {
-            getActorDetails(actorId)
+            getActorDetailsApi(actorId)
                 .collect { result ->
                     result.onSuccess { actorModel ->
                         emit(Result.success(actorModel))
@@ -57,15 +67,17 @@ class ActorsRepositoryImpl @Inject constructor(
 
     override fun getPagedActorsFromApi(currentPage: Int): Flow<Result<ActorWrapper>> = flow {
         try {
+            var totalPages = Int.MAX_VALUE
             val pagedResult = actorsNetworkDataSource.fetchActors(currentPage)
             pagedResult?.let {
                 val actorList = it.results.map { actor -> actor.toActorModel() }
                 listChange.addAll(actorList)
-                val hasMorePages = it.page < it.total_pages
-                val actorWrapper = ActorWrapper(hasMorePages, actorList)
+                totalPages = it.total_pages
+                val hasMorePages = it.page < totalPages
+                val actorWrapper = ActorWrapper(hasMorePages, actorList, totalPages)
                 emit(Result.success(actorWrapper))
             }?: run {
-                val actorWrapper = ActorWrapper(false, emptyList())
+                val actorWrapper = ActorWrapper(false, emptyList(), totalPages)
                 emit(Result.success(actorWrapper))
             }
         } catch (e: Exception) {
@@ -130,6 +142,14 @@ class ActorsRepositoryImpl @Inject constructor(
 
     override suspend fun updateLastDeletion(lastDeletion: Long) {
         actorsLocalDataSource.updateLastDeletion(lastDeletion)
+    }
+
+    override suspend fun getTotalPages(): Int {
+        return actorsLocalDataSource.getTotalPages()
+    }
+
+    override suspend fun updateTotalPages(totalPages: Int) {
+        actorsLocalDataSource.updateTotalPages(totalPages)
     }
 }
 

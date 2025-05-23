@@ -2,9 +2,8 @@ package com.example.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.models.ActorModel
-import com.example.domain.use_cases.DeleteDatabaseUseCase
 import com.example.domain.ActorWrapper
+import com.example.domain.models.ActorModel
 import com.example.domain.use_cases.GetActorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +20,7 @@ class ActorViewModel @Inject constructor(
 ) : ViewModel() {
     private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
+    private var hasMorePages = true
 
     init {
         loadActors()
@@ -31,32 +31,33 @@ class ActorViewModel @Inject constructor(
     }
 
     fun loadActors() {
-        if (_actorList.value is ActorState.PartialLoading ||
-            _actorList.value is ActorState.FirstLoading
+        if (hasMorePages &&
+            _actorList.value !is ActorState.PartialLoading &&
+            _actorList.value !is ActorState.FirstLoading
         ) {
-            return
-        }
-        viewModelScope.launch {
-            getActorsUseCase()
-                .onStart {
-                    _actorList.update {
-                        if ((_actorList.value as? ActorState.Success)?.actors?.isNotEmpty() == true) {
-                            ActorState.PartialLoading
-                        } else {
-                            ActorState.FirstLoading
-                        }
-                    }
-                }
-                .collect { result: Result<ActorWrapper> ->
-                    result.onSuccess { actorWrapper: ActorWrapper ->
+            viewModelScope.launch {
+                getActorsUseCase()
+                    .onStart {
                         _actorList.update {
-                            ActorState.Success(actorWrapper.actorsList)
+                            if ((_actorList.value as? ActorState.Success)?.actors?.isNotEmpty() == true) {
+                                ActorState.PartialLoading
+                            } else {
+                                ActorState.FirstLoading
+                            }
                         }
                     }
-                    result.onFailure {
-                        _actorList.update { ActorState.Error("Error loading more actors") }
+                    .collect { result: Result<ActorWrapper> ->
+                        result.onSuccess { actorWrapper: ActorWrapper ->
+                            hasMorePages = actorWrapper.hasMorePages
+                            _actorList.update {
+                                ActorState.Success(actorWrapper.actorsList)
+                            }
+                        }
+                        result.onFailure {
+                            _actorList.update { ActorState.Error("Error loading more actors") }
+                        }
                     }
-                }
+            }
         }
     }
 }

@@ -24,4 +24,6 @@ class ActorsLocalDataSource @Inject constructor(
     suspend fun insertPagination() = paginationActorsDao.insertPagination()
     suspend fun getLastDeletion(): Long = paginationActorsDao.getLastDeletion()
     suspend fun updateLastDeletion(lastDeletion: Long) = paginationActorsDao.updateLastDeletion(lastDeletion)
+    suspend fun getTotalPages(): Int = paginationActorsDao.getTotalPages()
+    suspend fun updateTotalPages(totalPages: Int) = paginationActorsDao.updateTotalPages(totalPages)
 }

@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lib.common_ui.BaseFragment
-import com.example.lib.common_ui.ErrorFragment
-import com.example.lib.common_ui.replaceFragment
+import com.example.common_ui.BaseFragment
+import com.example.common_ui.ErrorFragment
+import com.example.common_ui.replaceFragment
 import com.example.domain.models.ActorModel
 import com.example.ui.databinding.FragmentThirdBinding
 import com.example.ui.details.DetailsActorFragment

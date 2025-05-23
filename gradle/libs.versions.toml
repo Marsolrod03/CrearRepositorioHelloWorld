@@ -4,7 +4,7 @@ fragmentKtx = "1.8.6"
 kotlinx = "1.10.2"
 kotlin = "2.0.21"
 coreKtx = "1.10.1"
-junit = "4.13.2"
+junit = "5.12.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
@@ -28,6 +28,8 @@ jetbrainsKotlinJvm = "2.0.21"
 preference = "1.2.1"
 recyclerView = "1.3.2"
 dagger = "2.56.1"
+turbine = "1.1.0"
+mockk = "1.13.12"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +66,9 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 recycler-view = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView"}
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger"}
 daggerCompiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger"}
+test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx" }
+test-mockk = { module = "io.mockk:mockk-jvm", version.ref = "mockk" }
+test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
