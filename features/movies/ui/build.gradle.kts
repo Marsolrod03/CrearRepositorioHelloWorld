@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":lib:common_ui"))
     implementation(project(":features:movies:domain"))
     implementation(libs.hilt)
+    debugImplementation(libs.ui.tooling)
     ksp(libs.hiltCompiler)
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)

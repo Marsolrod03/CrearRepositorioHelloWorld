@@ -25,4 +25,10 @@ interface MoviePageDAO {
 
     @Query("UPDATE movie_pages_entities SET last_date_deleted = :lastDelete WHERE page = 1")
     suspend fun updateLastDelete(lastDelete: Long)
+
+    @Query("SELECT total_pages FROM movie_pages_entities WHERE page = 1")
+    suspend fun getTotalPages(): Int
+
+    @Query("UPDATE movie_pages_entities SET total_pages = :totalPages WHERE page = 1")
+    suspend fun updateTotalPages(totalPages: Int)
 }

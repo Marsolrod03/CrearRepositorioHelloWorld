@@ -21,38 +21,36 @@ class MovieViewModel @Inject constructor(
 
     private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
     val movies: StateFlow<MoviesState> = _movies.asStateFlow()
-
-    //meter un if con el hasmorepages para que no llame a la api todo el rato
+    private var hasMorePages = true
 
     fun loadMovies() {
-
-        if (_movies.value is MoviesState.Loader.LoadingMoreMovies ||
-            _movies.value is MoviesState.Loader.LoadingFirstTime
+        if (hasMorePages &&
+            _movies.value !is MoviesState.Loader.LoadingMoreMovies &&
+            _movies.value !is MoviesState.Loader.LoadingFirstTime
         ) {
-            return
-        }
-
-        viewModelScope.launch {
-            getMoviesUseCase()
-                .onStart {
-                    _movies.update {
-                        if ((_movies.value as? MoviesState.Succeed)?.movies?.isNotEmpty() == true) {
-                            MoviesState.Loader.LoadingMoreMovies
-                        } else {
-                            MoviesState.Loader.LoadingFirstTime
-                        }
-                    }
-                }
-                .collect { result: Result<MovieWrapper> ->
-                    result.onSuccess { movieWrapper ->
+            viewModelScope.launch {
+                getMoviesUseCase()
+                    .onStart {
                         _movies.update {
-                            MoviesState.Succeed(movieWrapper.movieList)
+                            if ((_movies.value as? MoviesState.Succeed)?.movies?.isNotEmpty() == true) {
+                                MoviesState.Loader.LoadingMoreMovies
+                            } else {
+                                MoviesState.Loader.LoadingFirstTime
+                            }
                         }
                     }
-                    result.onFailure {
-                        _movies.update { MoviesState.Error("Error loading more movies") }
+                    .collect { result: Result<MovieWrapper> ->
+                        result.onSuccess { movieWrapper ->
+                            hasMorePages = movieWrapper.hasMorePages
+                            _movies.update {
+                                MoviesState.Succeed(movieWrapper.movieList)
+                            }
+                        }
+                        result.onFailure {
+                            _movies.update { MoviesState.Error("Error loading more movies") }
+                        }
                     }
-                }
+            }
         }
     }
 

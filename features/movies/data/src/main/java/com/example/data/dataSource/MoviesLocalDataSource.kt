@@ -22,4 +22,6 @@ class MoviesLocalDataSource @Inject constructor(
 
     suspend fun getLastDeleteDB() = moviePageDAO.getLastDelete()
     suspend fun updateLastDeleteDB(lastDelete: Long) = moviePageDAO.updateLastDelete(lastDelete)
+    suspend fun getTotalPages(): Int = moviePageDAO.getTotalPages()
+    suspend fun updateTotalPages(totalPages: Int) = moviePageDAO.updateTotalPages(totalPages)
 }

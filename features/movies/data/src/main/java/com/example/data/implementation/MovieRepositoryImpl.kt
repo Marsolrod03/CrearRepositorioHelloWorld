@@ -22,23 +22,29 @@ class MovieRepositoryImpl @Inject constructor(
         try {
             var lastMovieInDatabase = getLastMoviePage()
             val databaseMovies = getAllMoviesFromDatabase()
+            val totalPages = getTotalPages()
 
             if (lastMovieInDatabase > currentPage) {
                 currentPage = lastMovieInDatabase
-                emit(Result.success(MovieWrapper(true, databaseMovies)))
+                val hasMorePages = currentPage < totalPages
+                emit(Result.success(MovieWrapper(hasMorePages, databaseMovies, totalPages)))
             } else {
                 getAllMoviesFromApi(currentPage)
                     .collect { result ->
                         result.onSuccess { movieWrapper ->
                             insertAllMovies(movieWrapper.movieList)
+                            updateTotalPages(movieWrapper.totalPages)
                             currentPage++
+                            if (lastMovieInDatabase == 0) {
+                                insertAllMovies(movieWrapper.movieList)
+                            }
                             if (currentPage > lastMovieInDatabase) {
                                 updateLastLoadedPage(currentPage)
                             }
                             emit(Result.success(movieWrapper))
                         }
                         result.onFailure {
-                            emit(Result.success(MovieWrapper(false, databaseMovies)))
+                            emit(Result.success(MovieWrapper(false, databaseMovies, totalPages)))
                         }
                     }
             }
@@ -73,16 +79,18 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun getAllMoviesFromApi(page: Int): Flow<Result<MovieWrapper>> = flow {
         try {
+            var totalPages = Int.MAX_VALUE
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
             pagedResult?.let {
                 val movieList = it.results.map { movie -> movie.toMovieModel() }
                 accumulatedMovies.addAll(movieList)
-                val hasMorePages = it.page < it.total_pages
-                val movieWrapper = MovieWrapper(hasMorePages, accumulatedMovies)
+                totalPages = it.total_pages
+                val hasMorePages = it.page < totalPages
+                val movieWrapper = MovieWrapper(hasMorePages, accumulatedMovies, totalPages)
                 currentPage++
                 emit(Result.success(movieWrapper))
             } ?: run {
-                emit(Result.success(MovieWrapper(false, emptyList())))
+                emit(Result.success(MovieWrapper(false, emptyList(), totalPages)))
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -134,4 +142,9 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun updateLastDelete(lastDelete: Long) =
         localDataSource.updateLastDeleteDB(lastDelete)
 
+    override suspend fun getTotalPages(): Int =
+        localDataSource.getTotalPages()
+
+    override suspend fun updateTotalPages(totalPages: Int) =
+        localDataSource.updateTotalPages(totalPages)
 }

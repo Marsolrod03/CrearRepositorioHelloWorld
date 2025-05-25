@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.common_ui.BaseFragment
 import com.example.common_ui.ErrorFragment
 import com.example.common_ui.replaceFragment
-import com.example.ui.MovieDetailScreen
+import com.example.ui.screens.MovieDetailScreen
 import com.example.ui.databinding.FragmentMovieDetailBinding
 import com.example.ui.view_model.MovieDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +31,9 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         try {
-            movieDetailViewModel.loadDetailMovies(arguments?.getString("movieId")?.toInt() ?: return)
+            movieDetailViewModel.loadDetailMovies(
+                arguments?.getString("movieId")?.toInt() ?: return
+            )
             composeView.setContent {
                 MovieDetailScreen(
                     state = movieDetailViewModel.detailMovies.collectAsState().value,

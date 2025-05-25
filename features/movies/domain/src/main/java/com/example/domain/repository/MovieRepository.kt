@@ -19,4 +19,6 @@ interface MovieRepository {
      suspend fun updateLastLoadedPage(lastLoadedPage: Int)
      suspend fun getLastDelete(): Long
      suspend fun updateLastDelete(lastDelete: Long)
+     suspend fun getTotalPages(): Int
+     suspend fun updateTotalPages(totalPages: Int)
 }
