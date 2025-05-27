@@ -28,59 +28,59 @@ fun MovieDetailScreen(
     state: DetailMoviesState,
     onError: () -> Unit
 ) {
-    when (state) {
-        DetailMoviesState.Idle -> Unit
-        is DetailMoviesState.Succeed -> {
-            val movie: MovieModel = state.movies
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .background(Color.Black)
-                    .padding(16.dp)
-            ) {
-                Image(
-                    painter = rememberAsyncImagePainter(movie.backdrop_path),
-                    contentDescription = "Background image from ${movie.title}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp),
-                )
-                Space()
-                Text(
-                    text = movie.title,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Red
-                )
-                Space()
-                Text(
-                    text = movie.overview,
-                    color = Color.White
-                )
-                Space()
-                Text(
-                    text = "Popularity: ${movie.popularity}",
-                    color = Color.White
-                )
-                Space()
-                Text(
-                    text = "Release Date: ${movie.release_date}",
-                    color = Color.White
-                )
-                Space()
-                Text(
-                    text = "Vote Average: ${movie.vote_average}",
-                    color = Color.White
-                )
-            }
+    if (state.errorMessage != null) {
+        onError()
+    } else {
+        state.succeedMovie?.let {
+            CreateDetailCard(it)
         }
+    }
+}
 
-        is DetailMoviesState.Error -> {
-            LaunchedEffect(Unit) {
-                onError()
-            }
-        }
+@Composable
+fun CreateDetailCard(movie: MovieModel) {
+    val movie: MovieModel = movie
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(Color.Black)
+            .padding(16.dp)
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(movie.backdrop_path),
+            contentDescription = "Background image from ${movie.title}",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp),
+        )
+        Space()
+        Text(
+            text = movie.title,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Red
+        )
+        Space()
+        Text(
+            text = movie.overview,
+            color = Color.White
+        )
+        Space()
+        Text(
+            text = "Popularity: ${movie.popularity}",
+            color = Color.White
+        )
+        Space()
+        Text(
+            text = "Release Date: ${movie.release_date}",
+            color = Color.White
+        )
+        Space()
+        Text(
+            text = "Vote Average: ${movie.vote_average}",
+            color = Color.White
+        )
     }
 }
 
@@ -93,17 +93,18 @@ fun Space() {
 @Composable
 fun MovieDetailScreenPreview() {
     MovieDetailScreen(
-        state = DetailMoviesState.Succeed(
-            MovieModel(
-                id = "1",
-                title = "ejemplo",
-                backdrop_path = "",
-                overview = "ejemplo",
-                popularity = 10.0,
-                release_date = "2001-04-26",
-                vote_average = 10.0,
-                poster_path = ""
-            )
+        state = DetailMoviesState(
+            succeedMovie =
+                MovieModel(
+                    id = "1",
+                    title = "ejemplo",
+                    backdrop_path = "",
+                    overview = "ejemplo",
+                    popularity = 10.0,
+                    release_date = "2001-04-26",
+                    vote_average = 10.0,
+                    poster_path = ""
+                )
         ),
         onError = {}
     )

@@ -9,9 +9,10 @@ interface MovieRepository {
      fun getDetailMoviesFromApi(movieId : Int): Flow<Result<MovieModel>>
      fun manageMoviesPagination(): Flow<Result<MovieWrapper>>
      fun manageMovieDetails(movieId : Int): Flow<Result<MovieModel>>
-     suspend fun clearDatabase(timeRN : Long)
+     suspend fun clearAndUpdateDatabase(timeRN : Long)
      suspend fun getAllMoviesFromDatabase(): List<MovieModel>
      suspend fun insertAllMovies(movies: List<MovieModel>)
+     suspend fun insertPagination()
      suspend fun clearMovieDatabase()
      suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel
      suspend fun getLastMoviePage(): Int

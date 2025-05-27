@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -24,6 +25,7 @@ android {
         }
     }
     buildFeatures{
+        compose = true
         viewBinding = true
     }
     compileOptions {
@@ -36,8 +38,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.lottie)
-    implementation(libs.lottieCompose)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.compose)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeTooling)
+    implementation(libs.coilCompose)
+    implementation(platform(libs.composeBom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

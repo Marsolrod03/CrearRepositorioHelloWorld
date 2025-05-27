@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
-import com.example.common_ui.BaseFragment
-import com.example.common_ui.ErrorFragment
+import com.example.common_ui.fragments.BaseFragment
+import com.example.common_ui.fragments.ErrorFragment
 import com.example.common_ui.replaceFragment
 import com.example.ui.screens.MovieDetailScreen
 import com.example.ui.databinding.FragmentMovieDetailBinding

@@ -18,6 +18,5 @@ class MovieDBApplication: Application() {
         CoroutineScope(Dispatchers.IO).launch{
             deleteDatabaseUseCase()
         }
-        //diferencia entre Dispaters.io/ y los demas (y cual está prohibido)
     }
 }

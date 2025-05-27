@@ -20,6 +20,9 @@ interface MoviePageDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMoviePage(moviePageEntity: MoviePageEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPagination() = insertMoviePage(MoviePageEntity())
+
     @Query("SELECT last_date_deleted FROM movie_pages_entities WHERE page = 1")
     suspend fun getLastDelete(): Long
 

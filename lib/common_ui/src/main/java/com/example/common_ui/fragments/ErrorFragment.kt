@@ -1,4 +1,4 @@
-package com.example.common_ui
+package com.example.common_ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,28 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
 import com.example.common_ui.databinding.FragmentErrorBinding
-
+import com.example.common_ui.screens.ErrorScreen
 
 class ErrorFragment : BaseFragment<FragmentErrorBinding>() {
-    private val binding get() = _binding!!
+    private lateinit var composeView: ComposeView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentErrorBinding.inflate(inflater, container, false)
-        binding.errorImage.setOnClickListener {
-            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+        return ComposeView(requireContext()).also {
+            composeView = it
         }
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ErrorFragment", "onViewCreated")
+        composeView.setContent {
+            ErrorScreen()
+        }
     }
 }
-
-

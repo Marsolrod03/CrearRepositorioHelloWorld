@@ -11,6 +11,7 @@ class MoviesLocalDataSource @Inject constructor(
 ) {
     suspend fun getAllMovies(): List<MovieEntity> = movieDAO.getAllMovies()
     suspend fun insertAllMovies(movies: List<MovieEntity>) = movieDAO.insertAllMovies(movies)
+    suspend fun insertPagination() = moviePageDAO.insertPagination()
     suspend fun clearDatabase() = movieDAO.deleteAllMovies()
     suspend fun getMovieDetails(movieId: Int) = movieDAO.getMovieDetails(movieId)
 

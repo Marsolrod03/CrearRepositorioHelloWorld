@@ -27,7 +27,7 @@ fun LoadingFullScreenLottie() {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 fun LoadingFullScreenLottiePreview(){
     LoadingFullScreenLottie()
 }

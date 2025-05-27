@@ -20,12 +20,12 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun manageMoviesPagination(): Flow<Result<MovieWrapper>> = flow {
         try {
-            var lastMovieInDatabase = getLastMoviePage()
+            var lastMoviePageInDatabase = getLastMoviePage()
             val databaseMovies = getAllMoviesFromDatabase()
             val totalPages = getTotalPages()
 
-            if (lastMovieInDatabase > currentPage) {
-                currentPage = lastMovieInDatabase
+            if (lastMoviePageInDatabase > currentPage) {
+                currentPage = lastMoviePageInDatabase
                 val hasMorePages = currentPage < totalPages
                 emit(Result.success(MovieWrapper(hasMorePages, databaseMovies, totalPages)))
             } else {
@@ -35,10 +35,10 @@ class MovieRepositoryImpl @Inject constructor(
                             insertAllMovies(movieWrapper.movieList)
                             updateTotalPages(movieWrapper.totalPages)
                             currentPage++
-                            if (lastMovieInDatabase == 0) {
-                                insertAllMovies(movieWrapper.movieList)
+                            if (lastMoviePageInDatabase == 0){
+                                insertPagination()
                             }
-                            if (currentPage > lastMovieInDatabase) {
+                            if (currentPage > lastMoviePageInDatabase) {
                                 updateLastLoadedPage(currentPage)
                             }
                             emit(Result.success(movieWrapper))
@@ -71,7 +71,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun clearDatabase(timeRN: Long) {
+    override suspend fun clearAndUpdateDatabase(timeRN: Long) {
         clearMovieDatabase()
         deleteAllMoviePages()
         updateLastDelete(timeRN)
@@ -104,6 +104,10 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun insertAllMovies(movies: List<MovieModel>) =
         localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
+
+    override suspend fun insertPagination() {
+        localDataSource.insertPagination()
+    }
 
 
     override suspend fun clearMovieDatabase() =

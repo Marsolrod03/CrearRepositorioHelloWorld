@@ -1,4 +1,4 @@
-package com.example.common_ui
+package com.example.common_ui.fragments
 
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding

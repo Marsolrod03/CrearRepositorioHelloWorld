@@ -19,23 +19,31 @@ class MovieViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
 ) : ViewModel() {
 
-    private val _movies = MutableStateFlow<MoviesState>(MoviesState.Idle)
+    private val _movies = MutableStateFlow<MoviesState>(MoviesState())
     val movies: StateFlow<MoviesState> = _movies.asStateFlow()
     private var hasMorePages = true
 
+    init {
+        loadMovies()
+    }
+
     fun loadMovies() {
-        if (hasMorePages &&
-            _movies.value !is MoviesState.Loader.LoadingMoreMovies &&
-            _movies.value !is MoviesState.Loader.LoadingFirstTime
+        if (hasMorePages
+            && _movies.value.loader == null
         ) {
             viewModelScope.launch {
                 getMoviesUseCase()
                     .onStart {
                         _movies.update {
-                            if ((_movies.value as? MoviesState.Succeed)?.movies?.isNotEmpty() == true) {
-                                MoviesState.Loader.LoadingMoreMovies
+                            if (_movies.value.succeedList.isNotEmpty()) {
+                                movies.value.copy(
+                                    loader = Loader.LoadingPartial,
+                                    errorMessage = null
+                                )
                             } else {
-                                MoviesState.Loader.LoadingFirstTime
+                                MoviesState(
+                                    loader = Loader.LoadingFull,
+                                )
                             }
                         }
                     }
@@ -43,34 +51,25 @@ class MovieViewModel @Inject constructor(
                         result.onSuccess { movieWrapper ->
                             hasMorePages = movieWrapper.hasMorePages
                             _movies.update {
-                                MoviesState.Succeed(movieWrapper.movieList)
+                                MoviesState(succeedList = movieWrapper.movieList)
                             }
                         }
                         result.onFailure {
-                            _movies.update { MoviesState.Error("Error loading more movies") }
+                            _movies.update { MoviesState(errorMessage = "Error loading more movies") }
                         }
                     }
             }
         }
     }
 
-    fun setIdle() {
-        _movies.value = MoviesState.Idle
-    }
-
-    fun onFragmentOnResume() {
-        if (_movies.value is MoviesState.Idle) {
-            loadMovies()
-        }
-    }
 }
 
-sealed class MoviesState {
-    data object Idle : MoviesState()
-    data class Succeed(val movies: List<MovieModel>) : MoviesState()
-    data class Error(val message: String) : MoviesState()
-    sealed class Loader {
-        data object LoadingFirstTime : MoviesState()
-        data object LoadingMoreMovies : MoviesState()
-    }
+data class MoviesState(
+    val succeedList: List<MovieModel> = emptyList(),
+    val errorMessage: String? = null,
+    val loader: Loader? = null
+)
+sealed class Loader(){
+    data object LoadingFull: Loader()
+    data object LoadingPartial: Loader()
 }

@@ -15,29 +15,29 @@ import javax.inject.Inject
 class MovieDetailViewModel @Inject constructor(
     private val getDetailMoviesUseCase: GetDetailMoviesUseCase
 ): ViewModel(){
-    private val _detailMovies = MutableStateFlow<DetailMoviesState>(DetailMoviesState.Idle)
+    private val _detailMovies = MutableStateFlow<DetailMoviesState>(DetailMoviesState())
     val detailMovies: StateFlow<DetailMoviesState> = _detailMovies.asStateFlow()
 
     fun loadDetailMovies(movieId: Int){
         viewModelScope.launch {
             getDetailMoviesUseCase(movieId).collect{ response: Result<MovieModel> ->
                 response.onSuccess {movieModel ->
-                    _detailMovies.value = DetailMoviesState.Succeed(movieModel)
+                    _detailMovies.value = DetailMoviesState(succeedMovie = movieModel)
                 }
                 response.onFailure {
-                    _detailMovies.value = DetailMoviesState.Error("Error loading actor details")
+                    _detailMovies.value = DetailMoviesState(errorMessage = "Error loading actor details")
                 }
             }
         }
     }
 
     fun setIdle(){
-        _detailMovies.value = DetailMoviesState.Idle
+        _detailMovies.value = DetailMoviesState(isIdle = true)
     }
 }
 
-sealed class DetailMoviesState {
-    data object Idle : DetailMoviesState()
-    data class Succeed(val movies: MovieModel) : DetailMoviesState()
-    data class Error(val message: String) : DetailMoviesState()
-}
+data class DetailMoviesState(
+    val isIdle: Boolean = true,
+    val succeedMovie : MovieModel? = null,
+    val errorMessage: String? = null
+    )

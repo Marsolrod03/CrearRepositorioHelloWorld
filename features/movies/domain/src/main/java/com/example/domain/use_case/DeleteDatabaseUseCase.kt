@@ -22,7 +22,7 @@ class DeleteDatabaseUseCase @Inject constructor(
         }.timeInMillis
 
         if (databaseLastDelete < lastMonday8am) {
-            movieRepositoryImpl.clearDatabase(timeRN)
+            movieRepositoryImpl.clearAndUpdateDatabase(timeRN)
         }
     }
 }

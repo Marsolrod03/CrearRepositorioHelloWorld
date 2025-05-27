@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.common_ui.BaseFragment
-import com.example.common_ui.ErrorFragment
+import com.example.common_ui.fragments.BaseFragment
+import com.example.common_ui.fragments.ErrorFragment
 import com.example.common_ui.back
 import com.example.common_ui.replaceFragment
 import com.example.crearrepositorio.databinding.FragmentSecondBinding
