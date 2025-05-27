@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailsSeriesFragment : BaseFragment<FragmentDetailsSeriesBinding>() {
-    private val viewModel: SeriesDetailsViewModel by viewModels()
+    protected val viewModel: SeriesDetailsViewModel by viewModels()
     private var seriesId: String? = null
     private var seriesName: String? = null
     private var seriesOverview: String? = null

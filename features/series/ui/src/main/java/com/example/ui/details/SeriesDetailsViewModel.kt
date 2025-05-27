@@ -17,20 +17,21 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase
 ) : ViewModel() {
 
-    private val _serieDetails = MutableStateFlow<DetailsState>(DetailsState.Idle)
-    val serieDetails: StateFlow<DetailsState> = _serieDetails.asStateFlow()
+    private val _serieDetails = MutableStateFlow(SerieDetails())
+    val serieDetails: StateFlow<SerieDetails> = _serieDetails.asStateFlow()
 
 
     fun loadDetails(seriesId: String) {
         viewModelScope.launch {
+            _serieDetails.value = SerieDetails(isLoading = true)
             getSeriesDetailsUseCase(seriesId)
                 .collect { result ->
                     result.onSuccess { serie ->
-                        _serieDetails.value = DetailsState.Created(serie)
+                        _serieDetails.value = SerieDetails(details = serie)
                     }
                     result.onFailure { exception ->
                         _serieDetails.value =
-                            DetailsState.Error(exception.message ?: "Unknown error")
+                            _serieDetails.value.copy(error = exception.message)
                     }
 
                 }
@@ -38,10 +39,9 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 }
 
+data class SerieDetails(
+    val isLoading: Boolean = false,
+    val details: SerieModel? = null,
+    val error: String? = null
 
-sealed class DetailsState {
-    data object Idle : DetailsState()
-    data class Created(val details: SerieModel) : DetailsState()
-    data class Error(val message: String) : DetailsState()
-
-}
+)

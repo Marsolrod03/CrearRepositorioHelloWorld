@@ -9,4 +9,3 @@ sealed class AppError(message: String? = null) : Throwable(message) {
     data object NoInternet : AppError("No internet connection")
     data class UnknownError(val messageError: String? = null) : AppError()
 }
-

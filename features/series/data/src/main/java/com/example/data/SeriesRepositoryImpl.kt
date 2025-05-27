@@ -82,7 +82,7 @@ class SeriesRepositoryImpl @Inject constructor(
         if (lastPage > currentPage) {
             currentPage = lastPage
             val hashMorePages = currentPage < getTotalPages()
-            emit(Result.success(SeriesWrapper(true, seriesFromDatabase,totalPages)))
+            emit(Result.success(SeriesWrapper(hashMorePages, seriesFromDatabase,totalPages)))
         } else {
             val pageToLoad = currentPage + 1
             getPagedSeriesFromApi(pageToLoad)
@@ -95,8 +95,9 @@ class SeriesRepositoryImpl @Inject constructor(
                         }
                         emit(Result.success(seriesWrapper))
                     }
-                    result.onFailure {
+                    result.onFailure { throwable ->
                         emit(Result.success(SeriesWrapper(false, seriesFromDatabase, totalPages)))
+                        emit(Result.failure(throwable))
                     }
                 }
         }

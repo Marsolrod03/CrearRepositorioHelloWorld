@@ -33,12 +33,11 @@ fun SeriesDetailInfo(
     overview: String,
     voteCount: String,
     voteAverage: String,
-    detailsState: DetailsState,
+    detailsState: SerieDetails,
     onError: () -> Unit
 ) {
-    when (detailsState) {
-        is DetailsState.Idle -> {
-
+    when {
+        detailsState.isLoading -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -49,7 +48,7 @@ fun SeriesDetailInfo(
             }
         }
 
-        is DetailsState.Created -> {
+        detailsState.details != null -> {
             val details = detailsState.details
 
             Column(
@@ -91,7 +90,7 @@ fun SeriesDetailInfo(
                     color = Color.White,
                     fontSize = 16.sp,
                     modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp)
 
                 )
 
@@ -117,7 +116,7 @@ fun SeriesDetailInfo(
             }
         }
 
-        is DetailsState.Error -> {
+        detailsState.error != null -> {
             onError()
         }
     }
@@ -132,7 +131,7 @@ private fun SeriesDetailInfoPreview() {
         "Un ciego muy fuerte",
         "",
         "",
-        DetailsState.Created(SerieModel(12,"Daredevil","","",1.0,2,"01/02")),
+        detailsState = SerieDetails(details = SerieModel(12, "Daredevil", "", "", 1.0, 2, "01/02")),
         onError = {})
 
 }

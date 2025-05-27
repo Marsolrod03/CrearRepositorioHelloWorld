@@ -1,5 +1,6 @@
 package com.example.ui.model
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.AppError
@@ -13,13 +14,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.UnknownHostException
 
 @HiltViewModel
 class SeriesViewModel @Inject constructor(
     private val getSeriesUseCase: GetSeriesUseCase,
 ) : ViewModel() {
 
-    private val _seriesList = MutableStateFlow<SeriesState>(SeriesState.Idle)
+    private val _seriesList = MutableStateFlow(SeriesState())
     val seriesList: StateFlow<SeriesState> = _seriesList.asStateFlow()
     private var hashMorePages = true
 
@@ -30,46 +33,74 @@ class SeriesViewModel @Inject constructor(
 
 
     fun loadSeries() {
-        if (!hashMorePages ||
-            _seriesList.value is SeriesState.PartialLoading ||
-            _seriesList.value is SeriesState.FirstLoading
-        ) {
-            return
-        }
+        val currentState = _seriesList.value
+        if (!hashMorePages || currentState.isPartialLoading || currentState.isFirsLoading) return
+
         viewModelScope.launch {
             getSeriesUseCase()
                 .onStart {
                     _seriesList.update {
-                        if ((it as? SeriesState.Created)?.series?.isNotEmpty() == true) {
-                            SeriesState.PartialLoading(it.series)
-                        } else {
-                            SeriesState.FirstLoading
-                        }
+                        it.copy(
+                            isFirsLoading = it.series.isEmpty(),
+                            isPartialLoading = it.series.isNotEmpty(),
+                            error = null,
+                            errorMessage = null
+                        )
                     }
                 }
                 .collect { result ->
                     result.onSuccess { seriesWrapper ->
                         hashMorePages = seriesWrapper.hashMorePages
-                        _seriesList.update {
-                            SeriesState.Created(seriesWrapper.listSeries)
+                        _seriesList.update { current ->
+                            current.copy(
+                                series = seriesWrapper.listSeries,
+                                isFirsLoading = false,
+                                isPartialLoading = false,
+                                error = null,
+                                errorMessage = null
+                            )
                         }
                     }
-                    result.onFailure { error ->
-                        _seriesList.value = SeriesState.Error(
-                            appError = AppError.UnknownError(),
-                            message = error.message
-                        )
+                    result.onFailure { throwable ->
+                        val error = mapThrowableError(throwable)
+                        _seriesList.update {
+                            it.copy(
+                                error = error,
+                                errorMessage = error.message,
+                                isFirsLoading = false,
+                                isPartialLoading = false
+
+                            )
+                        }
                     }
                 }
         }
     }
+
+    fun clearError() {
+        _seriesList.update {
+            it.copy(error = null, errorMessage = null)
+        }
+    }
 }
 
-    sealed class SeriesState {
-        data object Idle : SeriesState()
-        data class Created(val series: List<SerieModel>) : SeriesState()
-        data class Error(val appError: AppError, val message: String? = null) : SeriesState()
-        data class PartialLoading(val series: List<SerieModel>) : SeriesState()
-        data object FirstLoading : SeriesState()
+data class SeriesState(
+    val series : List<SerieModel> = emptyList(),
+    val isFirsLoading : Boolean = false,
+    val isPartialLoading : Boolean = false,
+    val error : AppError? = null,
+    val errorMessage : String? = null
+
+)
+
+private fun mapThrowableError(throwable: Throwable): AppError {
+    return when (throwable) {
+        is AppError -> throwable
+        is IOException -> AppError.NoInternet
+        is UnknownHostException -> AppError.NoInternet
+        else -> AppError.UnknownError(throwable.message)
     }
+}
+
+
 

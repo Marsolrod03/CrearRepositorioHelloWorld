@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ui"
+    namespace = "com.example.home_ui"
     compileSdk = 35
 
     defaultConfig {
@@ -41,8 +41,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:series:domain"))
     implementation(project(":lib:common_ui"))
+    implementation(project(":features:series:domain"))
+    implementation(project(":features:series:ui"))
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -50,7 +51,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.compose)
-
+    implementation(libs.hilt.android.v250)
+    kapt(libs.hilt.compiler.v250)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.composeMaterial)
     implementation(libs.composeTooling)
@@ -60,14 +63,11 @@ dependencies {
     implementation(libs.lottie)
     implementation(platform(libs.composeBom))
 
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.hilt.android.v250)
-    kapt(libs.hilt.compiler.v250)
-    implementation(libs.androidx.hilt.navigation.compose)
 }

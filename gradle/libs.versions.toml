@@ -1,8 +1,11 @@
 [versions]
 agp = "8.9.2"
 compiler = "1.5.15"
-fragmentKtx = "1.8.6"
+fragmentKtx = "1.8.7"
 hiltAndroid = "2.56.2"
+hiltAndroidVersion = "2.56.2"
+hiltCompilerVersion = "2.56.1"
+hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -23,11 +26,11 @@ loggingInterceptor = "4.9.3"
 roomCompiler = "2.7.1"
 secretsGradlePlugin = "2.0.1"
 ksp = "2.0.21-1.0.28"
-hilt = "2.56.1"
+hilt = "2.56.2"
 composeBom = "2025.05.00"
 uiToolingPreview = "1.8.1"
 jetbrainsKotlinJvm = "2.0.21"
-dagger="2.56.1"
+dagger="2.56.2"
 kotlinx = "1.8.0"
 hiltCompiler = "2.56.1"
 room = "2.7.1"
@@ -39,12 +42,16 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "materialVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiToolingPreview" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
-hilt-android-v2562 = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+#noinspection SimilarGradleDependency
+hilt-android-v250 = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+#noinspection SimilarGradleDependency
+hilt-compiler-v250 = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -60,6 +67,7 @@ retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.r
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+#noinspection SimilarGradleDependency
 hilt = {group = "com.google.dagger", name = "hilt-android", version.ref = "hilt"}
 ksp = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt"}
 compose = {group = "androidx.compose.ui", name = "ui"}
@@ -71,8 +79,11 @@ lottieCompose = { group = "com.airbnb.android", name = "lottie-compose", version
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger"}
 daggerCompiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger"}
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx"}
-hiltCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltCompiler"}
+#noinspection SimilarGradleDependency
+hiltCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt"}
+#noinspection SimilarGradleDependency
 room = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+#noinspection SimilarGradleDependency
 roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler"}
 roomRuntime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 

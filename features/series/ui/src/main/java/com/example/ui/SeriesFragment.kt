@@ -1,108 +1,42 @@
 package com.example.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.common_ui.BaseFragment
-import com.example.domain.AppError
+import com.example.common_ui.back
+import com.example.common_ui.replaceFragment
 import com.example.domain.model.SerieModel
 import com.example.ui.databinding.FragmentSecondBinding
 import com.example.ui.details.DetailsSeriesFragment
-import com.example.ui.model.SeriesState
 import com.example.ui.model.SeriesViewModel
+import com.example.ui.screens.SeriesScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import com.example.common_ui.back
-import com.example.common_ui.replaceFragment
 
 
 @AndroidEntryPoint
 class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
-    private val binding get() = _binding!!
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var seriesAdapter: SeriesAdapter
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        binding.btnHome.setOnClickListener { back() }
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        linearLayoutManager = LinearLayoutManager(requireContext())
-        seriesAdapter = SeriesAdapter { series -> navigateToSeriesDetails(series) }
-
-        binding.recyclerView.apply {
-            layoutManager = linearLayoutManager
-            adapter = seriesAdapter
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val visibleItemCount = linearLayoutManager.childCount
-                    val totalItemCount = linearLayoutManager.itemCount
-                    val firstVisibleItemPosition =
-                        linearLayoutManager.findFirstVisibleItemPosition()
-
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
-                        firstVisibleItemPosition >= 0
-                    ) {
-                        seriesViewModel.loadSeries()
-                    }
-                }
-            })
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            seriesViewModel.seriesList.collect { seriesState ->
-                handleState(seriesState)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                SeriesScreen(
+                    seriesViewModel,
+                    onSeriesClicked = { series -> navigateToSeriesDetails(series) },
+                    onNavigateHome = { back() }
+                )
             }
         }
     }
 
-    private fun handleState(seriesState: SeriesState) {
-        when (seriesState) {
-            SeriesState.Idle -> Unit
-            is SeriesState.Created -> {
-
-                binding.loadingContainer.visibility = View.GONE
-                seriesAdapter.updateSeries(seriesState.series)
-            }
-
-            is SeriesState.Error -> {
-                seriesAdapter.showLoading()
-                binding.loadingContainer.visibility = View.GONE
-                if (seriesState.appError is AppError.NoInternet) {
-                    showConnectionErrorDialog()
-                } else {
-                    seriesState.message?.let { showGenericErrorDialog(it) }
-                }
-            }
-
-            is SeriesState.PartialLoading -> {
-                binding.loadingContainer.visibility = View.VISIBLE
-                seriesAdapter.showLoading()
-
-            }
-
-            is SeriesState.FirstLoading -> {
-                binding.loadingContainer.visibility = View.VISIBLE
-                seriesAdapter.showLoading()
-            }
-        }
-    }
 
     private fun navigateToSeriesDetails(series: SerieModel) {
         val bundle = Bundle().apply {
@@ -118,29 +52,6 @@ class SeriesFragment : BaseFragment<FragmentSecondBinding>() {
         val detailsFragment = DetailsSeriesFragment()
         detailsFragment.arguments = bundle
         this.replaceFragment(detailsFragment)
-    }
-
-    private fun showConnectionErrorDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Error de conexión")
-            .setMessage("Conexión requerida")
-            .setCancelable(false)
-            .setPositiveButton("Volver al inicio") { dialog, _ ->
-                dialog.dismiss()
-                back()
-            }
-            .show()
-
-    }
-
-    private fun showGenericErrorDialog(message: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Error")
-            .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
     }
 
 
