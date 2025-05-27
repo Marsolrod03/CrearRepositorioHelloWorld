@@ -18,43 +18,58 @@ import javax.inject.Inject
 class ActorViewModel @Inject constructor(
     private val getActorsUseCase: GetActorsUseCase
 ) : ViewModel() {
-    private val _actorList = MutableStateFlow<ActorState>(ActorState.Idle)
+    private val _actorList = MutableStateFlow(ActorState(isIdle = true))
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
     private var hasMorePages = true
+    private val _currentActors = mutableListOf<ActorModel>()
 
     init {
         loadActors()
     }
 
     fun resetStateToHome() {
-        _actorList.value = ActorState.Idle
+        _actorList.value = ActorState(isIdle = true)
+        hasMorePages = true
+        _currentActors.clear()
     }
 
     fun loadActors() {
-        if (hasMorePages &&
-            _actorList.value !is ActorState.PartialLoading &&
-            _actorList.value !is ActorState.FirstLoading
-        ) {
+        if (hasMorePages && !_actorList.value.isPartialLoading && !_actorList.value.isFirstLoad) {
             viewModelScope.launch {
                 getActorsUseCase()
                     .onStart {
-                        _actorList.update {
-                            if ((_actorList.value as? ActorState.Success)?.actors?.isNotEmpty() == true) {
-                                ActorState.PartialLoading
+                        _actorList.update { current ->
+                            if (_currentActors.isNotEmpty()) {
+                                current.copy(isIdle= false, isPartialLoading = true, isFirstLoad = false)
                             } else {
-                                ActorState.FirstLoading
+                                current.copy(isIdle= false, isPartialLoading = true, isFirstLoad = true)
                             }
                         }
                     }
                     .collect { result: Result<ActorWrapper> ->
                         result.onSuccess { actorWrapper: ActorWrapper ->
                             hasMorePages = actorWrapper.hasMorePages
-                            _actorList.update {
-                                ActorState.Success(actorWrapper.actorsList)
+                            _currentActors.addAll(actorWrapper.actorsList)
+
+                            _actorList.update { current ->
+                                current.copy(
+                                    isIdle = false,
+                                    isPartialLoading = false,
+                                    isFirstLoad = false,
+                                    actors = _currentActors.toList(),
+                                    errorMessage = null
+                                )
                             }
                         }
                         result.onFailure {
-                            _actorList.update { ActorState.Error("Error loading more actors") }
+                            _actorList.update { current ->
+                                current.copy(
+                                    isIdle = false,
+                                    isPartialLoading = false,
+                                    isFirstLoad = false,
+                                    errorMessage = "Error loading more actors"
+                                )
+                            }
                         }
                     }
             }
@@ -62,12 +77,12 @@ class ActorViewModel @Inject constructor(
     }
 }
 
-sealed class ActorState {
-    data object Idle : ActorState()
-    data class Success(val actors: List<ActorModel>) : ActorState()
-    data class Error(val message: String) : ActorState()
-    data object PartialLoading : ActorState()
-    data object FirstLoading : ActorState()
-}
+data class ActorState(
+    val isIdle: Boolean = true,
+    val isPartialLoading: Boolean = false,
+    val isFirstLoad: Boolean = false,
+    val actors: List<ActorModel> = emptyList(),
+    val errorMessage: String? = null
+)
 
 

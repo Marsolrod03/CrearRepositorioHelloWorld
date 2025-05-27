@@ -27,7 +27,7 @@ class GetActorsUseCaseTest {
  }
 
  @Test
- fun `WHEN getPagedActors THEN return success`() = runTest {
+ fun `WHEN getActorsUseCase THEN return success`() = runTest {
 
   val actor = ActorModel(
    id = 1,

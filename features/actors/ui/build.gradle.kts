@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.lottieCompose)
     implementation(libs.lottie)
     implementation(platform(libs.composeBom))
+    implementation(libs.navigateCompose)
+    debugImplementation(libs.uiTooling)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -48,57 +48,53 @@ fun ActorDetailsScreen(
             contentScale = ContentScale.Crop
         )
 
-        when (detailsState) {
-            DetailsState.Idle ->Unit
-            is DetailsState.Success -> {
-                val details = detailsState.details
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = details.name,
-                    style = TextStyle(
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                )
-
-                Text(
-                    text = "GENDER: $actorGender",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = Color.White
-                    )
-                )
-
-                Text(
-                    text = "POPULARITY: ${details.popularity}",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = Color.White
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = details.biography,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = Color.White
-                    ),
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .verticalScroll(rememberScrollState())
-                )
+        if(detailsState.isIdle){
+        }else if(detailsState.errorMessage != null){
+            LaunchedEffect(Unit) {
+                onError()
             }
+        }else if(detailsState.details != null){
+            val details = detailsState.details
 
-            is DetailsState.Error -> {
-                LaunchedEffect(Unit) {
-                    onError()
-                }
-            }
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = details.name,
+                style = TextStyle(
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            )
+
+            Text(
+                text = "GENDER: $actorGender",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            )
+
+            Text(
+                text = "POPULARITY: ${details.popularity}",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = details.biography,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    color = Color.White
+                ),
+                modifier = Modifier
+                    .weight(0.6f)
+                    .verticalScroll(rememberScrollState())
+            )
         }
     }
 }
