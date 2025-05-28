@@ -15,4 +15,4 @@ fun Fragment.replaceFragmentWithoutBackStack(fragment: Fragment) {
         .commit()
 }
 
-fun Fragment.back(){requireActivity().onBackPressedDispatcher.onBackPressed()}
+fun Fragment.back(){parentFragmentManager.popBackStack()}

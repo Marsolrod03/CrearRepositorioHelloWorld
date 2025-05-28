@@ -16,14 +16,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.home_ui.HomeState
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.home_ui.HomeViewModel
 import com.example.home_ui.NavigationTarget
 import com.example.home_ui.R
 
@@ -31,15 +33,18 @@ import com.example.home_ui.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    uiState: State<HomeState>,
+    viewModel: HomeViewModel = hiltViewModel(),
     onNavigate: (NavigationTarget) -> Unit,
-    onNavigationComplete: () -> Unit
 ) {
-    LaunchedEffect(uiState.navigateTo) {
-        uiState.navigateTo?.let {
-            onNavigate(it)
-            onNavigationComplete()
+
+    val state by viewModel.stateHome.collectAsState()
+
+    LaunchedEffect(state.navigateTo) {
+        state.navigateTo?.let { target ->
+            onNavigate(target)
+            viewModel.navigationCompleted()
         }
+
     }
 
     Column(
@@ -67,7 +72,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = { onNavigate(NavigationTarget.FILMS) },
+            onClick = { viewModel.navigateTo(NavigationTarget.FILMS) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -77,7 +82,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { onNavigate(NavigationTarget.SERIES) },
+            onClick = { viewModel.navigateTo(NavigationTarget.SERIES) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -87,7 +92,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { onNavigate(NavigationTarget.ACTORS) },
+            onClick = { viewModel.navigateTo(NavigationTarget.ACTORS) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             modifier = Modifier.fillMaxWidth()
         ) {
