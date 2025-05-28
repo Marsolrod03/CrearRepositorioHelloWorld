@@ -10,4 +10,6 @@
     <string name="movietitle">MovieTitle</string>
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
+    <string name="errorActorDetails">Error loading actor details</string>
+    <string name="errorActors">Error loading more actors</string>
 </resources>

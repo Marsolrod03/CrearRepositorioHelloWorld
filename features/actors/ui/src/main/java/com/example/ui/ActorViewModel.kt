@@ -16,9 +16,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActorViewModel @Inject constructor(
-    private val getActorsUseCase: GetActorsUseCase
+    private val getActorsUseCase: GetActorsUseCase,
+    private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
-    private val _actorList = MutableStateFlow(ActorState(isIdle = true))
+    private val _actorList = MutableStateFlow(ActorState())
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
     private var hasMorePages = true
     private val _currentActors = mutableListOf<ActorModel>()
@@ -28,21 +29,22 @@ class ActorViewModel @Inject constructor(
     }
 
     fun resetStateToHome() {
-        _actorList.value = ActorState(isIdle = true)
+        _actorList.value = ActorState()
         hasMorePages = true
         _currentActors.clear()
     }
 
     fun loadActors() {
-        if (hasMorePages && !_actorList.value.isPartialLoading && !_actorList.value.isFirstLoad) {
+        val currentState = _actorList.value
+        if (hasMorePages && !currentState.isPartialLoading && !currentState.isFirstLoad) {
             viewModelScope.launch {
                 getActorsUseCase()
                     .onStart {
                         _actorList.update { current ->
                             if (_currentActors.isNotEmpty()) {
-                                current.copy(isIdle= false, isPartialLoading = true, isFirstLoad = false)
+                                current.copy(isPartialLoading = true, isFirstLoad = false)
                             } else {
-                                current.copy(isIdle= false, isPartialLoading = true, isFirstLoad = true)
+                                current.copy(isPartialLoading = true, isFirstLoad = true)
                             }
                         }
                     }
@@ -53,7 +55,6 @@ class ActorViewModel @Inject constructor(
 
                             _actorList.update { current ->
                                 current.copy(
-                                    isIdle = false,
                                     isPartialLoading = false,
                                     isFirstLoad = false,
                                     actors = _currentActors.toList(),
@@ -64,10 +65,9 @@ class ActorViewModel @Inject constructor(
                         result.onFailure {
                             _actorList.update { current ->
                                 current.copy(
-                                    isIdle = false,
                                     isPartialLoading = false,
                                     isFirstLoad = false,
-                                    errorMessage = "Error loading more actors"
+                                    errorMessage = stringResourceProvider.getString(R.string.errorActors)
                                 )
                             }
                         }
@@ -76,9 +76,7 @@ class ActorViewModel @Inject constructor(
         }
     }
 }
-
 data class ActorState(
-    val isIdle: Boolean = true,
     val isPartialLoading: Boolean = false,
     val isFirstLoad: Boolean = false,
     val actors: List<ActorModel> = emptyList(),

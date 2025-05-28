@@ -1,10 +1,13 @@
 package com.example.ui.details
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.ActorModel
 import com.example.domain.use_cases.GetActorBiographyUseCase
 import com.example.domain.use_cases.GetActorDetailsUseCase
+import com.example.ui.R
+import com.example.ui.StringResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,16 +20,18 @@ import javax.inject.Inject
 @HiltViewModel
 class ActorDetailsViewModel @Inject constructor(
     private val getActorDetailsUseCase: GetActorDetailsUseCase,
-    private val getActorBiographyUseCase: GetActorBiographyUseCase
+    private val getActorBiographyUseCase: GetActorBiographyUseCase,
+    private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
 
-    private val _actorDetails = MutableStateFlow(DetailsState(isIdle = true))
+    private val _actorDetails = MutableStateFlow(DetailsState())
     val actorDetails: StateFlow<DetailsState> = _actorDetails.asStateFlow()
 
     fun resetStateToHome() {
-        _actorDetails.value = DetailsState(isIdle = true)
+        _actorDetails.value = DetailsState()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun loadDetails(actorId: String){
         val currentState = _actorDetails.value
         if(!currentState.isFirstLoading)
@@ -35,7 +40,6 @@ class ActorDetailsViewModel @Inject constructor(
                 .onStart {
                     _actorDetails.update { current ->
                         current.copy(
-                            isIdle = false,
                             isFirstLoading = true,
                             details = null,
                             errorMessage = null
@@ -46,7 +50,6 @@ class ActorDetailsViewModel @Inject constructor(
                     result.onSuccess {actorModel: ActorModel ->
                         _actorDetails.update { current ->
                             current.copy(
-                                isIdle = false,
                                 isFirstLoading = false,
                                 details = actorModel,
                                 errorMessage = null
@@ -57,10 +60,9 @@ class ActorDetailsViewModel @Inject constructor(
                     result.onFailure {
                         _actorDetails.update { current ->
                             current.copy(
-                                isIdle = false,
                                 isFirstLoading = false,
                                 details = null,
-                                errorMessage = "Error loading actor details"
+                                errorMessage = stringResourceProvider.getString(R.string.errorActorDetails)
                             )
                         }
                     }
@@ -68,9 +70,7 @@ class ActorDetailsViewModel @Inject constructor(
         }
     }
 }
-
 data class DetailsState(
-    val isIdle: Boolean = true,
     val details: ActorModel? = null,
     val isFirstLoading: Boolean = false,
     val errorMessage: String? = null

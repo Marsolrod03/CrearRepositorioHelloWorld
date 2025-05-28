@@ -22,6 +22,7 @@ class DeleteDatabaseUseCase @Inject constructor(private val actorsRepository: Ac
 
         if (databaseLastDeletion < lastMonday8Am) {
             actorsRepository.clearActors()
+            actorsRepository.clearPagination()
             actorsRepository.insertPagination()
             actorsRepository.updateLastDeletion(now)
         }

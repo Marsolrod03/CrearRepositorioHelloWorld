@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.ActorModel
+import com.example.domain.models.Gender
 import com.example.ui.ActorState
 
 @Composable
@@ -37,8 +39,7 @@ fun ActorsScreen(
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (actorState.isIdle) {
-        } else if (actorState.isFirstLoad) {
+        if (actorState.isFirstLoad) {
             LoadingFullScreen()
         } else if (actorState.errorMessage != null) {
             LaunchedEffect(Unit) {
@@ -52,7 +53,10 @@ fun ActorsScreen(
                 contentPadding = PaddingValues(horizontal = 50.dp),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                items(actorState.actors) { actor ->
+                items(
+                    actorState.actors,
+                    key = {actorState -> actorState.id}
+                ) { actor ->
                     ActorItemScreen(actorModel = actor) {
                         onNavigateToActorDetails(actor)
                     }
@@ -74,5 +78,26 @@ fun ActorsScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ActorsScreenSuccessPreview() {
+    val sampleActors = listOf(
+        ActorModel(1, "Name 1", "", Gender.Male, 75.0, "Biography 1"),
+        ActorModel(2, "Name 2", "", Gender.Female, 82.5, "Biography 2"),
+        ActorModel(3, "Name 3", "", Gender.Male, 68.0, "Biography 3")
+    )
+
+    ActorsScreen(
+        actorState = ActorState(
+            actors = sampleActors,
+            isFirstLoad = false,
+            isPartialLoading = false
+        ),
+        onNavigateToActorDetails = { },
+        onError = { },
+        onLoadActors = { }
+    )
 }
 

@@ -2,13 +2,13 @@ package com.example.crearrepositorio
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.crearrepositorio.databinding.ActivityMainBinding
+import com.example.common_ui.databinding.ActivityMainBinding
 import com.example.crearrepositorio.features.home.ui.FragmentHome
-import com.example.common_ui.FragmentContainerProvider
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.common_ui.R as CR
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), FragmentContainerProvider {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,14 +18,10 @@ class MainActivity : AppCompatActivity(), FragmentContainerProvider {
         setContentView(view)
         if (savedInstanceState==null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.navHostFragment,
+                .replace(CR.id.navHostFragment,
                     FragmentHome()
                 )
                 .commit()
         }
-    }
-
-    override fun getFragmentContainerId(): Int {
-        return R.id.navHostFragment
     }
 }

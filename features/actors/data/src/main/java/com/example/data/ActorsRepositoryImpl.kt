@@ -62,7 +62,7 @@ class ActorsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getPagedActorsFromApi(currentPage: Int): Flow<Result<ActorWrapper>> = flow {
+    fun getPagedActorsFromApi(currentPage: Int): Flow<Result<ActorWrapper>> = flow {
         try {
             var totalPages = Int.MAX_VALUE
             val pagedResult = actorsNetworkDataSource.fetchActors(currentPage)
@@ -83,7 +83,7 @@ class ActorsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getActorDetailsApi(actorId: String): Flow<Result<ActorModel>> = flow {
+    private fun getActorDetailsApi(actorId: String): Flow<Result<ActorModel>> = flow {
         try {
             val actorModel = actorsNetworkDataSource.fetchDetails(actorId)
             actorModel?.let {
@@ -97,11 +97,11 @@ class ActorsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getActorsFromDatabase(): List<ActorModel>{
+    suspend fun getActorsFromDatabase(): List<ActorModel>{
         return actorsLocalDataSource.getAllActors().map { entity ->  entity.toActorModel()}
     }
 
-    override suspend fun insertActors(actors: List<ActorModel>) {
+    private suspend fun insertActors(actors: List<ActorModel>) {
         actorsLocalDataSource.insertAllActors(actors.map { model -> model.toActorEntity() })
     }
 
@@ -109,7 +109,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deleteAllActors()
     }
 
-    override suspend fun getActorById(id: Int): ActorModel {
+    private suspend fun getActorById(id: Int): ActorModel {
         return actorsLocalDataSource.getActorById(id)
     }
 
@@ -117,7 +117,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.updateActorBiography(id, biography)
     }
 
-    override suspend fun getPaginationActors(): Int {
+    suspend fun getPaginationActors(): Int {
         return actorsLocalDataSource.getPaginationActors()
     }
 
@@ -125,7 +125,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deletePaginationActors()
     }
 
-    override suspend fun updateLastPage(newPage: Int){
+    private suspend fun updateLastPage(newPage: Int){
         actorsLocalDataSource.updateLastPage(newPage)
     }
 
@@ -141,20 +141,12 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.updateLastDeletion(lastDeletion)
     }
 
-    override suspend fun getTotalPages(): Int {
+    suspend fun getTotalPages(): Int {
         return actorsLocalDataSource.getTotalPages()
     }
 
-    override suspend fun updateTotalPages(totalPages: Int) {
+    private suspend fun updateTotalPages(totalPages: Int) {
         actorsLocalDataSource.updateTotalPages(totalPages)
-    }
-
-    operator fun set(s: String, value: Int) {
-        currentPage = value
-    }
-
-    operator fun get(s: String): Int {
-        return currentPage
     }
 }
 

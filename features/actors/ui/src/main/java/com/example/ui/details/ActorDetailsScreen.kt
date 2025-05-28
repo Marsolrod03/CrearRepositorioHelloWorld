@@ -19,9 +19,12 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.domain.models.ActorModel
+import com.example.domain.models.Gender
 
 @Composable
 fun ActorDetailsScreen(
@@ -48,12 +51,11 @@ fun ActorDetailsScreen(
             contentScale = ContentScale.Crop
         )
 
-        if(detailsState.isIdle){
-        }else if(detailsState.errorMessage != null){
+        if (detailsState.errorMessage != null) {
             LaunchedEffect(Unit) {
                 onError()
             }
-        }else if(detailsState.details != null){
+        } else if (detailsState.details != null) {
             val details = detailsState.details
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -97,4 +99,17 @@ fun ActorDetailsScreen(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ActorDetailsScreenErrorPreview() {
+    ActorDetailsScreen(
+        actorImage = null,
+        actorGender = Gender.Male.toString(),
+        detailsState = DetailsState(ActorModel(1, "Name", "", Gender.Male, 10.0)),
+        onError = {
+            println("Error occurred in preview!")
+        }
+    )
 }
