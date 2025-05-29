@@ -24,18 +24,13 @@ class MovieRepositoryImpl @Inject constructor(
             val databaseMovies = getAllMoviesFromDatabase()
             val totalPages = getTotalPages()
 
-//            if (lastMoviePageInDatabase > currentPage) {
-//                currentPage = lastMoviePageInDatabase
-//                val hasMorePages = currentPage < totalPages
-//                emit(Result.success(MovieWrapper(hasMorePages, databaseMovies, totalPages)))
-//            }
             if (accumulatedMovies.isEmpty() && databaseMovies.isNotEmpty()) {
                 currentPage = lastMoviePageInDatabase + 1
                 val hasMorePages = currentPage <= totalPages
                 accumulatedMovies.addAll(databaseMovies)
                 emit(Result.success(MovieWrapper(hasMorePages, accumulatedMovies, totalPages)))
             } else {
-                getAllMoviesFromApi(currentPage)
+                getAllMoviesFromApi()
                     .collect { result ->
                         result.onSuccess { movieWrapper ->
                             insertAllMovies(movieWrapper.movieList)
@@ -81,8 +76,7 @@ class MovieRepositoryImpl @Inject constructor(
         updateLastDelete(timeRN)
     }
 
-    //cambiar
-    override fun getAllMoviesFromApi(page: Int): Flow<Result<MovieWrapper>> = flow {
+    fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
         try {
             var totalPages = Int.MAX_VALUE
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
@@ -105,8 +99,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    //cambiar
-    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
+    suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
         val movieListDB = localDataSource.getAllMovies().map { it.toMovieModel() }
         val newMovies = movieListDB.filter { dbMovie ->
             accumulatedMovies.none { it.id == dbMovie.id }
@@ -115,16 +108,14 @@ class MovieRepositoryImpl @Inject constructor(
         return accumulatedMovies
     }
 
-
-    //cambiar
-    override suspend fun insertAllMovies(movies: List<MovieModel>) =
+    suspend fun insertAllMovies(movies: List<MovieModel>) =
         localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
 
-    override suspend fun insertPagination() {
+    suspend fun insertPagination() =
         localDataSource.insertPagination()
-    }
 
-    override suspend fun clearMovieDatabase() =
+
+    suspend fun clearMovieDatabase() =
         localDataSource.clearDatabase()
 
     override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
@@ -141,27 +132,27 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
+    suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
         localDataSource.getMovieDetails(movieId).toMovieModel()
 
-    override suspend fun getLastMoviePage(): Int =
+    suspend fun getLastMoviePage(): Int =
         localDataSource.getLastMoviePage()
 
-    override suspend fun deleteAllMoviePages() =
+    suspend fun deleteAllMoviePages() =
         localDataSource.deleteAllMoviePages()
 
-    override suspend fun updateLastLoadedPage(lastLoadedPage: Int) =
+    suspend fun updateLastLoadedPage(lastLoadedPage: Int) =
         localDataSource.updateLastLoadedPage(lastLoadedPage)
 
     override suspend fun getLastDelete() =
         localDataSource.getLastDeleteDB()
 
-    override suspend fun updateLastDelete(lastDelete: Long) =
+    suspend fun updateLastDelete(lastDelete: Long) =
         localDataSource.updateLastDeleteDB(lastDelete)
 
-    override suspend fun getTotalPages(): Int =
+    suspend fun getTotalPages(): Int =
         localDataSource.getTotalPages()
 
-    override suspend fun updateTotalPages(totalPages: Int) =
+    suspend fun updateTotalPages(totalPages: Int) =
         localDataSource.updateTotalPages(totalPages)
 }
