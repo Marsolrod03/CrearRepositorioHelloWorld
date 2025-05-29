@@ -51,11 +51,4 @@ class MovieFragment : BaseFragment<FragmentFirstBinding>() {
             )
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        movieViewModel.onFragmentOnResume()
-//    }
-
-
 }

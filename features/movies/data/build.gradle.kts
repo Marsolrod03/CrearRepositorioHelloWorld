@@ -33,6 +33,10 @@ android {
     }
 }
 
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":lib:common"))
     implementation(project(":features:movies:domain"))
@@ -47,6 +51,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
+    testImplementation(libs.kotlin.jUnit5Test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

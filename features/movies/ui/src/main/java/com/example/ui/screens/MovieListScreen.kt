@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
@@ -64,7 +63,7 @@ fun MovieItem(
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.Black)
     ) {
         Column(
             modifier = Modifier
@@ -79,9 +78,9 @@ fun MovieItem(
                     .height(200.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = movieModel.title, fontWeight = FontWeight.Black)
+            Text(text = movieModel.title, fontWeight = FontWeight.Black, color = Color.White)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = movieModel.overview, fontWeight = FontWeight.Light)
+            Text(text = movieModel.overview, fontWeight = FontWeight.Light,color = Color.White)
         }
     }
 }
@@ -114,7 +113,7 @@ fun LazyColumnMovies(
         item {
             val lastVisibleItem = lazyColumState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
             if (lastVisibleItem != null
-                && lastVisibleItem >= state.succeedList.size - 1
+                && lastVisibleItem >= state.succeedList.size - 5
                 && state.loader != Loader.LoadingPartial
             ) {
                 onLoad()
@@ -140,7 +139,7 @@ fun MovieItemPreview() {
             release_date = "",
             vote_average = 0.0
         ),
-        onClick = TODO()
+        onClick = {  }
     )
 }
 
@@ -173,7 +172,7 @@ fun MovieListScreenPreview() {
     MovieListScreen(
         state = MoviesState(succeedList = sampleMovies),
         onError = {},
-        onClick = TODO(),
-        onLoad = TODO(),
+        onClick = {},
+        onLoad = {},
     )
 }

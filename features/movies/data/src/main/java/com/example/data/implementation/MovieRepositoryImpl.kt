@@ -24,24 +24,28 @@ class MovieRepositoryImpl @Inject constructor(
             val databaseMovies = getAllMoviesFromDatabase()
             val totalPages = getTotalPages()
 
-            if (lastMoviePageInDatabase > currentPage) {
-                currentPage = lastMoviePageInDatabase
-                val hasMorePages = currentPage < totalPages
-                emit(Result.success(MovieWrapper(hasMorePages, databaseMovies, totalPages)))
+//            if (lastMoviePageInDatabase > currentPage) {
+//                currentPage = lastMoviePageInDatabase
+//                val hasMorePages = currentPage < totalPages
+//                emit(Result.success(MovieWrapper(hasMorePages, databaseMovies, totalPages)))
+//            }
+            if (accumulatedMovies.isEmpty() && databaseMovies.isNotEmpty()) {
+                currentPage = lastMoviePageInDatabase + 1
+                val hasMorePages = currentPage <= totalPages
+                accumulatedMovies.addAll(databaseMovies)
+                emit(Result.success(MovieWrapper(hasMorePages, accumulatedMovies, totalPages)))
             } else {
                 getAllMoviesFromApi(currentPage)
                     .collect { result ->
                         result.onSuccess { movieWrapper ->
                             insertAllMovies(movieWrapper.movieList)
                             updateTotalPages(movieWrapper.totalPages)
-                            currentPage++
-                            if (lastMoviePageInDatabase == 0){
+                            if (lastMoviePageInDatabase == 0) {
                                 insertPagination()
                             }
-                            if (currentPage > lastMoviePageInDatabase) {
-                                updateLastLoadedPage(currentPage)
-                            }
+                            updateLastLoadedPage(currentPage)
                             emit(Result.success(movieWrapper))
+                            currentPage++
                         }
                         result.onFailure {
                             emit(Result.success(MovieWrapper(false, databaseMovies, totalPages)))
@@ -77,17 +81,20 @@ class MovieRepositoryImpl @Inject constructor(
         updateLastDelete(timeRN)
     }
 
+    //cambiar
     override fun getAllMoviesFromApi(page: Int): Flow<Result<MovieWrapper>> = flow {
         try {
             var totalPages = Int.MAX_VALUE
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
             pagedResult?.let {
                 val movieList = it.results.map { movie -> movie.toMovieModel() }
-                accumulatedMovies.addAll(movieList)
+                val newMovies = movieList.filter { apiMovie ->
+                    accumulatedMovies.none { it.id == apiMovie.id }
+                }
+                accumulatedMovies.addAll(newMovies)
                 totalPages = it.total_pages
                 val hasMorePages = it.page < totalPages
                 val movieWrapper = MovieWrapper(hasMorePages, accumulatedMovies, totalPages)
-                currentPage++
                 emit(Result.success(movieWrapper))
             } ?: run {
                 emit(Result.success(MovieWrapper(false, emptyList(), totalPages)))
@@ -98,10 +105,18 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> =
-        localDataSource.getAllMovies().map { it.toMovieModel() }
+    //cambiar
+    override suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
+        val movieListDB = localDataSource.getAllMovies().map { it.toMovieModel() }
+        val newMovies = movieListDB.filter { dbMovie ->
+            accumulatedMovies.none { it.id == dbMovie.id }
+        }
+        accumulatedMovies.addAll(newMovies)
+        return accumulatedMovies
+    }
 
 
+    //cambiar
     override suspend fun insertAllMovies(movies: List<MovieModel>) =
         localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
 
@@ -109,10 +124,8 @@ class MovieRepositoryImpl @Inject constructor(
         localDataSource.insertPagination()
     }
 
-
     override suspend fun clearMovieDatabase() =
         localDataSource.clearDatabase()
-
 
     override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
         try {
