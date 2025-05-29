@@ -1,0 +1,20 @@
+R_DEF: Internal format may change without notice
+local
+id animation
+id btnHome
+id dateEmision
+id description
+id genre
+id imageView
+id loadingContainer
+id overview
+id poster
+id recyclerView
+id seasons
+id title
+id voteAverage
+id voteCount
+layout fragment_details_series
+layout fragment_loading
+layout fragment_second
+layout vista_serie

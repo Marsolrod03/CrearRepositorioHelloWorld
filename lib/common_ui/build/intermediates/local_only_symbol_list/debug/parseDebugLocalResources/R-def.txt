@@ -1,0 +1,7 @@
+R_DEF: Internal format may change without notice
+local
+id errorImage
+id mainActivity
+id navHostFragment
+layout activity_main
+layout fragment_error

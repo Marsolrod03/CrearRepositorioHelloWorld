@@ -1,0 +1,6 @@
+com.example.common_ui
+id errorImage
+id mainActivity
+id navHostFragment
+layout activity_main
+layout fragment_error

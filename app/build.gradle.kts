@@ -52,7 +52,7 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":features:home:home_ui"))
     implementation(project(":features:series:data"))
     implementation(project(":features:series:domain"))
     implementation(project(":features:series:ui"))

@@ -50,12 +50,11 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.DarkGray)
-            .padding(16.dp),
+            .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(
-            title = { Text("Inicio", color = Color.White) },
+            title = { Text("Inicio") },
             modifier = Modifier.background(Color.Black)
         )
 
@@ -73,7 +72,7 @@ fun HomeScreen(
 
         Button(
             onClick = { viewModel.navigateTo(NavigationTarget.FILMS) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Películas", fontWeight = FontWeight.Bold)
@@ -83,7 +82,7 @@ fun HomeScreen(
 
         Button(
             onClick = { viewModel.navigateTo(NavigationTarget.SERIES) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Series", fontWeight = FontWeight.Bold)
@@ -93,7 +92,7 @@ fun HomeScreen(
 
         Button(
             onClick = { viewModel.navigateTo(NavigationTarget.ACTORS) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Actores", fontWeight = FontWeight.Bold)
