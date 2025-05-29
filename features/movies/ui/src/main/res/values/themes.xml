@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.CrearRepositorio" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.MovieDatabase" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.CrearRepositorio" parent="Base.Theme.CrearRepositorio" />
+    <style name="Theme.MovieDatabase" parent="Base.Theme.MovieDatabase" />
 </resources>

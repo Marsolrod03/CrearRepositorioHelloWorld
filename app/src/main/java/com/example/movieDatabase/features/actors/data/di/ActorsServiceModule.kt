@@ -1,0 +1,17 @@
+package com.example.movieDatabase.features.actors.data.di
+
+import com.example.movieDatabase.features.actors.data.ActorsService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+
+@Module
+@InstallIn(SingletonComponent::class)
+object ActorsServiceModule {
+    @Provides
+    fun provideSeriesService(retrofit: Retrofit): ActorsService {
+        return retrofit.create(ActorsService::class.java)
+    }
+}
