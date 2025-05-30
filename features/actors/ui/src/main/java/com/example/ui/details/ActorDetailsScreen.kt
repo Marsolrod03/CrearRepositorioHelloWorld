@@ -1,6 +1,8 @@
 package com.example.ui.details
 
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -29,6 +32,7 @@ import coil.compose.AsyncImage
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
 import com.example.ui.R
+import androidx.core.net.toUri
 
 
 @Composable
@@ -43,6 +47,7 @@ fun ActorDetailsScreen(
     val biography = stringResource(R.string.biography)
     val popularity = stringResource(R.string.popularity)
     val gender = stringResource(R.string.gender)
+    val actualContext = LocalContext.current
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -65,7 +70,12 @@ fun ActorDetailsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.5f)
-                    .clip(RectangleShape),
+                    .clip(RectangleShape)
+                    .clickable {
+                        val imageUrl = details.image
+                        val intent = Intent(Intent.ACTION_VIEW, imageUrl.toUri())
+                        actualContext.startActivity(intent)
+                    },
                 contentScale = ContentScale.Crop
             )
 
