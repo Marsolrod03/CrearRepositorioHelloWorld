@@ -17,3 +17,7 @@ local.properties
 .kotlin
 /.kotlin
 secrets.properties
+features/actors/data/build
+features/actors/domain/build
+features/actors/ui/build
+lib/build
