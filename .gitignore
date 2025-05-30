@@ -17,15 +17,14 @@ local.properties
 .kotlin
 /.kotlin
 secrets.properties
-features/actors/data/build
 features/actors/domain/build
 features/actors/ui/build
 features/actors/data/build
-features/series/data/build/
-features/series/ui/build/
-features/series/domain/build/
-features/home/data/build/
-features/home/ui/build/
-features/home/domain/build/
+features/series/data/build
+features/series/ui/build
+features/series/domain/build
+features/home/home_data/build
+features/home/home_ui/build
+features/home/home_domain/build
 
 lib/build
