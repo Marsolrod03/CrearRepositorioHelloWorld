@@ -1,8 +1,0 @@
-com.example.home_ui
-drawable icon2
-id button
-id button2
-id button3
-id imageView2
-id materialToolbar
-layout fragment_home

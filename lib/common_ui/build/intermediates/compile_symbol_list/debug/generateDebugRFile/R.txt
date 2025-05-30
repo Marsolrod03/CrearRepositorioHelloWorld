@@ -1,5 +1,0 @@
-int id errorImage 0x0
-int id mainActivity 0x0
-int id navHostFragment 0x0
-int layout activity_main 0x0
-int layout fragment_error 0x0
