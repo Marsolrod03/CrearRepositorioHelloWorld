@@ -20,4 +20,9 @@ secrets.properties
 features/actors/data/build
 features/actors/domain/build
 features/actors/ui/build
+features/actors/data/build
+features/series/data/build/
+features/series/ui/build/
+features/series/domain/build/
+
 lib/build
