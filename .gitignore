@@ -24,5 +24,8 @@ features/actors/data/build
 features/series/data/build/
 features/series/ui/build/
 features/series/domain/build/
+features/home/data/build/
+features/home/ui/build/
+features/home/domain/build/
 
 lib/build
