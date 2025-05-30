@@ -1,11 +1,8 @@
 package com.example.crearrepositorio.features.films.data
 
-import com.example.crearrepositorio.features.films.data.dto.MovieDTO
 import com.example.crearrepositorio.features.films.data.mapper.toMovieModel
 import com.example.crearrepositorio.features.films.data.network.MoviesService
 import com.example.crearrepositorio.features.films.domain.model.MovieModel
-import com.example.crearrepositorio.features.series.data.SeriesDTO
-import com.example.crearrepositorio.features.series.data.network.SeriesService
 import jakarta.inject.Inject
 
 class MoviesNetworkDataSource @Inject constructor(

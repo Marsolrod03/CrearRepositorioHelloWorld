@@ -11,4 +11,6 @@
     <string name="movieoverview">MovieOverview</string>
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
