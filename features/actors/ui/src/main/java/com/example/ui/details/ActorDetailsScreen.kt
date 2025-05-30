@@ -17,6 +17,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
+import com.example.ui.R
+
 
 @Composable
 fun ActorDetailsScreen(
@@ -33,23 +38,19 @@ fun ActorDetailsScreen(
     detailsState: DetailsState,
     onError: () -> Unit
 ) {
+    val actorText = stringResource(R.string.actors_details)
+    val image = stringResource(R.string.image)
+    val biography = stringResource(R.string.biography)
+    val popularity = stringResource(R.string.popularity)
+    val gender = stringResource(R.string.gender)
     Column(
         modifier = Modifier
             .background(Color.Black)
             .padding(16.dp)
             .fillMaxSize()
+            .semantics { contentDescription = actorText }
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-
-        AsyncImage(
-            model = actorImage,
-            contentDescription = "Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.5f)
-                .clip(RectangleShape),
-            contentScale = ContentScale.Crop
-        )
 
         if (detailsState.errorMessage != null) {
             LaunchedEffect(Unit) {
@@ -57,6 +58,16 @@ fun ActorDetailsScreen(
             }
         } else if (detailsState.details != null) {
             val details = detailsState.details
+
+            AsyncImage(
+                model = actorImage,
+                contentDescription = image + details.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.5f)
+                    .clip(RectangleShape),
+                contentScale = ContentScale.Crop
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -70,7 +81,7 @@ fun ActorDetailsScreen(
             )
 
             Text(
-                text = "GENDER: $actorGender",
+                text = gender + actorGender,
                 style = TextStyle(
                     fontSize = 18.sp,
                     color = Color.White
@@ -78,7 +89,7 @@ fun ActorDetailsScreen(
             )
 
             Text(
-                text = "POPULARITY: ${details.popularity}",
+                text = popularity + details.popularity,
                 style = TextStyle(
                     fontSize = 18.sp,
                     color = Color.White
@@ -96,6 +107,7 @@ fun ActorDetailsScreen(
                 modifier = Modifier
                     .weight(0.6f)
                     .verticalScroll(rememberScrollState())
+                    .semantics { biography + details.biography }
             )
         }
     }
@@ -109,7 +121,7 @@ fun ActorDetailsScreenErrorPreview() {
         actorGender = Gender.Male.toString(),
         detailsState = DetailsState(ActorModel(1, "Name", "", Gender.Male, 10.0)),
         onError = {
-            println("Error occurred in preview!")
+            println("Error occurred in preview")
         }
     )
 }

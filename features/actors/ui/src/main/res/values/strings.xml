@@ -12,4 +12,13 @@
     <string name="error">ERROR</string>
     <string name="errorActorDetails">Error loading actor details</string>
     <string name="errorActors">Error loading more actors</string>
+    <string name="action_read_actor">Load details of %1$s</string>
+    <string name="actors_list_grid">A list of actors</string>
+    <string name="actors_details">Actors Details</string>
+    <string name="actors_screen">Actors Screen</string>
+    <string name="image">Image of</string>
+    <string name="gender">GENDER: </string>
+    <string name="popularity">POPULARITY: </string>
+    <string name="biography">Biography: </string>
+
 </resources>

@@ -83,7 +83,7 @@ class ActorsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getActorDetailsApi(actorId: String): Flow<Result<ActorModel>> = flow {
+    fun getActorDetailsApi(actorId: String): Flow<Result<ActorModel>> = flow {
         try {
             val actorModel = actorsNetworkDataSource.fetchDetails(actorId)
             actorModel?.let {
@@ -101,7 +101,7 @@ class ActorsRepositoryImpl @Inject constructor(
         return actorsLocalDataSource.getAllActors().map { entity ->  entity.toActorModel()}
     }
 
-    private suspend fun insertActors(actors: List<ActorModel>) {
+    suspend fun insertActors(actors: List<ActorModel>) {
         actorsLocalDataSource.insertAllActors(actors.map { model -> model.toActorEntity() })
     }
 
@@ -125,7 +125,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deletePaginationActors()
     }
 
-    private suspend fun updateLastPage(newPage: Int){
+    suspend fun updateLastPage(newPage: Int){
         actorsLocalDataSource.updateLastPage(newPage)
     }
 
@@ -145,7 +145,7 @@ class ActorsRepositoryImpl @Inject constructor(
         return actorsLocalDataSource.getTotalPages()
     }
 
-    private suspend fun updateTotalPages(totalPages: Int) {
+    suspend fun updateTotalPages(totalPages: Int) {
         actorsLocalDataSource.updateTotalPages(totalPages)
     }
 }

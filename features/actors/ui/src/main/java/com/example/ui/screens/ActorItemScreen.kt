@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,24 +24,31 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
+import com.example.ui.R
 
 @Composable
 fun ActorItemScreen(
     actorModel: ActorModel,
     onActorClicked: (ActorModel) -> Unit
 ) {
+    val image = stringResource(R.string.image)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onActorClicked(actorModel) }
+            .clickable (onClickLabel = stringResource(
+                R.string.action_read_actor,
+                actorModel.name
+            )){
+                onActorClicked(actorModel)
+            }
     ) {
         Box(
             modifier = Modifier.size(100.dp)
         ) {
             AsyncImage(
                 model = actorModel.image,
-                contentDescription = "Image",
+                contentDescription = image + actorModel.name,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape),

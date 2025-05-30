@@ -16,11 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
 import com.example.ui.ActorState
+import com.example.ui.R
 
 @Composable
 fun ActorsScreen(
@@ -30,12 +34,15 @@ fun ActorsScreen(
     onLoadActors: () -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
+    val actorScreen = stringResource(R.string.actors_screen)
+    val actorList = stringResource(R.string.actors_list_grid)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
             .padding(horizontal = 16.dp, vertical = 16.dp)
+            .semantics { contentDescription = actorScreen }
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -49,13 +56,15 @@ fun ActorsScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 state = lazyGridState,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .semantics { contentDescription = actorList },
                 contentPadding = PaddingValues(horizontal = 50.dp),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 items(
                     actorState.actors,
-                    key = {actorState -> actorState.id}
+                    key = {actor -> actor.id}
                 ) { actor ->
                     ActorItemScreen(actorModel = actor) {
                         onNavigateToActorDetails(actor)
