@@ -21,4 +21,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "CrearRepositorio"
 include(":app")
- 
+include(":features")
+include(":features:series")
+include(":features:series:data")
+include(":features:series:ui")
+include(":features:series:domain")
+include(":lib")
+include(":lib:common_data")
+include(":lib:common_ui")
+include(":features:home")
+include(":features:home:home_ui")
