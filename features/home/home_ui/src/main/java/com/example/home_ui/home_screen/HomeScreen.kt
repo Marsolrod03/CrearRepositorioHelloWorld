@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.home_ui.HomeViewModel
 import com.example.home_ui.NavigationTarget
-import com.example.home_ui.R
+import com.example.ui.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +61,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.icon2),
+            painter = painterResource(id = com.example.home_ui.R.drawable.icon2),
             contentDescription = "Logo",
             modifier = Modifier
                 .height(347.dp)
