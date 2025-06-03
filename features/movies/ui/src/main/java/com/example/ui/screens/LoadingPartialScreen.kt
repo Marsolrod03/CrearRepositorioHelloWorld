@@ -19,12 +19,13 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.ui.R
 
 @Composable
 fun LoadingPartialScreenLottie() {
 
     val composition by rememberLottieComposition(
-        spec = LottieCompositionSpec.Asset("loadingPartial.json")
+        spec = LottieCompositionSpec.Asset(R.string.partial_loading_asset.toString())
     )
     val progress by animateLottieCompositionAsState(
         composition = composition,

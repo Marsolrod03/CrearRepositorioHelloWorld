@@ -70,13 +70,14 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
+    //tested
     override suspend fun clearAndUpdateDatabase(timeRN: Long) {
         clearMovieDatabase()
         deleteAllMoviePages()
         updateLastDelete(timeRN)
     }
 
-    fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
+    private fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
         try {
             var totalPages = Int.MAX_VALUE
             val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
@@ -108,16 +109,17 @@ class MovieRepositoryImpl @Inject constructor(
         return accumulatedMovies
     }
 
-    suspend fun insertAllMovies(movies: List<MovieModel>) =
+    private suspend fun insertAllMovies(movies: List<MovieModel>) =
         localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
 
-    suspend fun insertPagination() =
+    private suspend fun insertPagination() =
         localDataSource.insertPagination()
 
-
-    suspend fun clearMovieDatabase() =
+    //tested
+    private suspend fun clearMovieDatabase() =
         localDataSource.clearDatabase()
 
+    //tested
     override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
         try {
             val detailMovie = networkDataSource.fetchDetailMovies(movieId)
@@ -132,27 +134,31 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
+    //tested, should be private
     suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
         localDataSource.getMovieDetails(movieId).toMovieModel()
 
+    //tested, should be private
     suspend fun getLastMoviePage(): Int =
         localDataSource.getLastMoviePage()
 
-    suspend fun deleteAllMoviePages() =
+    //tested
+    private suspend fun deleteAllMoviePages() =
         localDataSource.deleteAllMoviePages()
 
-    suspend fun updateLastLoadedPage(lastLoadedPage: Int) =
+    private suspend fun updateLastLoadedPage(lastLoadedPage: Int) =
         localDataSource.updateLastLoadedPage(lastLoadedPage)
 
     override suspend fun getLastDelete() =
         localDataSource.getLastDeleteDB()
 
-    suspend fun updateLastDelete(lastDelete: Long) =
+    //tested
+    private suspend fun updateLastDelete(lastDelete: Long) =
         localDataSource.updateLastDeleteDB(lastDelete)
 
-    suspend fun getTotalPages(): Int =
+    private suspend fun getTotalPages(): Int =
         localDataSource.getTotalPages()
 
-    suspend fun updateTotalPages(totalPages: Int) =
+    private suspend fun updateTotalPages(totalPages: Int) =
         localDataSource.updateTotalPages(totalPages)
 }

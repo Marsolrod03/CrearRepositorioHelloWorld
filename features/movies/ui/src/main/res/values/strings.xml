@@ -12,4 +12,14 @@
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="action_detail_movie">Read detail of: %1$s</string>
+    <string name="full_screen_asset">loadingAnimation.json</string>
+    <string name="partial_loading_asset">loadingPartial.json</string>
+    <string name="poster_description">Poster image from: %1$s</string>
+    <string name="background_description">Background image from: %1$s</string>
+    <string name="popularity_description">Popularity: %1$.2f</string>
+    <string name="release_date_description">Release Date: %1$s</string>
+    <string name="vote_average_description">Vote Average: %1$.2f</string>
+
+
 </resources>

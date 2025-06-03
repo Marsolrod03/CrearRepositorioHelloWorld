@@ -18,11 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.domain.model.MovieModel
+import com.example.ui.R
 import com.example.ui.view_model.Loader
 import com.example.ui.view_model.MoviesState
 
@@ -33,7 +35,7 @@ fun MovieListScreen(
     onLoad: () -> Unit,
     onError: () -> Unit
 ) {
-    when{
+    when {
         state.loader == Loader.LoadingFull -> {
             LoadingFullScreenLottie()
         }
@@ -62,7 +64,14 @@ fun MovieItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() },
+            .clickable(
+                onClickLabel = stringResource(
+                    R.string.action_detail_movie,
+                    movieModel.title
+                )
+            ) {
+                onClick()
+            },
         colors = CardDefaults.cardColors(containerColor = Color.Black)
     ) {
         Column(
@@ -72,7 +81,7 @@ fun MovieItem(
         ) {
             Image(
                 painter = rememberAsyncImagePainter(movieModel.poster_path),
-                contentDescription = "Poster image from ${movieModel.title}",
+                contentDescription = stringResource(R.string.poster_description, movieModel.title),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
@@ -80,7 +89,7 @@ fun MovieItem(
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = movieModel.title, fontWeight = FontWeight.Black, color = Color.White)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = movieModel.overview, fontWeight = FontWeight.Light,color = Color.White)
+            Text(text = movieModel.overview, fontWeight = FontWeight.Light, color = Color.White)
         }
     }
 }
@@ -139,7 +148,7 @@ fun MovieItemPreview() {
             release_date = "",
             vote_average = 0.0
         ),
-        onClick = {  }
+        onClick = { }
     )
 }
 

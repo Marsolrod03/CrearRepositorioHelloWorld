@@ -8,12 +8,13 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.ui.R
 
 @Composable
 fun LoadingFullScreenLottie() {
 
     val composition by rememberLottieComposition(
-        spec = LottieCompositionSpec.Asset("loadingAnimation.json")
+        spec = LottieCompositionSpec.Asset(R.string.full_screen_asset.toString())
     )
     val progress by animateLottieCompositionAsState(
         composition = composition,
