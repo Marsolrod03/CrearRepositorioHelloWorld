@@ -32,6 +32,8 @@ turbine = "1.1.0"
 mockk = "1.13.12"
 navigate = "2.9.0"
 junitJunit = "4.13.2"
+hiltWork = "1.2.0"
+workRuntime = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +77,9 @@ test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kotlin-jUnit5Test = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 navigateCompose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigate"}
 junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+hiltWorker = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+hiltCompilerWorker = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWork" }
+runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

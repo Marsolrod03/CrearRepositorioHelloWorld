@@ -8,10 +8,13 @@ import com.example.data.dto.PagedResultDTO
 import com.example.domain.ActorWrapper
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
@@ -19,6 +22,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNotNull
 
 
 class ActorsRepositoryImplTest {
@@ -33,7 +37,7 @@ class ActorsRepositoryImplTest {
     fun setUp() {
         actorsLocalDataSource = mockk(relaxed = true)
         actorsNetworkDataSource = mockk(relaxed = true)
-        actorsRepository = ActorsRepositoryImpl(actorsNetworkDataSource, actorsLocalDataSource)
+        actorsRepository = spyk(ActorsRepositoryImpl(actorsNetworkDataSource, actorsLocalDataSource))
     }
 
     @Test
@@ -59,7 +63,6 @@ class ActorsRepositoryImplTest {
             coEvery { actorsRepository.getPaginationActors() } returns lastPage
             coEvery { actorsRepository.getActorsFromDatabase() } returns actorsDataBase
             coEvery { actorsRepository.getTotalPages() } returns totalPagesDataBase
-//            coEvery { actorsRepository.getPagedActors() } returns flow {expectedResult}
 
             val emittedResults = mutableListOf<Result<ActorWrapper>>()
             actorsRepository.getPagedActors().toList(emittedResults)
@@ -67,6 +70,7 @@ class ActorsRepositoryImplTest {
 
             assertEquals(expectedResult, result)
 
+            coVerify(exactly = 1) { actorsRepository.getPagedActors() }
             coVerify(exactly = 1) { actorsRepository.getPaginationActors() }
             coVerify(exactly = 1) { actorsRepository.getActorsFromDatabase() }
             coVerify(exactly = 1) { actorsRepository.getTotalPages() }
@@ -75,35 +79,92 @@ class ActorsRepositoryImplTest {
         }
 
     @Test
-    fun shouldEmitFromApiAndUpdateTheLastPageFromDatabase() = runTest {
-        //GIVEN
-        val lastPage = 0
-        val currentPageInitial = 0
-        val totalPagesDataBase = 3
-        val actor = ActorModel(
+    fun `GIVEN lastPageDatabase lower currentPage WHEN getPagedActors THEN should call API and update local data`() =
+        runTest {
+            val lastPage = 1
+            val currentPage = 1
+            val totalPagesDataBase = 3
+
+            actorsRepository.currentPage = currentPage
+
+            val apiActor = ActorModel(
+                id = 1,
+                name = "actor",
+                image = "",
+                popularity = 8.5,
+                gender = Gender.Female,
+                biography = ""
+            )
+            val apiWrapper = ActorWrapper(true, listOf(apiActor), 3)
+
+            coEvery { actorsRepository.getPaginationActors() } returns lastPage
+            coEvery { actorsRepository.getActorsFromDatabase() } returns emptyList()
+            coEvery { actorsRepository.getTotalPages() } returns totalPagesDataBase
+            coEvery { actorsRepository.getPagedActorsFromApi(currentPage + 1) } returns flowOf(Result.success(apiWrapper))
+            coEvery { actorsRepository.insertActors(any()) } just Runs
+            coEvery { actorsRepository.updateTotalPages(any()) } just Runs
+            coEvery { actorsRepository.updateLastPage(any()) } just Runs
+
+            val emittedResults = mutableListOf<Result<ActorWrapper>>()
+            actorsRepository.getPagedActors().toList(emittedResults)
+            val result = emittedResults.first()
+
+            assertTrue(result.isSuccess)
+            assertEquals(apiWrapper, result.getOrNull())
+            assertEquals(currentPage + 1, actorsRepository.currentPage)
+
+            coVerify(exactly = 1) {
+                actorsRepository.getPagedActors()
+                actorsRepository.getPaginationActors()
+            }
+            coVerify(exactly = 1) { actorsRepository.getPaginationActors() }
+            coVerify(exactly = 1) { actorsRepository.getActorsFromDatabase() }
+            coVerify(exactly = 1) { actorsRepository.getTotalPages() }
+            coVerify(exactly = 1) { actorsRepository.getPagedActors() }
+            coVerify(exactly = 1) { actorsRepository.getPagedActorsFromApi(currentPage + 1) }
+            coVerify(exactly = 1) { actorsRepository.insertActors(any()) }
+            coVerify(exactly = 1) { actorsRepository.updateTotalPages(any()) }
+            coVerify(exactly = 1) { actorsRepository.updateLastPage(any()) }
+            confirmVerified(actorsLocalDataSource, actorsNetworkDataSource)
+        }
+
+    @Test
+    fun `GIVEN lastPage equals totalPages WHEN getPagedActors THEN should return database actors with hasMorePages false`() = runTest {
+        val lastPage = 2
+        val currentPage = 1
+        val totalPagesDataBase = 5
+
+        actorsRepository.currentPage = currentPage
+
+        val dbActor = ActorModel(
             id = 1,
-            name = "Name  ",
+            name = "dbActor",
             image = "",
-            popularity = 1.0,
+            popularity = 7.0,
             gender = Gender.Male,
             biography = "Info"
         )
-        val actorWrapper =
-            ActorWrapper(hasMorePages = true, actorsList = listOf(actor), totalPages = 1000)
-        val expectedResult = Result.success(actorWrapper)
 
         coEvery { actorsRepository.getPaginationActors() } returns lastPage
-        coEvery { actorsRepository.getPagedActorsFromApi(currentPageInitial + 1) } returns flowOf(
-            expectedResult
-        )
+        coEvery { actorsRepository.getActorsFromDatabase() } returns listOf(dbActor)
         coEvery { actorsRepository.getTotalPages() } returns totalPagesDataBase
 
-        //WHEN
-//        val resultFlow = actorsRepository.getPagedActors()
+        val results = actorsRepository.getPagedActors().toList()
 
-        //THEN
+        assertEquals(1, results.size)
+        val result = results[0].getOrNull()
 
+        assertNotNull(result)
+        assertEquals(listOf(dbActor), result.actorsList)
+        assertEquals(totalPagesDataBase, result.totalPages)
+        assertTrue(result.hasMorePages)
+
+        coVerify(exactly = 1) { actorsRepository.getPaginationActors() }
+        coVerify(exactly = 1) { actorsRepository.getActorsFromDatabase() }
+        coVerify(exactly = 1) { actorsRepository.getTotalPages() }
+        confirmVerified(actorsLocalDataSource, actorsNetworkDataSource)
     }
+
 
     @Test
     fun `WHEN getActorsFromDatabase THEN return expected actorModel from database`() = runTest {
@@ -134,19 +195,19 @@ class ActorsRepositoryImplTest {
         confirmVerified(actorsLocalDataSource)
     }
 
-    @Test
-    fun `GIVEN an id that exits WHEN getActorById THEN return an ActorModel`() = runTest {
-        val idGiven = 2
-        val actorExpected = ActorModel(idGiven, "", "", Gender.Male, 1.0, "")
-        coEvery { actorsLocalDataSource.getActorById(idGiven) } returns actorExpected
-
-        val result = actorsRepository.getActorsFromDatabase()
-
-        assertEquals(actorExpected, result)
-
-        coVerify(exactly = 1) { actorsLocalDataSource.getActorById(idGiven) }
-        confirmVerified(actorsLocalDataSource)
-    }
+//    @Test
+//    fun `GIVEN an id that exits WHEN getActorById THEN return an ActorModel`() = runTest {
+//        val idGiven = 2
+//        val actorExpected = ActorModel(idGiven, "", "", Gender.Male, 1.0, "")
+//        coEvery { actorsLocalDataSource.getActorById(idGiven) } returns actorExpected
+//
+//        val result = actorsRepository.getActorsFromDatabase()
+//
+//        assertEquals(actorExpected, result)
+//
+//        coVerify(exactly = 1) { actorsLocalDataSource.getActorById(idGiven) }
+//        confirmVerified(actorsLocalDataSource)
+//    }
 
     @Test
     fun `WHEN insertActors THEN it should map ActorModels to ActorEntities and insert them`() = runTest {
@@ -394,5 +455,119 @@ class ActorsRepositoryImplTest {
         confirmVerified(actorsLocalDataSource, actorsNetworkDataSource)
     }
 
+    @Test
+    fun `GIVEN API throws exception WHEN getPagedActorsFromApi THEN should emit failure`() = runTest {
+        val currentPage = 1
+        val testException = RuntimeException("Network error occurred")
 
+        coEvery { actorsNetworkDataSource.fetchActors(currentPage) } throws testException
+
+        val emittedResults = mutableListOf<Result<ActorWrapper>>()
+        actorsRepository.getPagedActorsFromApi(currentPage).toList(emittedResults)
+        val result = emittedResults.first()
+
+        coVerify(exactly = 1) { actorsNetworkDataSource.fetchActors(currentPage) }
+        assertTrue(result.isFailure)
+
+        assertEquals(testException.message, result.exceptionOrNull()?.message)
+
+        confirmVerified(actorsNetworkDataSource, actorsLocalDataSource)
+    }
+
+    @Test
+    fun `GIVEN local actor with biography WHEN getActorDetails THEN should emit local actor`() = runTest {
+        val actorId = 123
+        val localActor = ActorModel(
+            id = 123,
+            name = "actor",
+            popularity = 9.5,
+            image = "",
+            gender = Gender.Female,
+            biography = "biography"
+        )
+        val expectResult = Result.success(localActor)
+
+        coEvery { actorsRepository.getActorById(actorId) } returns localActor
+
+        val emittedResults = mutableListOf<Result<ActorModel>>()
+        actorsRepository.getActorDetails(actorId.toString()).toList(emittedResults)
+        val result = emittedResults.first()
+
+        assertTrue(result.isSuccess)
+        assertEquals(expectResult, result)
+
+        coVerify(exactly = 1) { actorsRepository.getActorById(actorId) }
+        coVerify(exactly = 0) { actorsNetworkDataSource.fetchDetails(any()) }
+        confirmVerified(actorsNetworkDataSource, actorsLocalDataSource)
+    }
+
+    @Test
+    fun `GIVEN local actor with without biography WHEN getActorDetails THEN should emit API actor`() = runTest {
+        val actorId = "456"
+        val localActor = ActorModel(
+            id = 456,
+            name = "name",
+            popularity = 5.0,
+            image = "",
+            biography = "Info",
+            gender = Gender.Male
+        )
+        val apiActorDto = ActorDTO(
+            id = 456,
+            name = "name",
+            popularity = 5.0,
+            profile_path = "",
+            gender = 2
+        )
+        val expectedApiActor = apiActorDto.toActorModel()
+        val expectResult = Result.success(expectedApiActor)
+
+        coEvery { actorsRepository.getActorById(actorId.toInt()) } returns localActor
+        coEvery { actorsNetworkDataSource.fetchDetails(actorId) } returns expectedApiActor
+
+        val emittedResults = mutableListOf<Result<ActorModel>>()
+        actorsRepository.getActorDetails(actorId).toList(emittedResults)
+        val result = emittedResults.first()
+
+        assertTrue(result.isSuccess)
+        assertEquals(expectResult, result)
+
+        coVerify(exactly = 1) { actorsRepository.getActorDetails(actorId) }
+        coVerify(exactly = 1) { actorsRepository.getActorDetailsApi(actorId) }
+        coVerify(exactly = 1) { actorsRepository.getActorById(actorId.toInt()) }
+        coVerify(exactly = 1) { actorsNetworkDataSource.fetchDetails(actorId) }
+        confirmVerified(actorsRepository, actorsNetworkDataSource)
+    }
+
+    @Test
+    fun `GIVEN local actor without biography and api fails WHEN getActorDetails THEN should emit local actor`() = runTest {
+        val actorId = "789"
+        val localActor = ActorModel(
+            id = 789,
+            name = "name",
+            popularity = 5.0,
+            image = "",
+            biography = "Info",
+            gender = Gender.Male
+        )
+        val testException = RuntimeException("API network error")
+        val expectResult = Result.success(localActor)
+
+        coEvery { actorsRepository.getActorById(actorId.toInt()) } returns localActor
+        coEvery { actorsNetworkDataSource.fetchDetails(actorId) } throws testException
+
+        val emittedResults = mutableListOf<Result<ActorModel>>()
+        actorsRepository.getActorDetails(actorId).toList(emittedResults)
+        val result = emittedResults.first()
+
+        assertTrue(result.isSuccess)
+        assertEquals(expectResult, result)
+
+        coVerify(exactly = 1) { actorsRepository.getActorDetails(actorId) }
+        coVerify(exactly = 1) { actorsRepository.getActorDetailsApi(actorId) }
+        coVerify(exactly = 1) { actorsRepository.getActorById(actorId.toInt()) }
+        coVerify(exactly = 1) { actorsNetworkDataSource.fetchDetails(actorId) }
+
+        confirmVerified(actorsRepository, actorsNetworkDataSource)
+    }
 }

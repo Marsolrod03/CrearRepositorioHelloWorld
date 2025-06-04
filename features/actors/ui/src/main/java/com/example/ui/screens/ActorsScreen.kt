@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -37,6 +39,9 @@ fun ActorsScreen(
     val actorScreen = stringResource(R.string.actors_screen)
     val actorList = stringResource(R.string.actors_list_grid)
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,13 +59,13 @@ fun ActorsScreen(
             }
         } else if (actorState.actors.isNotEmpty()) {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = if (isLandscape) GridCells.Fixed(4) else GridCells.Fixed(2),
                 state = lazyGridState,
                 modifier = Modifier
                     .fillMaxSize()
                     .semantics { contentDescription = actorList },
-                contentPadding = PaddingValues(horizontal = 50.dp),
-                horizontalArrangement = Arrangement.spacedBy(32.dp)
+                contentPadding = PaddingValues(horizontal = if(isLandscape) 50.dp else 50.dp),
+                horizontalArrangement = Arrangement.spacedBy(if(isLandscape) 16.dp else 32.dp)
             ) {
                 items(
                     actorState.actors,

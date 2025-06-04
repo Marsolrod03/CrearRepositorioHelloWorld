@@ -14,7 +14,7 @@ class ActorsRepositoryImpl @Inject constructor(
     private val actorsLocalDataSource: ActorsLocalDataSource
 ) : ActorsRepository {
 
-    private var currentPage = 0
+    var currentPage = 0
     private var listChange: MutableList<ActorModel> = mutableListOf()
 
     override fun getPagedActors(): Flow<Result<ActorWrapper>> = flow {
@@ -41,7 +41,6 @@ class ActorsRepositoryImpl @Inject constructor(
                         emit(Result.success(actorWrapper))
                     }
                 }
-
         }
     }
 
@@ -109,7 +108,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deleteAllActors()
     }
 
-    private suspend fun getActorById(id: Int): ActorModel {
+    suspend fun getActorById(id: Int): ActorModel {
         return actorsLocalDataSource.getActorById(id)
     }
 

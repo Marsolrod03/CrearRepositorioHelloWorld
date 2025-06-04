@@ -51,7 +51,12 @@ dependencies {
     implementation(platform(libs.composeBom))
     implementation(libs.navigateCompose)
     debugImplementation(libs.uiTooling)
+
     testImplementation(libs.junit)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
+    testImplementation(libs.kotlin.jUnit5Test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

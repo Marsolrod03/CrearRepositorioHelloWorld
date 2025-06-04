@@ -10,6 +10,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
+        minSdk = 24
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,6 +31,7 @@ android {
         buildConfig = true
     }
 }
+
 tasks.withType<Test>{
     useJUnitPlatform()
 }
@@ -48,6 +51,9 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.hiltWorker)
+    ksp(libs.hiltCompilerWorker)
+    implementation(libs.runtime.ktx)
 
     testImplementation(libs.junit)
     testImplementation(libs.test.coroutines)

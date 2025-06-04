@@ -1,9 +1,12 @@
 package com.example.ui.details
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +36,7 @@ import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
 import com.example.ui.R
 import androidx.core.net.toUri
+import androidx.compose.ui.platform.LocalConfiguration
 
 
 @Composable
@@ -48,6 +52,9 @@ fun ActorDetailsScreen(
     val popularity = stringResource(R.string.popularity)
     val gender = stringResource(R.string.gender)
     val actualContext = LocalContext.current
+
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -64,66 +71,136 @@ fun ActorDetailsScreen(
         } else if (detailsState.details != null) {
             val details = detailsState.details
 
-            AsyncImage(
-                model = actorImage,
-                contentDescription = image + details.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.5f)
-                    .clip(RectangleShape)
-                    .clickable {
-                        val imageUrl = details.image
-                        val intent = Intent(Intent.ACTION_VIEW, imageUrl.toUri())
-                        actualContext.startActivity(intent)
-                    },
-                contentScale = ContentScale.Crop
-            )
+            if(isLandscape){
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        AsyncImage(
+                            model = actorImage,
+                            contentDescription = image + details.name,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(0.7f)
+                                .clip(RectangleShape)
+                                .clickable {
+                                    val imageUrl = details.image
+                                    val intent = Intent(Intent.ACTION_VIEW, imageUrl.toUri())
+                                    actualContext.startActivity(intent)
+                                },
+                            contentScale = ContentScale.Inside
+                        )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = details.name,
-                style = TextStyle(
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+                        Text(
+                            text = details.name,
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        )
+
+                        Text(
+                            text = gender + actorGender,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.White
+                            )
+                        )
+
+                        Text(
+                            text = popularity + details.popularity,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.White
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = details.biography,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier
+                                .weight(0.6f)
+                                .verticalScroll(rememberScrollState())
+                                .semantics { biography + details.biography }
+                        )
+                    }
+                }
+            }else{
+                AsyncImage(
+                    model = actorImage,
+                    contentDescription = image + details.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.5f)
+                        .clip(RectangleShape)
+                        .clickable {
+                            val imageUrl = details.image
+                            val intent = Intent(Intent.ACTION_VIEW, imageUrl.toUri())
+                            actualContext.startActivity(intent)
+                        },
+                    contentScale = ContentScale.Crop
                 )
-            )
 
-            Text(
-                text = gender + actorGender,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    color = Color.White
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = details.name,
+                    style = TextStyle(
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
                 )
-            )
 
-            Text(
-                text = popularity + details.popularity,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    color = Color.White
+                Text(
+                    text = gender + actorGender,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
                 )
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = popularity + details.popularity,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                )
 
-            Text(
-                text = details.biography,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Color.White
-                ),
-                modifier = Modifier
-                    .weight(0.6f)
-                    .verticalScroll(rememberScrollState())
-                    .semantics { biography + details.biography }
-            )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = details.biography,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        .weight(0.6f)
+                        .verticalScroll(rememberScrollState())
+                        .semantics { biography + details.biography }
+                )
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, device = "spec:parent=pixel_5,orientation=landscape")
 @Composable
 fun ActorDetailsScreenErrorPreview() {
     ActorDetailsScreen(

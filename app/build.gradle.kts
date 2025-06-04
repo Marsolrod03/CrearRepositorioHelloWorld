@@ -83,7 +83,15 @@ dependencies {
     implementation(libs.preference)
     implementation(libs.room)
     ksp(libs.roomCompiler)
+    implementation(libs.hiltWorker)
+    ksp(libs.hiltCompilerWorker)
+    implementation(libs.runtime.ktx)
+
     testImplementation(libs.junit)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
+    testImplementation(libs.kotlin.jUnit5Test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
