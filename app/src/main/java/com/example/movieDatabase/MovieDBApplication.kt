@@ -1,22 +1,26 @@
 package com.example.movieDatabase
 
 import android.app.Application
-import com.example.domain.use_case.DeleteDatabaseUseCase
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
+import com.example.data.workers.ResetDatabaseScheduler.scheduleWeeklyResetWorker
 import dagger.hilt.android.HiltAndroidApp
-import jakarta.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 
 @HiltAndroidApp
-class MovieDBApplication: Application() {
-    @Inject
-    lateinit var deleteDatabaseUseCase: DeleteDatabaseUseCase
+class MovieDBApplication : Application() {
+//Configuration.Provider
+//    @Inject
+//    lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
-        CoroutineScope(Dispatchers.IO).launch{
-            deleteDatabaseUseCase()
-        }
     }
+
+//    override val workManagerConfiguration: Configuration
+//        get() = Configuration.Builder()
+//            .setWorkerFactory(workerFactory)
+//            .build()
+
 }

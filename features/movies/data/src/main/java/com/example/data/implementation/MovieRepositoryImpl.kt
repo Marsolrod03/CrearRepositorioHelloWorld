@@ -15,7 +15,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource,
     private val localDataSource: MoviesLocalDataSource
 ) : MovieRepository {
-    private var accumulatedMovies: MutableList<MovieModel> = mutableListOf()
+    var accumulatedMovies: MutableList<MovieModel> = mutableListOf()
     var currentPage = 1
 
     override fun manageMoviesPagination(): Flow<Result<MovieWrapper>> = flow {
@@ -23,6 +23,8 @@ class MovieRepositoryImpl @Inject constructor(
             var lastMoviePageInDatabase = getLastMoviePage()
             val databaseMovies = getAllMoviesFromDatabase()
             val totalPages = getTotalPages()
+
+            println("accumulatedMovies: ${accumulatedMovies.size}, databaseMovies: ${databaseMovies.size}")
 
             if (accumulatedMovies.isEmpty() && databaseMovies.isNotEmpty()) {
                 currentPage = lastMoviePageInDatabase + 1
@@ -74,6 +76,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun clearAndUpdateDatabase(timeRN: Long) {
         clearMovieDatabase()
         deleteAllMoviePages()
+        insertPagination()
         updateLastDelete(timeRN)
     }
 
@@ -100,7 +103,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
+    private suspend fun getAllMoviesFromDatabase(): List<MovieModel> {
         val movieListDB = localDataSource.getAllMovies().map { it.toMovieModel() }
         val newMovies = movieListDB.filter { dbMovie ->
             accumulatedMovies.none { it.id == dbMovie.id }
@@ -112,6 +115,7 @@ class MovieRepositoryImpl @Inject constructor(
     private suspend fun insertAllMovies(movies: List<MovieModel>) =
         localDataSource.insertAllMovies(movies.map { it.toMovieEntity() })
 
+    //tested
     private suspend fun insertPagination() =
         localDataSource.insertPagination()
 
@@ -119,8 +123,7 @@ class MovieRepositoryImpl @Inject constructor(
     private suspend fun clearMovieDatabase() =
         localDataSource.clearDatabase()
 
-    //tested
-    override fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
+    private fun getDetailMoviesFromApi(movieId: Int): Flow<Result<MovieModel>> = flow {
         try {
             val detailMovie = networkDataSource.fetchDetailMovies(movieId)
             detailMovie?.let {
@@ -134,12 +137,10 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    //tested, should be private
-    suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
+    private suspend fun getDetailMoviesFromDatabase(movieId: Int): MovieModel =
         localDataSource.getMovieDetails(movieId).toMovieModel()
 
-    //tested, should be private
-    suspend fun getLastMoviePage(): Int =
+    private suspend fun getLastMoviePage(): Int =
         localDataSource.getLastMoviePage()
 
     //tested

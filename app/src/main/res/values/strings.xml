@@ -6,7 +6,7 @@
     <string name="series_fragment">Series</string>
     <string name="actor_fragment">Actors</string>
     <string name="home">HOME</string>
-    <string name="titulo">TV DATABASE</string>
+    <string name="title">TV DATABASE</string>
     <string name="movietitle">MovieTitle</string>
     <string name="movieoverview">MovieOverview</string>
     <string name="genresmovie">GenresMovie</string>

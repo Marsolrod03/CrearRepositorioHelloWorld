@@ -13,8 +13,17 @@ kotlin {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies{
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)
     implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
+    testImplementation(libs.kotlin.jUnit5Test)
 }

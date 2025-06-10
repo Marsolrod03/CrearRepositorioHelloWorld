@@ -33,7 +33,7 @@ android {
     }
 }
 
-tasks.withType<Test>{
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 
@@ -43,6 +43,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     ksp(libs.ksp)
     ksp(libs.hiltCompiler)
+    ksp(libs.hiltCompilerWorker)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.hilt)
@@ -50,6 +51,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.hiltWorker)
+    implementation(libs.runtime.ktx)
     testImplementation(libs.junit)
     testImplementation(libs.test.coroutines)
     testImplementation(libs.test.mockk)
