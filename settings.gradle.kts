@@ -26,6 +26,10 @@ include(
     ":features:actors:ui",
     ":features:actors:data"
 )
+include(":features:series:data")
+include(":features:series:ui")
+include(":features:series:domain")
+include(":features:home:home_ui")
 include(":lib")
 include(":lib:common_data")
 include(":lib:common_ui")

@@ -10,4 +10,10 @@ fun Fragment.replaceFragment(fragment: Fragment) {
         .commit()
 }
 
+fun Fragment.replaceFragmentWithoutBackStack(fragment: Fragment) {
+    parentFragmentManager.beginTransaction()
+        .replace(R.id.navHostFragment, fragment)
+        .commit()
+}
+
 fun Fragment.back(){parentFragmentManager.popBackStack()}

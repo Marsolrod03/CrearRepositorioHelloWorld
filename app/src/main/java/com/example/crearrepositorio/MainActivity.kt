@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.common_ui.databinding.ActivityMainBinding
-import com.example.crearrepositorio.features.home.ui.FragmentHome
+import com.example.home_ui.FragmentHome
 import com.example.data.AirplaneModeReceiver
 import com.example.ui.details.DetailsActorFragment
 import dagger.hilt.android.AndroidEntryPoint

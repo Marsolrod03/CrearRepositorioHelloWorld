@@ -8,6 +8,7 @@
     <string name="home">HOME</string>
     <string name="titulo">TV DATABASE</string>
     <string name="movietitle">MovieTitle</string>
+    <string name="movieoverview">MovieOverview</string>
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
     <string name="concededPermission">Permiso concedido. Notificaciones activadas.</string>
@@ -15,5 +16,7 @@
     <string name="settings">Ir a ajustes</string>
     <string name="permissionNeed">Permiso requerido</string>
     <string name="goSettings">Debes activar el permiso de notificaciones desde los ajustes.</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="cancel">Cancelar</string>
 </resources>

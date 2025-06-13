@@ -21,7 +21,6 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
     buildFeatures {
         buildConfig = true
     }
@@ -30,10 +29,12 @@ android {
 dependencies {
     implementation(libs.hilt)
     ksp(libs.hiltCompiler)
+    implementation(libs.gson)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.core)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
