@@ -10,4 +10,10 @@
     <string name="movietitle">MovieTitle</string>
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
+    <string name="concededPermission">Permiso concedido. Notificaciones activadas.</string>
+    <string name="notConcededPermission">El permiso para notificaciones fue denegado.</string>
+    <string name="settings">Ir a ajustes</string>
+    <string name="permissionNeed">Permiso requerido</string>
+    <string name="goSettings">Debes activar el permiso de notificaciones desde los ajustes.</string>
+    <string name="cancel">Cancelar</string>
 </resources>

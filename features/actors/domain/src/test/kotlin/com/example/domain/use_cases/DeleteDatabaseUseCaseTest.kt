@@ -64,12 +64,14 @@ class DeleteDatabaseUseCaseTest {
 
   getDeleteDatabaseUseCase.invoke()
 
-  coVerify(exactly = 1) { actorsRepository.getLastDeletion() }
-  coVerify(exactly = 1) { actorsRepository.clearActors() }
-  coVerify(exactly = 1) { actorsRepository.clearPagination() }
-  coVerify(exactly = 1) { actorsRepository.insertPagination() }
-  coVerify(exactly = 1) { timeProvider.getCurrentCalendar() }
-  coVerify(exactly = 1) { timeProvider.getCurrentTimeMillis() }
+  coVerify(exactly = 1) {
+   actorsRepository.getLastDeletion()
+   actorsRepository.clearActors()
+   actorsRepository.clearPagination()
+   actorsRepository.insertPagination()
+   timeProvider.getCurrentCalendar()
+   timeProvider.getCurrentTimeMillis()
+  }
 
   val timestampSlot = slot<Long>()
   coVerify(exactly = 1) {
@@ -108,13 +110,17 @@ class DeleteDatabaseUseCaseTest {
 
   getDeleteDatabaseUseCase.invoke()
 
-  coVerify(exactly = 1) { actorsRepository.getLastDeletion() }
-  coVerify(exactly = 1) { timeProvider.getCurrentCalendar() }
-  coVerify(exactly = 0) { actorsRepository.clearActors() }
-  coVerify(exactly = 0) { actorsRepository.clearPagination() }
-  coVerify(exactly = 0) { actorsRepository.insertPagination() }
-  coVerify(exactly = 0) { actorsRepository.updateLastDeletion(any()) }
-  coVerify(exactly = 0) { timeProvider.getCurrentTimeMillis() }
+  coVerify(exactly = 1) {
+   actorsRepository.getLastDeletion()
+   timeProvider.getCurrentCalendar()
+  }
+  coVerify(exactly = 0) {
+   actorsRepository.clearActors()
+   actorsRepository.clearPagination()
+   actorsRepository.insertPagination()
+   actorsRepository.updateLastDeletion(any())
+   timeProvider.getCurrentTimeMillis()
+  }
 
   confirmVerified(actorsRepository, timeProvider)
  }

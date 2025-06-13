@@ -81,6 +81,7 @@ hiltWorker = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltW
 hiltCompilerWorker = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWork" }
 runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntime" }
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

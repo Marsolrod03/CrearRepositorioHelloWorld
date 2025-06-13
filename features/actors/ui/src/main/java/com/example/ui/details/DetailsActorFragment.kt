@@ -59,6 +59,18 @@ class DetailsActorFragment : BaseFragment<DetailsActorsBinding>() {
                 }
             )
         }
+    }
 
+    companion object {
+        fun newInstance(actorId: String, actorImage: String? = null, actorGender: String? = null): DetailsActorFragment {
+            val fragment = DetailsActorFragment()
+            val args = Bundle().apply {
+                putString("actorId", actorId)
+                putString("actorImage", actorImage)
+                putString("actorGender", actorGender)
+            }
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

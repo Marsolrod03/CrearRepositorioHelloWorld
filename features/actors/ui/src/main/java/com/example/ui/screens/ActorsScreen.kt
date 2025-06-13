@@ -64,19 +64,20 @@ fun ActorsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .semantics { contentDescription = actorList },
-                contentPadding = PaddingValues(horizontal = if(isLandscape) 50.dp else 50.dp),
-                horizontalArrangement = Arrangement.spacedBy(if(isLandscape) 16.dp else 32.dp)
+                contentPadding = PaddingValues(horizontal = if (isLandscape) 50.dp else 50.dp),
+                horizontalArrangement = Arrangement.spacedBy(if (isLandscape) 16.dp else 32.dp)
             ) {
                 items(
                     actorState.actors,
-                    key = {actor -> actor.id}
+                    key = { actor -> actor.id }
                 ) { actor ->
                     ActorItemScreen(actorModel = actor) {
                         onNavigateToActorDetails(actor)
                     }
                 }
                 item {
-                    val lastVisibleItemIndex = lazyGridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                    val lastVisibleItemIndex =
+                        lazyGridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
                     if (lastVisibleItemIndex != null && lastVisibleItemIndex >= actorState.actors.size - 1 && !actorState.isPartialLoading) {
                         LaunchedEffect(Unit) {
                             onLoadActors()
@@ -101,6 +102,33 @@ fun ActorsScreenSuccessPreview() {
         ActorModel(1, "Name 1", "", Gender.Male, 75.0, "Biography 1"),
         ActorModel(2, "Name 2", "", Gender.Female, 82.5, "Biography 2"),
         ActorModel(3, "Name 3", "", Gender.Male, 68.0, "Biography 3")
+    )
+
+    ActorsScreen(
+        actorState = ActorState(
+            actors = sampleActors,
+            isFirstLoad = false,
+            isPartialLoading = false
+        ),
+        onNavigateToActorDetails = { },
+        onError = { },
+        onLoadActors = { }
+    )
+}
+
+@Preview(showBackground = true, device = "spec:parent=pixel_5,orientation=landscape")
+@Composable
+fun ActorsScreenSuccessLandPreview() {
+    val sampleActors = listOf(
+        ActorModel(1, "Name 1", "", Gender.Male, 75.0, "Biography 1"),
+        ActorModel(2, "Name 2", "", Gender.Female, 82.5, "Biography 2"),
+        ActorModel(3, "Name 3", "", Gender.Male, 68.0, "Biography 3"),
+        ActorModel(4, "Name 4", "", Gender.Male, 75.0, "Biography 4"),
+        ActorModel(5, "Name 5", "", Gender.Female, 82.5, "Biography 5"),
+        ActorModel(6, "Name 6", "", Gender.Male, 68.0, "Biography 6"),
+        ActorModel(7, "Name 7", "", Gender.Male, 75.0, "Biography 7"),
+        ActorModel(8, "Name 8", "", Gender.Female, 82.5, "Biography 8"),
+        ActorModel(9, "Name 9", "", Gender.Male, 68.0, "Biography 9")
     )
 
     ActorsScreen(

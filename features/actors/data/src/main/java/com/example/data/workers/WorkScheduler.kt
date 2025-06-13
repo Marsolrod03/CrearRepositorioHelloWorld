@@ -16,7 +16,7 @@ object WorkScheduler {
 
         val calendar = Calendar.getInstance(localHourZone).apply {
             set(Calendar.HOUR_OF_DAY, 12)
-            set(Calendar.MINUTE, 50)
+            set(Calendar.MINUTE, 40)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
 
@@ -25,13 +25,14 @@ object WorkScheduler {
             }
         }
 
-        val delayInitial = calendar.timeInMillis - System.currentTimeMillis()
+        val delayInitialMillis = calendar.timeInMillis - System.currentTimeMillis()
+        val delayInitialMinutes = delayInitialMillis / 60000
 
         val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
             1, TimeUnit.DAYS,
             15, TimeUnit.MINUTES
         )
-            .setInitialDelay(delayInitial, TimeUnit.MILLISECONDS)
+            .setInitialDelay(delayInitialMinutes, TimeUnit.MINUTES)
             .addTag("daily_8am_notification")
             .build()
 

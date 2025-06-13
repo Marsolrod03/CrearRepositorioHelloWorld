@@ -50,6 +50,10 @@ android {
     }
 }
 
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":features:actors:data"))
     implementation(project(":features:actors:ui"))

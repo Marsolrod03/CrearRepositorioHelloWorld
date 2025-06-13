@@ -7,9 +7,12 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
  import androidx.hilt.work.HiltWorker
  import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
+ import androidx.work.OneTimeWorkRequestBuilder
+ import androidx.work.WorkManager
+ import androidx.work.WorkerParameters
  import dagger.assisted.Assisted
  import dagger.assisted.AssistedInject
+ import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
@@ -18,8 +21,14 @@ class NotificationWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val message = "¡Daily Notification!"
-        showNotification(message)
+        showNotification("Daily notification")
+
+        val request = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInitialDelay(5, TimeUnit.MINUTES)
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(request)
+
         return Result.success()
     }
 

@@ -202,6 +202,19 @@ fun ActorDetailsScreen(
 
 @Preview(showBackground = true, device = "spec:parent=pixel_5,orientation=landscape")
 @Composable
+fun ActorDetailsScreenErrorLandPreview() {
+    ActorDetailsScreen(
+        actorImage = null,
+        actorGender = Gender.Male.toString(),
+        detailsState = DetailsState(ActorModel(1, "Name", "", Gender.Male, 10.0)),
+        onError = {
+            println("Error occurred in preview")
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
 fun ActorDetailsScreenErrorPreview() {
     ActorDetailsScreen(
         actorImage = null,

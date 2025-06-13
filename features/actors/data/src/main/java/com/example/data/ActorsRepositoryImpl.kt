@@ -40,6 +40,7 @@ class ActorsRepositoryImpl @Inject constructor(
                         }
                         emit(Result.success(actorWrapper))
                     }
+
                 }
         }
     }
@@ -100,7 +101,7 @@ class ActorsRepositoryImpl @Inject constructor(
         return actorsLocalDataSource.getAllActors().map { entity ->  entity.toActorModel()}
     }
 
-    suspend fun insertActors(actors: List<ActorModel>) {
+    private suspend fun insertActors(actors: List<ActorModel>) {
         actorsLocalDataSource.insertAllActors(actors.map { model -> model.toActorEntity() })
     }
 
@@ -108,7 +109,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deleteAllActors()
     }
 
-    suspend fun getActorById(id: Int): ActorModel {
+    private suspend fun getActorById(id: Int): ActorModel {
         return actorsLocalDataSource.getActorById(id)
     }
 
@@ -116,7 +117,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.updateActorBiography(id, biography)
     }
 
-    suspend fun getPaginationActors(): Int {
+    private suspend fun getPaginationActors(): Int {
         return actorsLocalDataSource.getPaginationActors()
     }
 
@@ -124,7 +125,7 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.deletePaginationActors()
     }
 
-    suspend fun updateLastPage(newPage: Int){
+    private suspend fun updateLastPage(newPage: Int){
         actorsLocalDataSource.updateLastPage(newPage)
     }
 
@@ -140,11 +141,11 @@ class ActorsRepositoryImpl @Inject constructor(
         actorsLocalDataSource.updateLastDeletion(lastDeletion)
     }
 
-    suspend fun getTotalPages(): Int {
+    private suspend fun getTotalPages(): Int {
         return actorsLocalDataSource.getTotalPages()
     }
 
-    suspend fun updateTotalPages(totalPages: Int) {
+    private suspend fun updateTotalPages(totalPages: Int) {
         actorsLocalDataSource.updateTotalPages(totalPages)
     }
 }

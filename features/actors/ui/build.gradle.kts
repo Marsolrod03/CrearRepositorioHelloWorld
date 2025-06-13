@@ -27,6 +27,10 @@ android {
     }
 }
 
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":features:actors:domain"))
     implementation(project(":lib:common_ui"))

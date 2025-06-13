@@ -1,5 +1,6 @@
 package com.example.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.ActorWrapper
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,10 +21,10 @@ class ActorViewModel @Inject constructor(
     private val getActorsUseCase: GetActorsUseCase,
     private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
-    private val _actorList = MutableStateFlow(ActorState())
+    val _actorList = MutableStateFlow(ActorState())
     val actorList: StateFlow<ActorState> = _actorList.asStateFlow()
-    private var hasMorePages = true
-    private val _currentActors = mutableListOf<ActorModel>()
+    var hasMorePages = true
+    var _currentActors = mutableListOf<ActorModel>()
 
     init {
         loadActors()
@@ -38,7 +40,7 @@ class ActorViewModel @Inject constructor(
         val currentState = _actorList.value
         if (hasMorePages && !currentState.isPartialLoading && !currentState.isFirstLoad) {
             viewModelScope.launch {
-                getActorsUseCase()
+                getActorsUseCase.invoke()
                     .onStart {
                         _actorList.update { current ->
                             if (_currentActors.isNotEmpty()) {
@@ -47,6 +49,11 @@ class ActorViewModel @Inject constructor(
                                 current.copy(isPartialLoading = true, isFirstLoad = true)
                             }
                         }
+                    }
+                    .catch {
+                        it.message
+                        Log.d("Error", "ERRO")
+                        println(it.message)
                     }
                     .collect { result: Result<ActorWrapper> ->
                         result.onSuccess { actorWrapper: ActorWrapper ->
@@ -79,7 +86,7 @@ class ActorViewModel @Inject constructor(
 data class ActorState(
     val isPartialLoading: Boolean = false,
     val isFirstLoad: Boolean = false,
-    val actors: List<ActorModel> = emptyList(),
+    var actors: List<ActorModel> = emptyList(),
     val errorMessage: String? = null
 )
 
