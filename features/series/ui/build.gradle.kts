@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ui"
+    namespace = "com.example.series.ui"
     compileSdk = 35
 
 

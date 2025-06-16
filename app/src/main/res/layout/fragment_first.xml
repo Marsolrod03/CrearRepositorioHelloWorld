@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".features.films.ui.fragment.FirstFragment">
+    tools:context=".features.films.ui.fragment.MovieFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycledMovies"
@@ -13,13 +12,10 @@
         android:background="@color/black"
         />
 
-    <Button
-        android:id="@+id/btnHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:text="@string/home"
-        android:layout_marginBottom="@dimen/standardButtonMargin"
-        />
+    <include
+        android:id="@+id/loadFirstTime"
+        layout="@layout/load_first_time"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

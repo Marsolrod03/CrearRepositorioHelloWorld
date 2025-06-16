@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.actors.data"
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

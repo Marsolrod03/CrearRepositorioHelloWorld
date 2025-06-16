@@ -26,6 +26,9 @@ include(
     ":features:actors:ui",
     ":features:actors:data"
 )
+include(":features:movies:domain")
+include(":features:movies:data")
+include(":features:movies:ui")
 include(":features:series:data")
 include(":features:series:ui")
 include(":features:series:domain")

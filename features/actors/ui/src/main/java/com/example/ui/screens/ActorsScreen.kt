@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
 import com.example.ui.ActorState
-import com.example.ui.R
+import com.example.actors.ui.R
 
 @Composable
 fun ActorsScreen(

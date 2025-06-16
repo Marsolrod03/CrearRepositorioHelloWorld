@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.common_ui.BaseFragment
 import com.example.common_ui.ErrorFragment
 import com.example.common_ui.replaceFragment
-import com.example.ui.databinding.FragmentDetailsSeriesBinding
+import com.example.series.ui.databinding.FragmentDetailsSeriesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

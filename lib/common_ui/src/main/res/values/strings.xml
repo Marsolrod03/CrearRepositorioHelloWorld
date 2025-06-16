@@ -12,4 +12,5 @@
     <string name="error">ERROR</string>
     <string name="errorActorDetails">Error loading actor details</string>
     <string name="errorActors">Error loading more actors</string>
+    <string name="error_content_description">Error Icon</string>
 </resources>

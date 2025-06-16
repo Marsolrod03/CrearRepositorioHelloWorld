@@ -10,7 +10,7 @@ import com.example.common_ui.BaseFragment
 import com.example.common_ui.back
 import com.example.common_ui.replaceFragment
 import com.example.domain.model.SerieModel
-import com.example.ui.databinding.FragmentSecondBinding
+import com.example.series.ui.databinding.FragmentSecondBinding
 import com.example.ui.details.DetailsSeriesFragment
 import com.example.ui.model.SeriesViewModel
 import com.example.ui.screens.SeriesScreen

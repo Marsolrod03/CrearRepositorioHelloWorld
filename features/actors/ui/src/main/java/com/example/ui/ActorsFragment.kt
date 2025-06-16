@@ -8,11 +8,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
+import com.example.actors.ui.databinding.FragmentThirdBinding
 import com.example.common_ui.BaseFragment
 import com.example.common_ui.ErrorFragment
 import com.example.common_ui.replaceFragment
 import com.example.domain.models.ActorModel
-import com.example.ui.databinding.FragmentThirdBinding
 import com.example.ui.details.DetailsActorFragment
 import com.example.ui.screens.ActorsScreen
 import dagger.hilt.android.AndroidEntryPoint

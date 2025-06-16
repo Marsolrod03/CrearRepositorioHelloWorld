@@ -31,6 +31,8 @@ dependencies {
     implementation(project(":features:series:ui"))
     implementation(project(":features:actors:domain"))
     implementation(project(":features:actors:ui"))
+    implementation(project(":features:movies:domain"))
+    implementation(project(":features:movies:ui"))
 
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.domain.models.ActorModel
 import com.example.domain.models.Gender
-import com.example.ui.R
+import com.example.actors.ui.R
 
 @Composable
 fun ActorItemScreen(

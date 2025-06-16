@@ -3,6 +3,7 @@ package com.example.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.actors.ui.R
 import com.example.domain.ActorWrapper
 import com.example.domain.models.ActorModel
 import com.example.domain.use_cases.GetActorsUseCase

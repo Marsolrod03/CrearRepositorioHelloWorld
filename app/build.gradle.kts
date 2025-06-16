@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.crearrepositorio"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -65,6 +65,9 @@ dependencies {
     implementation(project(":features:series:data"))
     implementation(project(":features:series:domain"))
     implementation(project(":features:series:ui"))
+    implementation(project(":features:movies:domain"))
+    implementation(project(":features:movies:data"))
+    implementation(project(":features:movies:ui"))
     implementation(libs.lottie)
     implementation(libs.hilt)
     ksp(libs.ksp)

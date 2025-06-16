@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.models.ActorModel
 import com.example.domain.use_cases.GetActorBiographyUseCase
 import com.example.domain.use_cases.GetActorDetailsUseCase
-import com.example.ui.R
+import com.example.actors.ui.R
 import com.example.ui.StringResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

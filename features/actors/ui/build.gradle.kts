@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ui"
+    namespace = "com.example.actors.ui"
     compileSdk = 35
 
     defaultConfig {

@@ -13,6 +13,7 @@ import com.example.home_ui.databinding.FragmentHomeBinding
 import com.example.home_ui.home_screen.HomeScreen
 import com.example.ui.ActorsFragment
 import com.example.ui.SeriesFragment
+import com.example.ui.fragment.MovieFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +31,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>() {
                 HomeScreen(
                     onNavigate = { target ->
                         when (target) {
-                            NavigationTarget.FILMS -> {}
+                            NavigationTarget.FILMS -> changeFragment(MovieFragment())
                             NavigationTarget.SERIES -> changeFragment(SeriesFragment())
                             NavigationTarget.ACTORS -> changeFragment(ActorsFragment())
                         }
