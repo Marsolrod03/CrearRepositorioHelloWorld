@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CrearRepositorio</string>
+    <string name="app_name">MovieDatabase</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_1">Fragment 1</string>
@@ -11,4 +11,14 @@
     <string name="movieoverview">MovieOverview</string>
     <string name="genresmovie">GenresMovie</string>
     <string name="error">ERROR</string>
+    <string name="concededPermission">Permiso concedido. Notificaciones activadas.</string>
+    <string name="notConcededPermission">El permiso para notificaciones fue denegado.</string>
+    <string name="settings">Ir a ajustes</string>
+    <string name="permissionNeed">Permiso requerido</string>
+    <string name="goSettings">Debes activar el permiso de notificaciones desde los ajustes.</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="cancel">Cancelar</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="permiso_de_ubicaci_n_concedido">Permiso de ubicación concedido</string>
 </resources>

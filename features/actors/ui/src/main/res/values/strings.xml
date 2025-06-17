@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">CrearRepositorio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_1">Fragment 1</string>
+    <string name="fragment_2">Fragment 2</string>
+    <string name="fragment_3">Fragment 3</string>
+    <string name="home">HOME</string>
+    <string name="titulo">TV DATABASE</string>
+    <string name="movietitle">MovieTitle</string>
+    <string name="genresmovie">GenresMovie</string>
+    <string name="error">ERROR</string>
+    <string name="errorActorDetails">Error loading actor details</string>
+    <string name="errorActors">Error loading more actors</string>
+    <string name="action_read_actor">Load details of %1$s</string>
+    <string name="actors_list_grid">A list of actors</string>
+    <string name="actors_details">Actors Details</string>
+    <string name="actors_screen">Actors Screen</string>
+    <string name="image">Image of</string>
+    <string name="gender">GENDER: </string>
+    <string name="popularity">POPULARITY: </string>
+    <string name="biography">Biography: </string>
+
+</resources>
