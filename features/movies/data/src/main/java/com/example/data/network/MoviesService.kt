@@ -10,7 +10,8 @@ import retrofit2.http.Query
 interface MoviesService {
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("region") region: String
     ): Response<MoviePageDTO>
 
     @GET("movie/{movie_id}")

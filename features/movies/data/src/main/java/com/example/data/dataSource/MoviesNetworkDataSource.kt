@@ -12,8 +12,8 @@ class MoviesNetworkDataSource @Inject constructor(
     private val moviesService: MoviesService
 ) {
 
-    suspend fun fetchPopularMovies(page: Int): MoviePageDTO? {
-        val response : Response<MoviePageDTO> = moviesService.getPopularMovies(page)
+    suspend fun fetchPopularMovies(page: Int, region: String): MoviePageDTO? {
+        val response : Response<MoviePageDTO> = moviesService.getPopularMovies(page, region)
         if (!response.isSuccessful) {
             throw handleErrors(response)
         } else {

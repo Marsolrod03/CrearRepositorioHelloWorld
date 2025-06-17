@@ -1,4 +1,4 @@
-package com.example.crearrepositorio
+package com.example.moviedatabase
 
 import android.Manifest
 import android.app.AlertDialog
@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var airplaneModeReceiver: AirplaneModeReceiver
 
     companion object {
-        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
+        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1000
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         notificationPermission()
+
+        requestLocationPermission()
 
         airplaneModeReceiver = AirplaneModeReceiver { isAirplaneModeOn ->
             if (isAirplaneModeOn) {
@@ -84,6 +87,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun requestLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -91,37 +111,73 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(
-                    this,
-                    R.string.concededPermission,
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val showMessage = ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
-
-                if (!showMessage) {
-                    AlertDialog.Builder(this)
-                        .setTitle(R.string.permissionNeed)
-                        .setMessage(R.string.goSettings)
-                        .setPositiveButton(R.string.settings) { _, _ ->
-                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                data = Uri.fromParts("package", packageName, null)
-                            }
-                            startActivity(intent)
-                        }
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
-                } else {
+        when (requestCode) {
+            NOTIFICATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(
                         this,
-                        R.string.notConcededPermission,
+                        R.string.concededPermission,
                         Toast.LENGTH_SHORT
                     ).show()
+                } else {
+                    val showMessage = ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+
+                    if (!showMessage) {
+                        AlertDialog.Builder(this)
+                            .setTitle(R.string.permissionNeed)
+                            .setMessage(R.string.goSettings)
+                            .setPositiveButton(R.string.settings) { _, _ ->
+                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.fromParts("package", packageName, null)
+                                }
+                                startActivity(intent)
+                            }
+                            .setNegativeButton(R.string.cancel, null)
+                            .show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            R.string.notConcededPermission,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.permiso_de_ubicaci_n_concedido),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val showRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                    if (!showRationale) {
+                        AlertDialog.Builder(this)
+                            .setTitle("Permiso requerido")
+                            .setMessage("Para usar esta función, debes habilitar el permiso de ubicación en ajustes.")
+                            .setPositiveButton("Ir a ajustes") { _, _ ->
+                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.fromParts("package", packageName, null)
+                                }
+                                startActivity(intent)
+                            }
+                            .setNegativeButton("Cancelar", null)
+                            .show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Permiso de ubicación no concedido",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -144,22 +200,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    private fun handleDeepLink(intent: Intent) {
-//        val data: Uri? = intent.data
-//        data?.let {
-//            val scheme = it.scheme
-//            val host = it.host
-//
-//            if (host == "moviedb.com") {
-//                launchedDeeplink = true
-//                supportFragmentManager.beginTransaction()
-//                    .replace(CR.id.navHostFragment, FragmentHome())
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
-//        }
-//    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -45,6 +45,7 @@ dependencies {
     ksp(libs.hiltCompiler)
     ksp(libs.hiltCompilerWorker)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.play.services.location)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.hilt)

@@ -14,8 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".MovieDBApplication"
-        android:theme="@style/Theme.CrearRepositorio"
+        android:name="com.example.crearrepositorio.MovieDBApplication"
+        android:theme="@style/Theme.MovieDatabase"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"

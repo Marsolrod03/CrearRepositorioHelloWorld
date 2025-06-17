@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.crearrepositorio"
+    namespace = "com.example.moviedatabase"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.crearrepositorio"
+        applicationId = "com.example.moviedatabase"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

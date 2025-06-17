@@ -19,21 +19,21 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CrearRepositorio"
+rootProject.name = "MovieDatabase"
 include(":app")
 include(
     ":features:actors:domain",
     ":features:actors:ui",
-    ":features:actors:data"
+    ":features:actors:data",
+    ":features:movies:domain",
+    ":features:movies:data",
+    ":features:movies:ui",
+    ":features:series:data",
+    ":features:series:ui",
+    ":features:series:domain",
+    ":features:home:home_ui",
+    ":lib",
+    ":lib:common_data",
+    ":lib:common_ui",
+    ":lib:common"
 )
-include(":features:movies:domain")
-include(":features:movies:data")
-include(":features:movies:ui")
-include(":features:series:data")
-include(":features:series:ui")
-include(":features:series:domain")
-include(":features:home:home_ui")
-include(":lib")
-include(":lib:common_data")
-include(":lib:common_ui")
-include(":lib:common")

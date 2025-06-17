@@ -1,5 +1,6 @@
 package com.example.data.implementation
 
+import com.example.data.LocationProvider
 import com.example.domain.MovieWrapper
 import com.example.domain.repository.MovieRepository
 import com.example.data.mapper.toMovieModel
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.flow
 
 class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource,
-    private val localDataSource: MoviesLocalDataSource
+    private val localDataSource: MoviesLocalDataSource,
+    private val locationProvider: LocationProvider
 ) : MovieRepository {
     var accumulatedMovies: MutableList<MovieModel> = mutableListOf()
     var currentPage = 1
@@ -82,8 +84,9 @@ class MovieRepositoryImpl @Inject constructor(
 
     private fun getAllMoviesFromApi(): Flow<Result<MovieWrapper>> = flow {
         try {
+            val region = locationProvider.getRegionFromCoordinates()
             var totalPages = Int.MAX_VALUE
-            val pagedResult = networkDataSource.fetchPopularMovies(currentPage)
+            val pagedResult = networkDataSource.fetchPopularMovies(currentPage, region)
             pagedResult?.let {
                 val movieList = it.results.map { movie -> movie.toMovieModel() }
                 val newMovies = movieList.filter { apiMovie ->
